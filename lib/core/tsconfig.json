@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noEmit": false,
+    "declaration": true,
+    "target": "ES5",
+    "module": "CommonJS"
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "../../types"],
+  "exclude": ["./dist"]
+}
