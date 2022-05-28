@@ -12,6 +12,7 @@
     "@emotion/styled": "^11.8.1",
     "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
     "@ssr-tools/core": "file:../../lib/core",
+    "@ssr-tools/css": "file:../../lib/css",
     "@ssr-tools/router": "file:../../lib/router",
     "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
     "fastify": "^3.28.0",
