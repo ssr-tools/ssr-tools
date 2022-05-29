@@ -40,7 +40,7 @@ export const Style = (props: {
           (acc, [key, value]) => {
             if (typeof value === "object") {
               acc.push({
-                [key.replace("&", topLevelSelector)]: value,
+                [key.replace(/&/g, topLevelSelector)]: value,
               });
               return acc;
             }
