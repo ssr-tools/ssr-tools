@@ -19,8 +19,6 @@
     "fastify-static": "^4.6.1",
     "long": "^5.2.0",
     "purecss": "^2.1.0",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
     "superstruct": "^0.15.4"
   },
   "browserslist": {
