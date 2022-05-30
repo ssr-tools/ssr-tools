@@ -84,7 +84,7 @@ export function createAsyncDataStore<T extends Record<string, unknown>>({
     const scriptTagRef = useRef<HTMLScriptElement>(null);
 
     if (!reader) {
-      throw new Error(`Invalid key "${dataKey}" provided to AsyncData`);
+      throw new Error(`Invalid key "${String(dataKey)}" provided to AsyncData`);
     }
 
     useEffect(() => {

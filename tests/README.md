@@ -1,0 +1,1 @@
+Keep tests only in this dir to avoid building and distributing test files with the libs.
