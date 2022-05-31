@@ -27,9 +27,11 @@ export const AsyncDataPage = () => {
               <Style
                 element="span"
                 css={{
-                  display: "flex",
-                  flexDirection: "column",
-                  color: "red",
+                  "&": {
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "red",
+                  },
                   "& > span": {
                     color: "blue",
                   },

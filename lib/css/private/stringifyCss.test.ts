@@ -1,0 +1,56 @@
+import { CssObject, stringifyCss } from "./stringifyCss";
+
+const cases: Array<[[string, CssObject], string]> = [
+  [
+    [
+      "foo",
+      {
+        "&": {
+          color: "blue",
+        },
+      },
+    ],
+    ".foo{color:blue}",
+  ],
+  [
+    [
+      "bar",
+      {
+        "&": {
+          color: "blue",
+        },
+        "& > div": {
+          color: "green",
+          backgroundColor: "black",
+        },
+      },
+    ],
+    ".bar{color:blue}.bar > div{color:green;background-color:black}",
+  ],
+  [
+    [
+      "baz",
+      {
+        "&": {
+          color: "blue",
+        },
+        "@media (min-width: 640px)": [
+          [
+            "&",
+            {
+              color: "yellow",
+            },
+          ],
+        ],
+      },
+    ],
+    ".baz{color:blue}@media (min-width: 640px){.baz{color:yellow}}",
+  ],
+];
+
+test.each(cases)(
+  "stringifies css properties correctly",
+  ([className, css], output) => {
+    expect(stringifyCss(className, css)).toBe(output);
+  }
+);
