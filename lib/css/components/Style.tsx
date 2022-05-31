@@ -11,6 +11,7 @@ export function Style({
   element: Element,
   children,
   className: externalClassName,
+  // TODO: handle html attributes in props, depending on selected element
   ...htmlAttributes
 }: {
   // TODO: set up pre-built component like Style.div or Style.span, for convenience
@@ -58,7 +59,6 @@ export function Style({
     className: externalClassName
       ? `${className} ${externalClassName}`
       : className,
-    // TODO: handle html attributes in props
     ...htmlAttributes,
   };
 
