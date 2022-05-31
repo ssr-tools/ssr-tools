@@ -22,6 +22,7 @@
     "eslint-config-ssr-tools": "file:lib/eslint-config-ssr-tools",
     "husky": "^7.0.4",
     "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "lint-staged": "^12.3.8",
     "ts-jest": "^28.0.3",
     "ts-node-dev": "^1.1.8",

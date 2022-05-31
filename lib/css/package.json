@@ -12,7 +12,6 @@
     "type": "git"
   },
   "dependencies": {
-    "@emotion/serialize": "^1.0.3",
     "hash-sum": "^2.0.0"
   },
   "devDependencies": {

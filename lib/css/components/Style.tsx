@@ -1,88 +1,77 @@
-import { ReactNode, useMemo, useRef } from "react";
-import {
-  // eslint-disable-next-line import/named
-  ArrayInterpolation,
-  // eslint-disable-next-line import/named
-  CSSObject,
-  serializeStyles,
-} from "@emotion/serialize";
+import { ReactNode, useContext, useInsertionEffect } from "react";
 import hashSum from "hash-sum";
+import { StyleCacheContext } from "../private/StyleCacheContext";
 
-export const Style = (props: {
+/**
+ * A base unit where we define the CSS for the DOM elements.
+ */
+export const Style = ({
+  css,
+  element: Element,
+  children,
+}: {
   // TODO: set up pre-built component like Style.div or Style.span, for convenience
+  // Bear in mind it should be tree-shakable.
   element: keyof JSX.IntrinsicElements;
-  css: CSSObject;
+  // TODO: add docs to explain how `css` prop works here
+  css: Record<string, unknown>;
+  // TODO: handle identifier for easier debugging. It should be included in the
+  // resultant `className`
   identifier?: string;
+  // TODO: it should also take a function that just gets a `className`, so that
+  // we can pass the `className` to non-intrinsic components as well.
   children?: ReactNode;
 }) => {
-  // TODO: handle style insertion to <head> on the client side, to reflect changes
-  // in props.css
-  const css = useRef(props.css).current;
+  const { stylesCache } = useContext(StyleCacheContext);
 
-  const className = useMemo(() => {
-    const sum = hashSum(css);
+  // TODO: implement own hashSum fn to avoid external dependency
+  const hash = hashSum(css);
 
-    const className = props.identifier
-      ? `${props.identifier}_${sum}`
-      : `${props.element}_${sum}`;
+  const dataStyle = `style-${hash}`;
+  const styleSelector = `[data-style='${dataStyle}']`;
 
-    return className;
-  }, [css, props.element, props.identifier]);
+  // TODO: implement css stringifer and stringify `css` object
+  const cssStringifed = "";
 
-  const topLevelSelector = `.${className}`;
+  useInsertionEffect(() => {
+    if (document.querySelector(styleSelector)) {
+      // The <style /> is in the <head /> already, let's skip the effect
+      return;
+    }
 
-  const serializedStyle = useMemo(
-    () =>
-      // TODO: get rid of `serializeStyles`. This kind of dependency is unwanted
-      // here, since it adds complexity and a size burden.
-      serializeStyles(
-        Object.entries(css).reduce(
-          (acc, [key, value]) => {
-            if (typeof value === "object") {
-              acc.push({
-                [key.replace(/&/g, topLevelSelector)]: value,
-              });
-              return acc;
-            }
+    const styleElement = document.createElement("style");
 
-            if (
-              acc[0] &&
-              typeof acc[0] === "object" &&
-              !Array.isArray(acc[0])
-            ) {
-              const topLevel = acc[0] as Record<string, CSSObject>;
-              topLevel[topLevelSelector][key] = value;
-              return acc;
-            }
+    styleElement.setAttribute("data-style", dataStyle);
 
-            return acc;
-          },
-          [
-            {
-              [topLevelSelector]: {},
-            },
-          ] as ArrayInterpolation<unknown>
-        ),
-        {}
-      ),
-    [css, topLevelSelector]
-  );
+    styleElement.innerHTML = `<style data-style="${dataStyle}">${cssStringifed}</style>`;
+
+    // Append the <style /> to the <head />, so that CSS persists
+    // after re-render. Otherwise, styles disappears on the second render,
+    // since we have the hash in the `stylesCache` already.
+    document.head.append(styleElement);
+  }, [cssStringifed, styleSelector, dataStyle]);
+
+  // Don't render the <style /> if we have it in cache. That means it's a
+  // second render, so we have a given style in the <head /> already.
+  if (stylesCache.current.has(hash)) {
+    return <Element>{children}</Element>;
+  }
+
+  // Cache the given hash, so on the second and subsequent renders
+  // we know that we should not render <style /> again.
+  // Otherwise, we may end up with a huge burden of many <style /> tags
+  // created for each occurrence of a component in a given render.
+  stylesCache.current.add(hash);
 
   return (
     <>
-      {/*
-       * TODO: for better performance we should add the style tag only
-       * if a given `topLevelSelector` occurs for the first time.
-       * If the style gets updated on the client we should not rerender the
-       * component, but inject the new styles to <head />.
-       */}
       <style
+        data-style={dataStyle}
         dangerouslySetInnerHTML={{
-          __html: serializedStyle.styles,
+          __html: cssStringifed,
         }}
       />
-      {/* TODO: handle a version of Style that provides `className` to children */}
-      <props.element className={className}>{props.children}</props.element>
+      <Element>{children}</Element>
     </>
   );
 };
