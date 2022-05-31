@@ -4,5 +4,6 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  testMatch: ["**/tests/**/*.test.ts?(x)"],
+  testMatch: ["**/*.test.ts?(x)"],
+  testPathIgnorePatterns: ["node_modules", "dist"],
 };
