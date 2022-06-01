@@ -18,11 +18,11 @@ export function StyleBuilder({
   const { stylesCache } = useContext(StyleCacheContext);
 
   // TODO: implement own hashSum fn to avoid external dependency
-  const hash = hashSum(css);
+  const hash = identifier ? `${identifier}-${hashSum(css)}` : hashSum(css);
 
   const dataStyle = `style-${hash}`;
   const styleSelector = `[data-style='${dataStyle}']`;
-  const className = identifier ? `${identifier}-css-${hash}` : `css-${hash}`;
+  const className = `css-${hash}`;
   const cssStringified = stringifyCss(className, css);
 
   useInsertionEffect(() => {
