@@ -1,13 +1,20 @@
+import { Style } from "@ssr-tools/css/components/Style";
 import { useEffect } from "react";
-import styled from "@emotion/styled";
 
 export const Print = ({ text }: { text: string }) => {
   useEffect(() => {
     console.log(text);
   }, [text]);
-  return <StyledH1>{text}</StyledH1>;
+  return (
+    <Style
+      element="h1"
+      css={{
+        "&": {
+          color: "green",
+        },
+      }}
+    >
+      {text}
+    </Style>
+  );
 };
-
-const StyledH1 = styled("h1")({
-  color: "red",
-});

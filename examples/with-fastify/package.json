@@ -9,7 +9,6 @@
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
     "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
     "@ssr-tools/core": "file:../../lib/core",
     "@ssr-tools/css": "file:../../lib/css",

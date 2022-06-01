@@ -3,11 +3,12 @@ import { Router, A } from "../config/router";
 
 import "purecss/build/pure-min.css";
 import { useStaticData } from "../config/staticDataStore";
+import { StyleCacheProvider } from "@ssr-tools/css/components/StyleCacheProvider";
 
 export const App = () => {
   const { initialPathname, initialHash } = useStaticData();
   return (
-    <>
+    <StyleCacheProvider>
       <ul>
         <li>
           <A pathPattern="/">Index</A>
@@ -39,6 +40,6 @@ export const App = () => {
           )}
         />
       </Suspense>
-    </>
+    </StyleCacheProvider>
   );
 };
