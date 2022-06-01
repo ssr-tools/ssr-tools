@@ -3,9 +3,9 @@
   "version": "0.0.2",
   "license": "MIT",
   "scripts": {
-    "prepublishOnly": "bash ../../bin/prepublishOnly.sh",
-    "publishPackage": "bash ../../bin/publishPackage.sh",
-    "build": "bash ../../bin/build.sh"
+    "prepublishOnly": "bash ../../scripts/prepublishOnly.sh",
+    "publishPackage": "bash ../../scripts/publishPackage.sh",
+    "build": "bash ../../scripts/build.sh"
   },
   "repository": {
     "url": "https://github.com/ssr-tools/ssr-tools",

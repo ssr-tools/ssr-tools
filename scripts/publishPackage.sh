@@ -14,7 +14,7 @@
 npm run build
 cp package.json ./dist/package.json
 cp README.md ./dist/README.md
-sed -i 's/..\/..\/bin\/prepublishOnly.sh/..\/..\/..\/bin\/prepublishOnly.sh/' ./dist/package.json
+sed -i 's/..\/..\/scripts\/prepublishOnly.sh/..\/..\/..\/scripts\/prepublishOnly.sh/' ./dist/package.json
 cd dist
 npm publish --access public
 cd ..
