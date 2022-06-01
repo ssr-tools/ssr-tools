@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Print } from "../components/Print";
 import { AsyncData } from "../config/asyncDataStore";
-import { Style } from "@ssr-tools/css/components/Style";
+import { StyleBuilder } from "@ssr-tools/css/components/StyleBuilder";
 
 export const AsyncDataPage = () => {
   return (
@@ -24,8 +24,7 @@ export const AsyncDataPage = () => {
         <p>
           <AsyncData dataKey="longWaitText">
             {(data) => (
-              <Style
-                element="span"
+              <StyleBuilder
                 css={{
                   "&": {
                     display: "flex",
@@ -37,9 +36,13 @@ export const AsyncDataPage = () => {
                   },
                 }}
               >
-                {data}
-                <span>ok</span>
-              </Style>
+                {(className) => (
+                  <span className={className}>
+                    {data}
+                    <span>ok</span>
+                  </span>
+                )}
+              </StyleBuilder>
             )}
           </AsyncData>
         </p>

@@ -1,7 +1,7 @@
 import { act } from "react-dom/test-utils";
 
 import { mountRoot } from "../../../test-utils/mountRoot";
-import { Style } from "./Style";
+import { StyleBuilder } from "./StyleBuilder";
 import { StyleCacheProvider } from "./StyleCacheProvider";
 
 test("caches styles correctly", () => {
@@ -47,10 +47,18 @@ test("caches styles correctly", () => {
 
 const Test = () => (
   <StyleCacheProvider>
-    <Style element="div" css={css} />
-    <Style element="div" css={css} />
-    <Style element="div" css={css} />
-    <Style element="div" css={css} />
+    <StyleBuilder css={css}>
+      {(className) => <div className={className}>Hello!</div>}
+    </StyleBuilder>
+    <StyleBuilder css={css}>
+      {(className) => <div className={className}>Hello!</div>}
+    </StyleBuilder>
+    <StyleBuilder css={css}>
+      {(className) => <div className={className}>Hello!</div>}
+    </StyleBuilder>
+    <StyleBuilder css={css}>
+      {(className) => <div className={className}>Hello!</div>}
+    </StyleBuilder>
   </StyleCacheProvider>
 );
 

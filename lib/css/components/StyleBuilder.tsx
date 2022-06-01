@@ -3,29 +3,17 @@ import hashSum from "hash-sum";
 import { StyleCacheContext } from "../private/StyleCacheContext";
 import { CssObject, stringifyCss } from "../private/stringifyCss";
 
-/**
- * A base unit where we define the CSS for the DOM elements.
- */
-export function Style({
+export function StyleBuilder({
   css,
-  element: Element,
   children,
-  className: externalClassName,
-  // TODO: handle html attributes in props, depending on selected element
-  ...htmlAttributes
+  identifier,
 }: {
-  // TODO: set up pre-built component like Style.div or Style.span, for convenience
-  // Bear in mind it should be tree-shakable.
-  element: keyof JSX.IntrinsicElements;
   // TODO: add docs to explain how `css` prop works here
   css: CssObject;
   // TODO: handle identifier for easier debugging. It should be included in the
   // resultant `className`
   identifier?: string;
-  // TODO: it should also take a function that just gets a `className`, so that
-  // we can pass the `className` to non-intrinsic components as well.
-  children?: ReactNode;
-  className?: string;
+  children: (className: string) => ReactNode;
 }) {
   const { stylesCache } = useContext(StyleCacheContext);
 
@@ -34,7 +22,7 @@ export function Style({
 
   const dataStyle = `style-${hash}`;
   const styleSelector = `[data-style='${dataStyle}']`;
-  const className = `css-${hash}`;
+  const className = identifier ? `${identifier}-css-${hash}` : `css-${hash}`;
   const cssStringified = stringifyCss(className, css);
 
   useInsertionEffect(() => {
@@ -55,17 +43,10 @@ export function Style({
     document.head.append(styleElement);
   }, [cssStringified, styleSelector, dataStyle]);
 
-  const props = {
-    className: externalClassName
-      ? `${className} ${externalClassName}`
-      : className,
-    ...htmlAttributes,
-  };
-
   // Don't render the <style /> if we have it in cache. That means it's a
   // second render, so we have a given style in the <head /> already.
   if (stylesCache.current.has(hash)) {
-    return <Element {...props}>{children}</Element>;
+    return <>{children(className)}</>;
   }
 
   // Cache the given hash, so on the second and subsequent renders
@@ -82,7 +63,7 @@ export function Style({
           __html: cssStringified,
         }}
       />
-      <Element {...props}>{children}</Element>
+      {children(className)}
     </>
   );
 }

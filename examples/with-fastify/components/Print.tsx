@@ -1,4 +1,4 @@
-import { Style } from "@ssr-tools/css/components/Style";
+import { StyleBuilder } from "@ssr-tools/css/components/StyleBuilder";
 import { useEffect } from "react";
 
 export const Print = ({ text }: { text: string }) => {
@@ -6,15 +6,14 @@ export const Print = ({ text }: { text: string }) => {
     console.log(text);
   }, [text]);
   return (
-    <Style
-      element="h1"
+    <StyleBuilder
       css={{
         "&": {
           color: "green",
         },
       }}
     >
-      {text}
-    </Style>
+      {(className) => <h1 className={className}>{text}</h1>}
+    </StyleBuilder>
   );
 };

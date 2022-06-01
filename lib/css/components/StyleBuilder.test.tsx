@@ -1,7 +1,7 @@
 import { act } from "react-dom/test-utils";
 
 import { mountRoot } from "../../../test-utils/mountRoot";
-import { Style } from "./Style";
+import { StyleBuilder } from "./StyleBuilder";
 import { StyleCacheProvider } from "./StyleCacheProvider";
 
 test("creates styled element correctly", () => {
@@ -9,16 +9,15 @@ test("creates styled element correctly", () => {
 
   const jsx = (
     <StyleCacheProvider>
-      <Style
-        element="div"
+      <StyleBuilder
         css={{
           "&": {
             color: "green",
           },
         }}
       >
-        Hello!
-      </Style>
+        {(className) => <div className={className}>Hello!</div>}
+      </StyleBuilder>
     </StyleCacheProvider>
   );
 
