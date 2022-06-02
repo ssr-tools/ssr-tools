@@ -2,6 +2,7 @@ import {
   createElement,
   DetailedHTMLFactory,
   DetailedHTMLProps,
+  forwardRef,
   ReactHTML,
   ReactNode,
 } from "react";
@@ -12,27 +13,33 @@ export function createStylable<
   T extends keyof ReactHTML,
   E extends ReactHTML[T]
 >(htmlElement: T) {
-  return ({
-    css,
-    cssIdentifier,
-    className: externalClassName,
-    ...props
-  }: PropsFromHtml<T, E> & {
-    css: CssObject;
-    cssIdentifier?: string;
-    className?: string;
-    children?: ReactNode;
-  }) => (
-    <StyleBuilder css={css} identifier={cssIdentifier}>
-      {(className) =>
-        createElement(htmlElement, {
-          ...props,
-          className: externalClassName
-            ? `${externalClassName} ${className}`
-            : className,
-        })
-      }
-    </StyleBuilder>
+  return forwardRef(
+    (
+      {
+        css,
+        cssIdentifier,
+        className: externalClassName,
+        ...props
+      }: PropsFromHtml<T, E> & {
+        css: CssObject;
+        cssIdentifier?: string;
+        className?: string;
+        children?: ReactNode;
+      },
+      forwardedRef
+    ) => (
+      <StyleBuilder css={css} identifier={cssIdentifier}>
+        {(className) =>
+          createElement(htmlElement, {
+            ...props,
+            ref: forwardedRef,
+            className: externalClassName
+              ? `${externalClassName} ${className}`
+              : className,
+          })
+        }
+      </StyleBuilder>
+    )
   );
 }
 
