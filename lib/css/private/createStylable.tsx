@@ -1,6 +1,7 @@
 import {
   createElement,
   DetailedHTMLFactory,
+  DetailedHTMLProps,
   ReactHTML,
   ReactNode,
 } from "react";
@@ -38,4 +39,6 @@ export function createStylable<
 type PropsFromHtml<
   T extends keyof ReactHTML,
   E extends ReactHTML[T]
-> = E extends DetailedHTMLFactory<infer Props, infer Element> ? Props : never;
+> = E extends DetailedHTMLFactory<infer Props, infer Element>
+  ? DetailedHTMLProps<Props, Element>
+  : never;
