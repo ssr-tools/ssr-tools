@@ -4,6 +4,7 @@ import { Router, A } from "../config/router";
 import "purecss/build/pure-min.css";
 import { useStaticData } from "../config/staticDataStore";
 import { StyleCacheProvider } from "@ssr-tools/css/components/StyleCacheProvider";
+import { StyledSpan } from "./StyleSpan";
 
 export const App = () => {
   const { initialPathname, initialHash } = useStaticData();
@@ -29,7 +30,7 @@ export const App = () => {
           <a href="/404">404</a>
         </li>
       </ul>
-      <Suspense fallback={<>Wait...</>}>
+      <Suspense fallback={<StyledSpan>Wait...</StyledSpan>}>
         <Router
           initialHash={initialHash}
           initialPathname={initialPathname}

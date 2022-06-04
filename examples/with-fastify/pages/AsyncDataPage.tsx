@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Print } from "../components/Print";
 import { AsyncData } from "../config/asyncDataStore";
-import { Span } from "@ssr-tools/css/stylable/Span";
+import { StyledSpan } from "../components/StyleSpan";
 
 export const AsyncDataPage = () => {
   return (
@@ -24,21 +24,10 @@ export const AsyncDataPage = () => {
         <p>
           <AsyncData dataKey="longWaitText">
             {(data) => (
-              <Span
-                css={{
-                  "&": {
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "red",
-                  },
-                  "& > span": {
-                    color: "blue",
-                  },
-                }}
-              >
+              <StyledSpan>
                 {data}
                 <span>ok</span>
-              </Span>
+              </StyledSpan>
             )}
           </AsyncData>
         </p>
