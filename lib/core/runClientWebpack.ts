@@ -9,8 +9,9 @@ export const runClientWebpack = ({
   extendPlugins,
   devtool,
   extendRuleset,
-}: InternalWebpackConfig) =>
-  webpack({
+  override,
+}: InternalWebpackConfig) => {
+  const base = {
     mode,
     devtool,
     entry: entryPath,
@@ -26,4 +27,7 @@ export const runClientWebpack = ({
       clean: true,
     },
     plugins: extendPlugins ? [...extendPlugins(basePlugins)] : [...basePlugins],
-  });
+  };
+
+  return webpack(override ? override(base) : base);
+};

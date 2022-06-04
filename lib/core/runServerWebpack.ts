@@ -9,8 +9,9 @@ export const runServerWebpack = ({
   devtool,
   extendPlugins,
   extendRuleset,
-}: InternalWebpackConfig) =>
-  webpack({
+  override,
+}: InternalWebpackConfig) => {
+  const base = {
     mode,
     devtool,
     // by default, webpack is targeting a browser, so server-side modules won't work
@@ -27,4 +28,7 @@ export const runServerWebpack = ({
       path: outputPath,
     },
     plugins: extendPlugins ? [...extendPlugins(basePlugins)] : [...basePlugins],
-  });
+  };
+
+  return webpack(override ? override(base) : base);
+};

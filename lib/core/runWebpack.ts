@@ -23,6 +23,7 @@ export const runWebpack = ({
   extendServerPlugins,
   extendClientRuleset,
   extendServerRuleset,
+  override,
 }: WebpackConfig) => {
   const serverWebpack = runServerWebpack({
     mode,
@@ -31,6 +32,7 @@ export const runWebpack = ({
     outputPath: serverOutputPath,
     extendPlugins: extendServerPlugins,
     extendRuleset: extendServerRuleset,
+    override,
   });
 
   const clientWebpack = runClientWebpack({
@@ -40,6 +42,7 @@ export const runWebpack = ({
     outputPath: clientOutputPath,
     extendPlugins: extendClientPlugins,
     extendRuleset: extendClientRuleset,
+    override,
   });
 
   let serverProcess: ChildProcess | undefined;

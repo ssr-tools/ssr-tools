@@ -52,6 +52,12 @@ export type WebpackConfig = {
    * build.
    */
   extendServerRuleset?: InternalWebpackConfig["extendRuleset"];
+  /**
+   * This you can get access low-level API of Webpack. However, make sure you
+   * return the necessary configuration from `base` param from this callback.
+   * Otherwise, you may cause the Webpack config to crash.
+   */
+  override?: (base: Configuration) => Configuration;
 };
 
 export type RenderToStreamConfig = {
@@ -71,7 +77,11 @@ export type PipeableStreamOptions = Parameters<
   typeof renderToPipeableStream
 >["1"];
 
-export type InternalWebpackConfig = {
+export type InternalWebpackConfig = BaseInternalWebpackConfig & {
+  override?: (base: Configuration) => Configuration;
+};
+
+export type BaseInternalWebpackConfig = {
   entryPath: string;
   outputPath: string;
   mode: Configuration["mode"];
