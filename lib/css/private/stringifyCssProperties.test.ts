@@ -22,6 +22,18 @@ const cases: Array<[CSSProperties, string]> = [
     },
     "color:blue",
   ],
+  [
+    {
+      width: 300,
+    },
+    "width:300px",
+  ],
+  [
+    {
+      width: "3rem",
+    },
+    "width:3rem",
+  ],
 ];
 
 test.each(cases)("stringifies css properties correctly", (input, output) => {
