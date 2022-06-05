@@ -30,7 +30,8 @@ export const renderToStream = ({
     bootstrapScripts: [path.join(staticAssetsPrefix, manifestClient["main"])],
     onShellReady: () => {
       onShellReady?.();
-      return pipe(stream);
+      pipe(stream);
+      return;
     },
     ...pipeableStreamOptions,
   });
