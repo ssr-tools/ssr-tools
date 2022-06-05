@@ -31,16 +31,19 @@ const createCssContextChunk = ({
   className: string;
   context: Array<[string, CSSProperties]>;
   key: string;
-}) =>
-  context.reduce((acc, [nestedKey, cssProperties]) => {
-    const nestedChunk = createSimpleCssChunk({
-      className,
-      key: nestedKey,
-      cssProperties,
-    });
+}) => {
+  const chunks = context
+    .map(([nestedKey, cssProperties]) => {
+      return createSimpleCssChunk({
+        className,
+        key: nestedKey,
+        cssProperties,
+      });
+    }, "")
+    .join("");
 
-    return acc + `${key}{${nestedChunk}}`;
-  }, "");
+  return `${key}{${chunks}}`;
+};
 
 const createSimpleCssChunk = ({
   className,

@@ -46,6 +46,37 @@ const cases: Array<[[string, CssObject], string]> = [
     ],
     ".baz{color:blue}@media (min-width: 640px){.baz{color:yellow}}",
   ],
+  [
+    [
+      "baz",
+      {
+        "&": {
+          color: "blue",
+        },
+        "@keyframes my-animation": [
+          [
+            "0%",
+            {
+              color: "blue",
+            },
+          ],
+          [
+            "50%",
+            {
+              color: "yellow",
+            },
+          ],
+          [
+            "100%",
+            {
+              color: "green",
+            },
+          ],
+        ],
+      },
+    ],
+    ".baz{color:blue}@keyframes my-animation{0%{color:blue}50%{color:yellow}100%{color:green}}",
+  ],
 ];
 
 test.each(cases)(
