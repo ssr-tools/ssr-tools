@@ -1,8 +1,9 @@
-// TODO: remove this file once ReactDOM DefinitelyTyped starts to ship the definition for the Streaming SSR API.
-
 import { ReactNode } from "react";
 import type { Writable } from "stream";
 
+// I was about to remove this declaration, but the original ones from React
+// are undocumented, so I decide to keep it. Although, I may get into trouble
+// when I wouldn't realize something has changed in the React typedefs.
 declare module "react-dom/server" {
   export function renderToPipeableStream(
     children: ReactNode,
@@ -73,6 +74,9 @@ declare module "react-dom/server" {
      * client rendered mode.
      */
     abort(): void;
+    /**
+     * It pipes the generated rendering stream into another stream.
+     */
     pipe<T extends Writable>(destination: T): T;
   };
 }

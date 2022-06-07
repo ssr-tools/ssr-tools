@@ -53,9 +53,9 @@ export type WebpackConfig = {
    */
   extendServerRuleset?: InternalWebpackConfig["extendRuleset"];
   /**
-   * This you can get access low-level API of Webpack. However, make sure you
+   * Gives you access to the low-level Webpack config. However, make sure you
    * return the necessary configuration from `base` param from this callback.
-   * Otherwise, you may cause the Webpack config to crash.
+   * Otherwise, you may cause the Webpack to crash.
    */
   override?: (base: Configuration) => Configuration;
 };
