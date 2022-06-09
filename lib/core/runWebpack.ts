@@ -50,6 +50,7 @@ export const runWebpack = ({
   if (watchIsEnabled) {
     return [
       serverWebpack.watch({}, (err, stats) => {
+        // eslint-disable-next-line no-console
         if (err) return console.log("[server webpack]", JSON.stringify(err));
 
         if (serverProcess) {
@@ -64,11 +65,14 @@ export const runWebpack = ({
         serverProcess.stdin?.pipe(process.stdin);
         serverProcess.stderr?.pipe(process.stderr);
 
+        // eslint-disable-next-line no-console
         return console.log("[server webpack]", stats?.toString());
       }),
       clientWebpack.watch({}, (err, stats) => {
+        // eslint-disable-next-line no-console
         if (err) return console.log("[client webpack]", JSON.stringify(err));
 
+        // eslint-disable-next-line no-console
         return console.log("[client webpack]", stats?.toString());
       }),
     ];
@@ -97,6 +101,7 @@ export const runWebpack = ({
 
   return bundlePromises.catch((err) => {
     Promise.reject(err);
+    // eslint-disable-next-line no-console
     console.log(err);
     process.exit(1);
   });

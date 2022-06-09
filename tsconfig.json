@@ -16,7 +16,13 @@
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true,
     "typeRoots": ["./node_modules/@types", "./types"],
-    "types": ["react-dom/next", "react/next", "node", "jest"],
+    "types": [
+      "react-dom/next", 
+      "react/next", 
+      "node", 
+      "jest", 
+      "@types/jest-environment-puppeteer"
+    ],
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "dist"],

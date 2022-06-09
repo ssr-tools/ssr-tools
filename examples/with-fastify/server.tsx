@@ -7,12 +7,10 @@ import { URL } from "url";
 import { Document } from "./components/Document";
 import path from "path";
 
-import {
-  StaticDataStoreProvider,
-  StaticDataStoreScriptTag,
-} from "./config/staticDataStore";
-import { AsyncDataStoreProvider } from "./config/asyncDataStore";
 import { readManifests } from "@ssr-tools/core/readManifests";
+import { AsyncRevalidationProvider } from "./components/AsyncRevalidationProvider.server";
+import { AsyncProvider } from "./components/AsyncProvider.server";
+import { StaticProvider } from "./components/StaticProvider.server";
 
 const fastify = Fastify({
   logger: true,
@@ -31,54 +29,24 @@ fastify.get("*", async (request, reply) => {
   const { manifestClient, manifestServer } = await getManifests();
 
   const jsx = (
-    <AsyncDataStoreProvider
-      type="server"
-      dataFetching={{
-        text: () =>
-          new Promise((resolve) =>
-            setTimeout(
-              () =>
-                resolve(
-                  "You had been waiting for this text 3 seconds. It was resolved on the server-side."
-                ),
-              3000
-            )
-          ),
-        longWaitText: () =>
-          new Promise((resolve) =>
-            setTimeout(
-              () =>
-                resolve(
-                  "You had been waiting for this text 10 seconds. It was resolved on the server-side."
-                ),
-              10000
-            )
-          ),
-      }}
-    >
-      <StaticDataStoreProvider
-        staticData={{
-          initialPathname: url.pathname,
-          initialHash: url.hash,
-          texts: [
-            "This text comes from the server-side.",
-            "It's rendered on the server and also injected to the <script /> tag.",
-            "That's how the client can use the same text after hydration.",
-          ],
-        }}
-      >
-        <Document>
-          <link
-            href={path.join(staticAssetsPrefix, manifestServer["pure-min.css"])}
-            rel="stylesheet"
-          />
-          <div id="root">
-            <App />
-          </div>
-          <StaticDataStoreScriptTag />
-        </Document>
-      </StaticDataStoreProvider>
-    </AsyncDataStoreProvider>
+    <AsyncRevalidationProvider>
+      <AsyncProvider>
+        <StaticProvider url={url}>
+          <Document>
+            <link
+              href={path.join(
+                staticAssetsPrefix,
+                manifestServer["pure-min.css"]
+              )}
+              rel="stylesheet"
+            />
+            <div id="root">
+              <App />
+            </div>
+          </Document>
+        </StaticProvider>
+      </AsyncProvider>
+    </AsyncRevalidationProvider>
   );
 
   const { stream } = renderToStream({

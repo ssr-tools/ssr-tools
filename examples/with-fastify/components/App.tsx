@@ -27,6 +27,9 @@ export const App = () => {
           <A pathPattern="/async-data">Async data</A>
         </li>
         <li>
+          <A pathPattern="/async-data-revalidation">Async data revalidation</A>
+        </li>
+        <li>
           <a href="/404">404</a>
         </li>
       </ul>
