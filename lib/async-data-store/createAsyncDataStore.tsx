@@ -8,6 +8,7 @@ import { createProviderForContext } from "./private/createProvider";
  */
 export function createAsyncDataStore<T extends Record<string, unknown>>({
   invalidationTimeMs = defaultInvalidationTimeMs,
+  uniqueIdentifier,
 }: {
   /**
    * Time (in milliseconds) that has to pass until we allow to call the reader
@@ -16,11 +17,19 @@ export function createAsyncDataStore<T extends Record<string, unknown>>({
    * When value is not provided, the default is: `5 * 60 * 1000`
    */
   invalidationTimeMs?: number;
-} = {}) {
+  /**
+   * The identifier must be unique for each async data store. Also, it must be
+   * stable between server and the client side. So it should not be
+   * generated during the runtime. The best identifier would be simply
+   * the namespace of the given data store, so it helps with the debugging.
+   */
+  uniqueIdentifier: string;
+}) {
   const context = createContext<T>();
   const AsyncDataStoreProvider = createProviderForContext({
     context,
     invalidationTimeMs,
+    uniqueIdentifier,
   });
   const AsyncData = createAsyncData<T>({
     context,

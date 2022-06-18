@@ -1,4 +1,4 @@
-import React, { useId, useRef } from "react";
+import React, { useRef } from "react";
 import {
   AsyncDataStoreContextType,
   CacheEntry,
@@ -10,7 +10,9 @@ import { createReadFn } from "./createReadFn";
 export function createProviderForContext<T extends Record<string, unknown>>({
   context: { Provider },
   invalidationTimeMs,
+  uniqueIdentifier,
 }: {
+  uniqueIdentifier: string;
   context: React.Context<AsyncDataStoreContextType<T>>;
   invalidationTimeMs: number;
 }) {
@@ -21,8 +23,6 @@ export function createProviderForContext<T extends Record<string, unknown>>({
     readers: DataReaders<T>;
     children: React.ReactNode;
   }) => {
-    const providerId = useId();
-
     const { current: cache }: CacheRef<T> = useRef(
       new Map<keyof T, CacheEntry<T>>()
     );
@@ -36,7 +36,7 @@ export function createProviderForContext<T extends Record<string, unknown>>({
         readData,
         cache,
         invalidationTimeMs,
-        providerId,
+        providerId: uniqueIdentifier,
       }),
     }));
 
@@ -44,7 +44,7 @@ export function createProviderForContext<T extends Record<string, unknown>>({
       value: {
         readerEntries,
         cache,
-        providerId,
+        providerId: uniqueIdentifier,
       },
     };
 

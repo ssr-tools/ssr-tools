@@ -59,11 +59,15 @@ test("the same key in different providers does not cause namespace conflict", as
 
 const Store1 = createAsyncDataStore<{
   text: string;
-}>({});
+}>({
+  uniqueIdentifier: "store1",
+});
 
 const Store2 = createAsyncDataStore<{
   text: string;
-}>({});
+}>({
+  uniqueIdentifier: "store2",
+});
 
 const TestTexts = () => (
   <>

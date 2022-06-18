@@ -29,7 +29,7 @@ test("renders fallback and data", async () => {
   expect(document.querySelector("#wait")?.innerHTML).toBe("Wait...");
   expect(document.querySelector("#text")).toBeNull();
   expect(
-    document.querySelector('[data-async-store-key="text-:r0:"]')
+    document.querySelector('[data-async-store-key="text-async-data-store"]')
   ).toBeNull();
   // }
 
@@ -45,7 +45,7 @@ test("renders fallback and data", async () => {
 
   // Expect data script {
   const dataElement = document.querySelector(
-    '[data-async-store-key="text-:r0:"]'
+    '[data-async-store-key="text-async-data-store"]'
   );
 
   const parsedData =
@@ -61,4 +61,6 @@ test("renders fallback and data", async () => {
 
 const { AsyncData, AsyncDataStoreProvider } = createAsyncDataStore<{
   text: string;
-}>({});
+}>({
+  uniqueIdentifier: "async-data-store",
+});

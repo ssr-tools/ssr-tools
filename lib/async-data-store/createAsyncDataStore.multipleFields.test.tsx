@@ -34,7 +34,7 @@ test("renders fallback and data", async () => {
   );
   expect(document.querySelector("#textSlow")).toBeNull();
   expect(
-    document.querySelector('[data-async-store-key="textSlow-:r0:"]')
+    document.querySelector('[data-async-store-key="textSlow-async-data-store"]')
   ).toBeNull();
   // }
 
@@ -44,7 +44,7 @@ test("renders fallback and data", async () => {
   );
   expect(document.querySelector("#textFast")).toBeNull();
   expect(
-    document.querySelector('[data-async-store-key="textFast-:r0:"]')
+    document.querySelector('[data-async-store-key="textFast-async-data-store"]')
   ).toBeNull();
   // }
 
@@ -67,11 +67,13 @@ test("renders fallback and data", async () => {
 
   // Expect script for the fast text {
   const dataTextFastElement = document.querySelector(
-    '[data-async-store-key="textFast-:r0:"]'
+    '[data-async-store-key="textFast-async-data-store"]'
   );
 
   expect(
-    document.querySelectorAll('[data-async-store-key="textFast-:r0:"]')
+    document.querySelectorAll(
+      '[data-async-store-key="textFast-async-data-store"]'
+    )
   ).toHaveLength(1);
 
   const parsedTextFastData =
@@ -94,14 +96,18 @@ test("renders fallback and data", async () => {
 
   // Expect script for the slow text {
   expect(
-    document.querySelectorAll('[data-async-store-key="textSlow-:r0:"]')
+    document.querySelectorAll(
+      '[data-async-store-key="textSlow-async-data-store"]'
+    )
   ).toHaveLength(1);
   expect(
-    document.querySelectorAll('[data-async-store-key="textFast-:r0:"]')
+    document.querySelectorAll(
+      '[data-async-store-key="textFast-async-data-store"]'
+    )
   ).toHaveLength(1);
 
   const dataTextSlowElement = document.querySelector(
-    '[data-async-store-key="textSlow-:r0:"]'
+    '[data-async-store-key="textSlow-async-data-store"]'
   );
 
   const parsedTextSlowData =
@@ -118,7 +124,9 @@ test("renders fallback and data", async () => {
 const { AsyncData, AsyncDataStoreProvider } = createAsyncDataStore<{
   textSlow: string;
   textFast: string;
-}>({});
+}>({
+  uniqueIdentifier: "async-data-store",
+});
 
 const TestTexts = () => (
   <>

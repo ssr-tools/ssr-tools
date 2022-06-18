@@ -35,11 +35,11 @@ test("renders fallback and data", async () => {
   expect(document.querySelector("#textSlow")).toBeNull();
 
   expect(
-    document.querySelector('[data-async-store-key="textSlow-:r0:"]')
+    document.querySelector('[data-async-store-key="textSlow-async-data-store"]')
   ).toBeNull();
   expect(document.querySelector("#textFast")).toBeNull();
   expect(
-    document.querySelector('[data-async-store-key="textFast-:r0:"]')
+    document.querySelector('[data-async-store-key="textFast-async-data-store"]')
   ).toBeNull();
   // }
 
@@ -55,12 +55,12 @@ test("renders fallback and data", async () => {
   expect(document.querySelector("#textSlow")).toBeNull();
 
   expect(
-    document.querySelector('[data-async-store-key="textSlow-:r0:"]')
+    document.querySelector('[data-async-store-key="textSlow-async-data-store"]')
   ).toBeNull();
 
   expect(document.querySelector("#textFast")).toBeNull();
   expect(
-    document.querySelector('[data-async-store-key="textFast-:r0:"]')
+    document.querySelector('[data-async-store-key="textFast-async-data-store"]')
   ).toBeNull();
   // }
 
@@ -77,13 +77,15 @@ test("renders fallback and data", async () => {
   );
 
   expect(
-    document.querySelector('[data-async-store-key="textSlow-:r0:"]')?.innerHTML
+    document.querySelector('[data-async-store-key="textSlow-async-data-store"]')
+      ?.innerHTML
   ).toBe('{"value":"Slow text"}');
 
   expect(document.querySelector("#textFast")?.innerHTML).toBe("Fast text");
 
   expect(
-    document.querySelector('[data-async-store-key="textFast-:r0:"]')?.innerHTML
+    document.querySelector('[data-async-store-key="textFast-async-data-store"]')
+      ?.innerHTML
   ).toBe('{"value":"Fast text"}');
   // }
 
@@ -93,7 +95,9 @@ test("renders fallback and data", async () => {
 const { AsyncData, AsyncDataStoreProvider } = createAsyncDataStore<{
   textSlow: string;
   textFast: string;
-}>({});
+}>({
+  uniqueIdentifier: "async-data-store",
+});
 
 const TestTexts = () => (
   <>

@@ -29,24 +29,21 @@ fastify.get("*", async (request, reply) => {
   const { manifestClient, manifestServer } = await getManifests();
 
   const jsx = (
-    <AsyncRevalidationProvider>
-      <AsyncProvider>
-        <StaticProvider url={url}>
-          <Document>
-            <link
-              href={path.join(
-                staticAssetsPrefix,
-                manifestServer["pure-min.css"]
-              )}
-              rel="stylesheet"
-            />
-            <div id="root">
+    <StaticProvider url={url}>
+      <Document>
+        <link
+          href={path.join(staticAssetsPrefix, manifestServer["pure-min.css"])}
+          rel="stylesheet"
+        />
+        <div id="root">
+          <AsyncRevalidationProvider>
+            <AsyncProvider>
               <App />
-            </div>
-          </Document>
-        </StaticProvider>
-      </AsyncProvider>
-    </AsyncRevalidationProvider>
+            </AsyncProvider>
+          </AsyncRevalidationProvider>
+        </div>
+      </Document>
+    </StaticProvider>
   );
 
   const { stream } = renderToStream({

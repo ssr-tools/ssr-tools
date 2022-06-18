@@ -5,4 +5,5 @@ export const { AsyncData, AsyncDataStoreProvider } = createAsyncDataStore<{
   text2: string;
 }>({
   invalidationTimeMs: 3000,
+  uniqueIdentifier: "revalidation-store",
 });
