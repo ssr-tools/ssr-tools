@@ -1,37 +1,51 @@
 import { Suspense } from "react";
 import { Print } from "../components/Print";
-import { AsyncData } from "../config/asyncDataStore";
 import { StyledSpan } from "../components/StyleSpan";
+import { AsyncData } from "../config/asyncDataStore";
 
 export const AsyncDataPage = () => {
   return (
     <>
       <Print text="AsyncDataPage" />
-      <p>
-        <Suspense fallback={<>Wait for text...</>}>
-          <AsyncData dataKey="text">{(data) => data}</AsyncData>
-        </Suspense>
-      </p>
-      <p>
-        <Suspense fallback={<>Wait for text long time...</>}>
-          <AsyncData dataKey="longWaitText">{(data) => data}</AsyncData>
-        </Suspense>
-      </p>
-      <Suspense fallback={<>Wait for both....</>}>
-        <p>
-          <AsyncData dataKey="text">{(data) => data}</AsyncData>
-        </p>
-        <p>
-          <AsyncData dataKey="longWaitText">
-            {(data) => (
-              <StyledSpan>
-                {data}
-                <span>ok</span>
-              </StyledSpan>
-            )}
-          </AsyncData>
-        </p>
+      <Suspense fallback={<>Wait for text...</>}>
+        <AsyncData dataKey="text">
+          {(text) => (
+            <Suspense fallback={<>Wait for text long time...</>}>
+              <AsyncData dataKey="longWaitText">
+                {(longWaitText) => (
+                  <div data-test-id="both-texts">
+                    {longWaitText} <StyledSpan>{text}</StyledSpan>
+                  </div>
+                )}
+              </AsyncData>
+            </Suspense>
+          )}
+        </AsyncData>
       </Suspense>
+      <p data-test-id="text">
+        <Suspense fallback={<>Wait for text...</>}>
+          <AsyncData dataKey="text">{(text) => text}</AsyncData>
+        </Suspense>
+      </p>
+      <p data-test-id="longWaitText">
+        <Suspense fallback={<>Wait for text long time...</>}>
+          <AsyncData dataKey="longWaitText">
+            {(longWaitText) => longWaitText}
+          </AsyncData>
+        </Suspense>
+      </p>
+      <p data-test-id="text">
+        <Suspense fallback={<>Wait for text...</>}>
+          <AsyncData dataKey="text">{(text) => text}</AsyncData>
+        </Suspense>
+      </p>
+      <p data-test-id="longWaitText">
+        <Suspense fallback={<>Wait for text long time...</>}>
+          <AsyncData dataKey="longWaitText">
+            {(longWaitText) => longWaitText}
+          </AsyncData>
+        </Suspense>
+      </p>
     </>
   );
 };

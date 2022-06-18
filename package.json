@@ -5,7 +5,8 @@
   "scripts": {
     "prepare": "npx husky install",
     "prepublishOnly": "echo \"Do not publish the root folder.\" && exit 1",
-    "test": "npx jest"
+    "test": "npx jest --config ./jest.config.js",
+    "test:e2e": "npx jest --config ./jest.e2e.config.js --runInBand"
   },
   "author": "Grzegorz Zadora",
   "license": "MIT",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
+    "@types/jest-environment-puppeteer": "^5.0.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
     "css-loader": "^6.7.1",
@@ -23,6 +25,7 @@
     "husky": "^7.0.4",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
+    "jest-puppeteer": "^6.1.0",
     "lint-staged": "^12.3.8",
     "ts-jest": "^28.0.3",
     "ts-node-dev": "^1.1.8",

@@ -27,6 +27,11 @@ const router = createRouter({
       default: i.AsyncDataPage,
     }))
   ),
+  "/async-data-revalidation": lazy(() =>
+    import("../pages/AsyncDataRevalidationPage").then((i) => ({
+      default: i.AsyncDataRevalidationPage,
+    }))
+  ),
 });
 
 export const { Router, A, buildHref } = router;

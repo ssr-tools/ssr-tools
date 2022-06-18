@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 export const Print = ({ text }: { text: string }) => {
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log(text);
   }, [text]);
   return (
