@@ -1,5 +1,4 @@
 <!-- TODO start -->
-- Bump async-data-store package
 <!-- TODO end -->
 
 <!-- 
