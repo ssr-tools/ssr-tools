@@ -1,5 +1,4 @@
 <!-- TODO start -->
-- Bump eslint-config package
 - Bump async-data-store package
 <!-- TODO end -->
 
