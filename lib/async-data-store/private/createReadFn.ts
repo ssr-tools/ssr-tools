@@ -72,8 +72,6 @@ export const createReadFn = <T extends Record<string, unknown>>({
       return cachedReader.data;
     }
 
-    // TODO: in such case we need to re-render all components which depend on
-    // a given key from the async data store
     throw revalidateCache({
       key,
       readData,

@@ -1,4 +1,4 @@
-import { memo, ReactNode, useContext, useEffect, useId } from "react";
+import { memo, ReactNode, useContext, useId, useInsertionEffect } from "react";
 import { AsyncDataStoreContextType } from "../types";
 
 export function createAsyncData<T extends Record<string, unknown>>({
@@ -24,27 +24,20 @@ export function createAsyncData<T extends Record<string, unknown>>({
 
       const cacheEntry = cache.get(dataKey);
 
-      useEffect(() => {
-        // TODO: refactor this
-        if (cacheEntry?.status !== "resolved") return;
+      const cacheEntryHasDifferentId =
+        cacheEntry?.status !== "resolved" ||
+        (cacheEntry?.scriptTagId !== null && cacheEntry.scriptTagId !== id);
 
-        if (
-          cacheEntry?.scriptTagId !== null &&
-          cacheEntry?.scriptTagId !== id
-        ) {
-          return;
-        }
-
+      useInsertionEffect(() => {
+        if (cacheEntryHasDifferentId) return;
         cacheEntry.scriptTagId = id;
-      }, [cache, cacheEntry, dataKey, id, stringifiedData, key]);
+      }, [cacheEntry, cacheEntryHasDifferentId, id]);
 
-      if (cacheEntry?.status !== "resolved") return null;
-
-      if (cacheEntry?.scriptTagId !== null && cacheEntry?.scriptTagId !== id) {
-        return null;
-      }
+      if (cacheEntryHasDifferentId) return null;
 
       if (typeof document === "undefined") {
+        // We cannot run the effect on the server-side, so we set the id during
+        // the render.
         cacheEntry.scriptTagId = id;
       }
 
