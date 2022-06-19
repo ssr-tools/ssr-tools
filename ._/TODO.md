@@ -1,5 +1,4 @@
 <!-- TODO start -->
-- Publish & bump @ssr-tools/css version
 <!-- TODO end -->
 
 <!-- 
