@@ -1,0 +1,32 @@
+{
+  "name": "@ssr-tools/async-data-store",
+  "version": "0.0.5",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "bash ../../scripts/prepublishOnly.sh",
+    "publishPackage": "bash ../../scripts/publishPackage.sh",
+    "build": "bash ../../scripts/build.sh"
+  },
+  "homepage": "https://ssr-tools.notion.site/ssr-tools-async-data-store-1d22e5040e8e4140a54fe291459b348d",
+  "repository": {
+    "url": "https://github.com/ssr-tools/ssr-tools",
+    "type": "git"
+  },
+  "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x",
+    "typescript": "4.x"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

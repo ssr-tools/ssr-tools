@@ -1,0 +1,38 @@
+{
+  "name": "@ssr-tools/css",
+  "version": "0.0.14",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "bash ../../scripts/prepublishOnly.sh",
+    "publishPackage": "bash ../../scripts/publishPackage.sh",
+    "build": "bash ../../scripts/build.sh"
+  },
+  "homepage": "https://ssr-tools.notion.site/ssr-tools-css-ed5dea861cb546d48e6ea2fc5f51c739",
+  "repository": {
+    "url": "https://github.com/ssr-tools/ssr-tools",
+    "type": "git"
+  },
+  "dependencies": {
+    "hash-sum": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/hash-sum": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x",
+    "typescript": "4.x"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

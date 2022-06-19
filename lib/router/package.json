@@ -1,0 +1,32 @@
+{
+  "name": "@ssr-tools/router",
+  "version": "0.0.2",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "bash ../../scripts/prepublishOnly.sh",
+    "publishPackage": "bash ../../scripts/publishPackage.sh",
+    "build": "bash ../../scripts/build.sh"
+  },
+  "homepage": "https://ssr-tools.notion.site/ssr-tools-router-e128b8fd736549df8cc0e4955f405a5b",
+  "repository": {
+    "url": "https://github.com/ssr-tools/ssr-tools",
+    "type": "git"
+  },
+  "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x",
+    "typescript": "4.x"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

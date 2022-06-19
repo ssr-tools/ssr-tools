@@ -1,0 +1,34 @@
+{
+  "name": "with-fastify",
+  "version": "0.0.0",
+  "description": "Example with Fastify",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only ."
+  },
+  "author": "Grzegorz Zadora",
+  "license": "MIT",
+  "dependencies": {
+    "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
+    "@ssr-tools/core": "file:../../lib/core",
+    "@ssr-tools/css": "file:../../lib/css",
+    "@ssr-tools/router": "file:../../lib/router",
+    "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
+    "fastify": "^3.28.0",
+    "fastify-static": "^4.6.1",
+    "long": "^5.2.0",
+    "purecss": "^2.1.0",
+    "superstruct": "^0.15.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
