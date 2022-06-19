@@ -2,7 +2,7 @@ import { goToPage } from "../../../test-utils/goToPage";
 
 jest.setTimeout(300000);
 
-test("renders /async-data correctly", async () => {
+test("renders AsyncDataPage correctly", async () => {
   const { consoleLines } = await goToPage(
     new URL("async-data", "http://localhost:3000")
   );

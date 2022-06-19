@@ -18,6 +18,9 @@ export const App = () => {
           <A pathPattern="/hello-world">Hello world</A>
         </li>
         <li>
+          <A pathPattern="/css">Css</A>
+        </li>
+        <li>
           <A pathPattern="/pure-css">PureCss</A>
         </li>
         <li>

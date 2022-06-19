@@ -26,7 +26,7 @@ export function StyleBuilder({
   const cssStringified = stringifyCss(className, css);
 
   useInsertionEffect(() => {
-    if (document.querySelector(styleSelector)) {
+    if (document.head.querySelector(styleSelector)) {
       // The <style /> is in the <head /> already, let's skip the effect
       return;
     }

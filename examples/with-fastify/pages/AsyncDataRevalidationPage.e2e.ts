@@ -16,7 +16,7 @@ jest.setTimeout(300000);
 //   - it should load again on the client-side
 // 6. We switch to text1
 //  - it also loads on the client-side now
-test("renders /async-data-revalidation correctly", async () => {
+test("invalidates cache correctly", async () => {
   const { consoleLines } = await goToPage(
     new URL("async-data-revalidation", "http://localhost:3000")
   );

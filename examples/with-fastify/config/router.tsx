@@ -12,6 +12,11 @@ const router = createRouter({
       default: i.HelloWorldPage,
     }))
   ),
+  "/css": lazy(() =>
+    import("../pages/CssPage").then((i) => ({
+      default: i.CssPage,
+    }))
+  ),
   "/pure-css": lazy(() =>
     import("../pages/PureCssPage").then((i) => ({
       default: i.PureCssPage,
