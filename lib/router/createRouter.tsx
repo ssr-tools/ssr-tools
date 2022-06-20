@@ -1,4 +1,4 @@
-import { ComponentType, FC, ReactNode, VFC } from "react";
+import { ComponentType, FC, ReactNode } from "react";
 import { compile } from "path-to-regexp";
 
 import { Router as BaseRouter, RouterProps } from "./components/Router";
@@ -17,7 +17,7 @@ export function createRouter<P extends string>(routesConfiguration: {
     component,
   }));
 
-  const Router: VFC<Omit<RouterProps, "routes">> = (props) => (
+  const Router: FC<Omit<RouterProps, "routes">> = (props) => (
     <BaseRouter routes={routes} {...props} />
   );
 
