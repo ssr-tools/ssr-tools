@@ -7,26 +7,17 @@ export const webpackConfig = createWebpackConfig(({ resolveEntryPath }) => ({
   serverEntryPath: resolveEntryPath("server.tsx"),
   serverOutputPath: resolveEntryPath("dist", "server"),
   watchIsEnabled: true,
-  extendClientRuleset: (ruleset) => [
-    ...ruleset,
-    {
-      test: /\.css$/i,
-      type: "asset/resource",
-      generator: {
-        // https://webpack.js.org/configuration/output/#template-strings
-        filename: "[name].[hash][ext]",
-      },
-    },
-  ],
-  extendServerRuleset: (ruleset) => [
-    ...ruleset,
-    {
-      test: /\.css$/i,
-      type: "asset/resource",
-      generator: {
-        // https://webpack.js.org/configuration/output/#template-strings
-        filename: "[name].[hash][ext]",
-      },
-    },
-  ],
+  extendClientRuleset: (ruleset) => [...ruleset, ...customRules],
+  extendServerRuleset: (ruleset) => [...ruleset, ...customRules],
 }));
+
+const customRules = [
+  {
+    test: /\.css$/i,
+    type: "asset/resource",
+    generator: {
+      // https://webpack.js.org/configuration/output/#template-strings
+      filename: "[name].[hash][ext]",
+    },
+  },
+];

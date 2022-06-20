@@ -1,5 +1,6 @@
-import webpack from "webpack";
+import webpack, { IgnorePlugin } from "webpack";
 import { extensions, basePlugins, baseRuleset } from "./commonWebpackParts";
+import { serverModuleRegExp } from "./private/serverModuleRegExp";
 import { InternalWebpackConfig } from "./types";
 
 export const runClientWebpack = ({
@@ -26,8 +27,18 @@ export const runClientWebpack = ({
       filename: "index.js",
       clean: true,
     },
-    plugins: extendPlugins ? [...extendPlugins(basePlugins)] : [...basePlugins],
+    plugins: extendPlugins
+      ? [...extendPlugins(clientPlugins)]
+      : [...clientPlugins],
   };
 
   return webpack(override ? override(base) : base);
 };
+
+const clientPlugins = [
+  ...basePlugins,
+  // ignore server-side modules
+  new IgnorePlugin({
+    resourceRegExp: serverModuleRegExp,
+  }),
+];
