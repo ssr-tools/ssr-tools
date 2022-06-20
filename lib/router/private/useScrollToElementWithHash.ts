@@ -1,4 +1,17 @@
-export const scrollToElementWithId = (id: string) => {
+import { useEffect } from "react";
+import { Hash } from "../types";
+
+export const useScrollToElementWithHash = (hash: Hash) => {
+  useEffect(() => {
+    return hash.value ? scrollToElementWithId(hash.value) : undefined;
+  }, [
+    // We keep the whole `hash` object in deps so that we can scroll again
+    // to the same hash when needed
+    hash,
+  ]);
+};
+
+const scrollToElementWithId = (id: string) => {
   const elementWithId = document.getElementById(id);
 
   // By default browser also focus the anchored element for better a11y.

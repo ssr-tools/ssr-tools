@@ -1,53 +1,91 @@
-import { ComponentType, FC, ReactNode } from "react";
-import { compile } from "path-to-regexp";
+import { RouterConfig, PathParams } from "./types";
+import { A as BaseA, AProps } from "./private/A";
+import { useContext } from "react";
+import { createRouterContext } from "./private/createRouterContext";
+import { createUseSearchParam } from "./private/createUseSearchParam";
+import { createUsePathParam } from "./private/createUsePathParam";
+import { buildHref as baseBuildHref } from "./private/buildHref";
+import { createProvider } from "./private/createProvider";
+import { createCurrentRoute } from "./private/createCurrentRoute";
 
-import { Router as BaseRouter, RouterProps } from "./components/Router";
-import { A as BaseA, AProps as BaseAProps } from "./components/A";
+export const createRouter = <Config extends RouterConfig>(config: Config) => {
+  const RouterContext = createRouterContext();
 
-/**
- * Create a type safe router for `<Router />` and `<A />` components.
- */
-export function createRouter<P extends string>(routesConfiguration: {
-  [Key in P]: ComponentType<Record<string, never>>;
-}) {
-  const routes = Object.entries<typeof routesConfiguration[P]>(
-    routesConfiguration
-  ).map(([pathPattern, component]) => ({
+  const routes = Object.entries(config).map(
+    ([pathPattern, { component, allowSuffix }]) => ({
+      pathPattern,
+      component,
+      allowSuffix,
+    })
+  );
+
+  const RouterProvider = createProvider({
+    RouterContext,
+    routes,
+  });
+
+  const CurrentRoute = createCurrentRoute({
+    RouterContext,
+  });
+
+  type HrefConfig<P extends keyof Config> = PathParams<P> extends null
+    ? {
+        hash?: string;
+        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
+        pathParams?: undefined;
+      }
+    : {
+        hash?: string;
+        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
+        pathParams: PathParams<P>;
+      };
+
+  const buildHref = <P extends keyof Config>(
+    pathPattern: P,
+    config: HrefConfig<P>
+  ) => baseBuildHref(String(pathPattern), config);
+
+  const A = <P extends keyof Config>({
     pathPattern,
-    component,
-  }));
-
-  const Router: FC<Omit<RouterProps, "routes">> = (props) => (
-    <BaseRouter routes={routes} {...props} />
+    searchParams,
+    pathParams,
+    hash,
+    ...htmlProps
+  }: AProps & HrefConfig<P> & { pathPattern: P }) => (
+    <BaseA
+      href={baseBuildHref(String(pathPattern), {
+        searchParams,
+        pathParams,
+        hash,
+      })}
+      {...htmlProps}
+    />
   );
 
-  const buildHref = ({ pathPattern, hash }: HrefProps<P>) => {
-    const createPath = compile(pathPattern);
-    return addHash(createPath(), hash);
+  const useSearchParam = <P extends keyof Config>(
+    pathPattern: P,
+    paramName: keyof Config[P]["searchParams"]
+  ) =>
+    createUseSearchParam(RouterContext)(String(pathPattern), String(paramName));
+
+  const usePathParam = <P extends keyof Config>(
+    pathPattern: P,
+    paramName: keyof PathParams<P>
+  ) =>
+    createUsePathParam(RouterContext)(String(pathPattern), String(paramName));
+
+  const useCurrentPathPattern = () => {
+    const { route } = useContext(RouterContext).value;
+    return (route?.pathPattern ?? null) as keyof Config | null;
   };
-
-  const A: FC<AProps<P>> = ({ pathPattern, hash, htmlProps, children }) => (
-    <BaseA href={buildHref({ pathPattern, hash })} {...htmlProps}>
-      {children}
-    </BaseA>
-  );
 
   return {
-    Router,
+    RouterProvider,
+    CurrentRoute,
     A,
     buildHref,
+    useSearchParam,
+    usePathParam,
+    useCurrentPathPattern,
   };
-}
-
-const addHash = (path: string, hash?: string) =>
-  hash ? `${path}#${hash}` : path;
-
-type AProps<P> = HrefProps<P> & {
-  htmlProps?: Omit<BaseAProps, "children">;
-  children: ReactNode;
-};
-
-type HrefProps<P> = {
-  pathPattern: P;
-  hash?: string;
 };

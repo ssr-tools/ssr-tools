@@ -13,6 +13,7 @@ export const StaticProvider: FC<{ children: ReactNode; url: URL }> = ({
     staticData={{
       initialPathname: url.pathname,
       initialHash: url.hash,
+      initialSearch: url.search,
       texts: [
         "This text comes from the server-side.",
         "It's rendered on the server and also injected to the <script /> tag.",
