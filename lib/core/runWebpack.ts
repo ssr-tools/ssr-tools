@@ -1,6 +1,6 @@
 import { Stats } from "webpack";
-import { runClientWebpack } from "./runClientWebpack";
-import { runServerWebpack } from "./runServerWebpack";
+import { runClientWebpack } from "./private/runClientWebpack";
+import { runServerWebpack } from "./private/runServerWebpack";
 import { WebpackConfig } from "./types";
 import { ChildProcess, execFile } from "child_process";
 

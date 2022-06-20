@@ -1,6 +1,10 @@
-import { ReactElement } from "react";
-import { Configuration, RuleSetRule, WebpackPluginInstance } from "webpack";
-import { baseRuleset } from "./commonWebpackParts";
+import type { ReactElement } from "react";
+import type {
+  Configuration,
+  RuleSetRule,
+  WebpackPluginInstance,
+} from "webpack";
+import type { baseRuleset } from "./private/commonWebpackParts";
 import type { resolveEntryPath } from "./createWebpackConfig";
 import type { renderToPipeableStream } from "react-dom/server";
 

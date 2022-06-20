@@ -1,7 +1,7 @@
 import webpack, { IgnorePlugin } from "webpack";
 import { extensions, basePlugins, baseRuleset } from "./commonWebpackParts";
-import { serverModuleRegExp } from "./private/serverModuleRegExp";
-import { InternalWebpackConfig } from "./types";
+import { serverModuleRegExp } from "./serverModuleRegExp";
+import type { InternalWebpackConfig } from "../types";
 
 export const runClientWebpack = ({
   entryPath,
