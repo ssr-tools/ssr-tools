@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { CurrentRouteProps } from "../types";
 import { createRouterContext } from "./createRouterContext";
 
-export const createCurrentRoute =
-  ({
-    RouterContext,
-  }: {
-    RouterContext: ReturnType<typeof createRouterContext>;
-  }) =>
-  ({ fallbackComponent: FallbackComponent }: CurrentRouteProps) => {
+export const createCurrentRoute = ({
+  RouterContext,
+}: {
+  RouterContext: ReturnType<typeof createRouterContext>;
+}) => {
+  const CurrentRoute = ({
+    fallbackComponent: FallbackComponent,
+  }: CurrentRouteProps) => {
     const matchedRoute = useContext(RouterContext).value.route;
 
     if (!matchedRoute) return <FallbackComponent />;
@@ -17,3 +18,6 @@ export const createCurrentRoute =
 
     return <Component />;
   };
+
+  return CurrentRoute;
+};

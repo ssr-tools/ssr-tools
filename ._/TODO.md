@@ -1,11 +1,9 @@
 <!-- TODO start -->
-- Handle nested routes, maybe via `basePathPattern` provided to router?
-  - Try to handle nested route with path param: /chats/123/user/321
-  - Use custom event instead of popstate
+- Make sure that update to one value does not cause rerenders in components that depend on other values in the RouterContext
+  - Avoid re-rendering the whole RouterProvider on all changes in the router. Put the state into ref, then allow some components to subscribe to the required state
 - Add E2E tests for params
 - Add more integration/unit tests
 - Measure performance of searchParams and pathParams related hooks, and functions, and use snapshots to keep optimal performance
-- Make sure that update to one value does not cause rerenders in components that depend on other values in the RouterContext
 - Bump eslint version
 <!-- TODO end -->
 

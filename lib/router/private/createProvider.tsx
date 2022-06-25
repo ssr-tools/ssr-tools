@@ -6,15 +6,14 @@ import { usePathname } from "./usePathname";
 import { useScrollToElementWithHash } from "./useScrollToElementWithHash";
 import { useSearch } from "./useSearch";
 
-export const createProvider =
-  ({
-    RouterContext,
-    routes,
-  }: {
-    RouterContext: ReturnType<typeof createRouterContext>;
-    routes: Array<RouteConfig>;
-  }) =>
-  ({
+export const createProvider = ({
+  RouterContext,
+  routes,
+}: {
+  RouterContext: ReturnType<typeof createRouterContext>;
+  routes: Array<RouteConfig>;
+}) => {
+  const RouterProvider = ({
     initialPathname,
     initialHash,
     initialSearch,
@@ -50,3 +49,6 @@ export const createProvider =
       </RouterContext.Provider>
     );
   };
+
+  return RouterProvider;
+};
