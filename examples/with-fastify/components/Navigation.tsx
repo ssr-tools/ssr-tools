@@ -21,7 +21,9 @@ export const Navigation = () => {
             css={{
               "&": {
                 display: "flex",
-                columnGap: "10px",
+                flexWrap: "wrap",
+                columnGap: 5,
+                padding: 0,
               },
               "& li": {
                 listStyle: "none",
