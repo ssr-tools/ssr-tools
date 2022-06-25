@@ -29,7 +29,7 @@ const createPathWithPathParams = (
     if (part.startsWith(":")) {
       const paramName = part.replace(":", "");
       const paramValue = pathParams?.[paramName] ?? "__null__";
-      return part.replace(/.*/, paramValue);
+      return encodeURIComponent(paramValue);
     }
 
     return part;

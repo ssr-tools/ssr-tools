@@ -1,5 +1,6 @@
+import { Form } from "@ssr-tools/css/stylable/Form";
 import { Print } from "../components/Print";
-import { A, buildHref, useSearchParam } from "../config/router";
+import { A, buildHref, useSearchParam, push, replace } from "../config/router";
 
 export const SearchParamsPage = () => {
   const category = useSearchParam("/search-params", "category");
@@ -39,6 +40,92 @@ export const SearchParamsPage = () => {
           </li>
         ))}
       </ul>
+      <h2>Push state</h2>
+      <p>This form pushes the search params to the history</p>
+      <Form
+        css={{
+          "&": {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!(e.target instanceof HTMLFormElement)) return;
+
+          const [category, page, perPage] = Array.from(e.target.elements);
+
+          if (!(category instanceof HTMLInputElement)) return;
+          if (!(page instanceof HTMLInputElement)) return;
+          if (!(perPage instanceof HTMLInputElement)) return;
+
+          push("/search-params", {
+            searchParams: {
+              category: category.value,
+              page: page.value,
+              perPage: perPage.value,
+            },
+          });
+        }}
+      >
+        <label>
+          category
+          <input name="category" />
+        </label>
+        <label>
+          page
+          <input name="page" />
+        </label>
+        <label>
+          perPage
+          <input name="perPage" />
+        </label>
+        <button type="submit">push</button>
+      </Form>
+      <h2>Replace state</h2>
+      <p>This form replaces the search params in the history</p>
+      <Form
+        css={{
+          "&": {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!(e.target instanceof HTMLFormElement)) return;
+
+          const [category, page, perPage] = Array.from(e.target.elements);
+
+          if (!(category instanceof HTMLInputElement)) return;
+          if (!(page instanceof HTMLInputElement)) return;
+          if (!(perPage instanceof HTMLInputElement)) return;
+
+          replace("/search-params", {
+            searchParams: {
+              category: category.value,
+              page: page.value,
+              perPage: perPage.value,
+            },
+          });
+        }}
+      >
+        <label>
+          category
+          <input name="category" />
+        </label>
+        <label>
+          page
+          <input name="page" />
+        </label>
+        <label>
+          perPage
+          <input name="perPage" />
+        </label>
+        <button type="submit">replace</button>
+      </Form>
     </div>
   );
 };

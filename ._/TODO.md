@@ -1,7 +1,7 @@
 <!-- TODO start -->
-- Add hook that allows to `push` and `replace` urls
 - Handle nested routes, maybe via `basePathPattern` provided to router?
   - Try to handle nested route with path param: /chats/123/user/321
+  - Use custom event instead of popstate
 - Add E2E tests for params
 - Add more integration/unit tests
 - Measure performance of searchParams and pathParams related hooks, and functions, and use snapshots to keep optimal performance

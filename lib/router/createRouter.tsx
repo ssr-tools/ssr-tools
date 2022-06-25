@@ -7,6 +7,8 @@ import { createUsePathParam } from "./private/createUsePathParam";
 import { buildHref as baseBuildHref } from "./private/buildHref";
 import { createProvider } from "./private/createProvider";
 import { createCurrentRoute } from "./private/createCurrentRoute";
+import { push as basePush } from "./private/push";
+import { replace as baseReplace } from "./private/replace";
 
 export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const RouterContext = createRouterContext();
@@ -51,7 +53,7 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
     pathParams,
     hash,
     ...htmlProps
-  }: AProps & HrefConfig<P> & { pathPattern: P }) => (
+  }: Omit<AProps, "href"> & HrefConfig<P> & { pathPattern: P }) => (
     <BaseA
       href={baseBuildHref(String(pathPattern), {
         searchParams,
@@ -79,6 +81,16 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
     return (route?.pathPattern ?? null) as keyof Config | null;
   };
 
+  const push = <P extends keyof Config>(
+    pathPattern: P,
+    config: HrefConfig<P>
+  ) => basePush(buildHref(pathPattern, config));
+
+  const replace = <P extends keyof Config>(
+    pathPattern: P,
+    config: HrefConfig<P>
+  ) => baseReplace(buildHref(pathPattern, config));
+
   return {
     RouterProvider,
     CurrentRoute,
@@ -87,5 +99,7 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
     useSearchParam,
     usePathParam,
     useCurrentPathPattern,
+    push,
+    replace,
   };
 };

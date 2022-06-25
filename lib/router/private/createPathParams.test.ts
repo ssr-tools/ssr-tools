@@ -27,6 +27,19 @@ const cases: Array<
       baz: "",
     },
   ],
+  [
+    [
+      "/hello/:foo/:bar/:baz",
+      `"/hello/${encodeURIComponent("    spaces    ")}/${encodeURIComponent(
+        "####"
+      )}/${encodeURIComponent("&&&&")}`,
+    ],
+    {
+      foo: "    spaces    ",
+      bar: "####",
+      baz: "&&&&",
+    },
+  ],
 ];
 
 test.each(cases)("correctly creates path params", (input, output) => {

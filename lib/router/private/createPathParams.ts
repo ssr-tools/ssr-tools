@@ -7,7 +7,9 @@ export const createPathParams = (pathPattern: string, pathname: string) => {
       if (next.startsWith(":")) {
         acc = acc ?? {};
         const paramName = next.replace(":", "");
-        acc[paramName] = pathParts[index] ?? "";
+        acc[paramName] = pathParts[index]
+          ? decodeURIComponent(pathParts[index])
+          : "";
       }
 
       return acc;

@@ -1,5 +1,6 @@
+import { Form } from "@ssr-tools/css/stylable/Form";
 import { Print } from "../components/Print";
-import { A, buildHref, usePathParam } from "../config/router";
+import { A, buildHref, usePathParam, push, replace } from "../config/router";
 
 export const PathParamsPage = () => {
   const category = usePathParam("/path-params/:category/:product", "category");
@@ -42,6 +43,80 @@ export const PathParamsPage = () => {
           </li>
         ))}
       </ul>
+      <h2>Push state</h2>
+      <p>This form pushes the path params to the history</p>
+      <Form
+        css={{
+          "&": {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!(e.target instanceof HTMLFormElement)) return;
+
+          const [category, product] = Array.from(e.target.elements);
+
+          if (!(category instanceof HTMLInputElement)) return;
+          if (!(product instanceof HTMLInputElement)) return;
+
+          push("/path-params/:category/:product", {
+            pathParams: {
+              category: category.value,
+              product: product.value,
+            },
+          });
+        }}
+      >
+        <label>
+          category
+          <input name="category" />
+        </label>
+        <label>
+          product
+          <input name="product" />
+        </label>
+        <button type="submit">push</button>
+      </Form>
+      <h2>Replace state</h2>
+      <p>This form replaces the path params in the history</p>
+      <Form
+        css={{
+          "&": {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!(e.target instanceof HTMLFormElement)) return;
+
+          const [category, product] = Array.from(e.target.elements);
+
+          if (!(category instanceof HTMLInputElement)) return;
+          if (!(product instanceof HTMLInputElement)) return;
+
+          replace("/path-params/:category/:product", {
+            pathParams: {
+              category: category.value,
+              product: product.value,
+            },
+          });
+        }}
+      >
+        <label>
+          category
+          <input name="category" />
+        </label>
+        <label>
+          product
+          <input name="product" />
+        </label>
+        <button type="submit">replace</button>
+      </Form>
     </div>
   );
 };
