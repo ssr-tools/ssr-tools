@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode } from "react";
+import { ComponentType, MutableRefObject, ReactNode } from "react";
 
 export type MatchPathPatternConfig = {
   pathname: string;
@@ -26,7 +26,8 @@ export type RouterConfig = {
      */
     searchParams?: Record<string, true>;
     /**
-     * When `true` it matches when a given path starts with a given path pattern.
+     * When `true` it matches when a given path starts with a given path
+     * pattern.
      *
      * When `false` it does not allow to match a pathname longer than a path
      * pattern.
@@ -36,28 +37,28 @@ export type RouterConfig = {
 };
 
 export type PathParams<P extends string | number | symbol> =
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   P extends `${infer Prefix}/:${infer Suffix}` ? GetParams<Suffix> : null;
 
 type GetParams<P extends string> = P extends `${infer Param}/${infer Next}`
   ? {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       [Key in Param]: string;
     } & GetParamsFromNext<Next>
   : {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       [Key in P]: string;
     };
 
 type GetParamsFromNext<N extends string> =
   N extends `:${infer Param}/${infer NextNext}`
     ? {
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         [Key in Param]: string;
       } & GetParamsFromNext<NextNext>
     : N extends `:${infer Param}`
     ? {
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         [Key in Param]: string;
       }
     : GetParams<N>;
@@ -73,16 +74,23 @@ export type ProviderProps = {
 };
 
 export type RouterContextType = {
-  value: {
-    /** https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname */
-    pathname: string;
-    /** https://developer.mozilla.org/en-US/docs/Web/API/URL/search */
-    search: string;
-    /** https://developer.mozilla.org/en-US/docs/Web/API/URL/hash */
-    hash: string;
-    /** Currently matched route */
-    route: RouteConfig | null;
-  };
+  routerRef: MutableRefObject<RouterRefValue>;
+  subscribe: (callback: () => void) => () => void;
+};
+
+export type RouterRefValue = {
+  /** https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname */
+  pathname: string;
+  /** https://developer.mozilla.org/en-US/docs/Web/API/URL/search */
+  search: string;
+  /** https://developer.mozilla.org/en-US/docs/Web/API/URL/hash */
+  hash: string;
+  /** The currently matched route */
+  route: RouteConfig | null;
+  /** Path params of the currently matched route */
+  pathParams: Record<string, string> | null;
+  /** Search params of the currently matched route */
+  searchParams: URLSearchParams;
 };
 
 export type Hash = {

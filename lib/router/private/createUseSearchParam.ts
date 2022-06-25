@@ -1,30 +1,29 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createRouterContext } from "./createRouterContext";
 
 export const createUseSearchParam = (
   RouterContext: ReturnType<typeof createRouterContext>
 ) => {
-  const searchParamsMemo = new Map<string, URLSearchParams>();
-
   const useSearchParam = (pathPattern: string, paramName: string) => {
-    const { search, route } = useContext(RouterContext).value;
-    const currentPathPattern = route?.pathPattern;
+    const { routerRef, subscribe } = useContext(RouterContext);
 
-    const searchParams = useMemo(() => {
-      if (!search) return null;
+    const [value, setValue] = useState(() => {
+      const { route, searchParams } = routerRef.current;
+      if (pathPattern !== route?.pathPattern) return null;
+      return searchParams.get(paramName);
+    });
 
-      const cachedSearchParams = searchParamsMemo.get(search);
+    useEffect(() => {
+      const handleRouterUpdate = () =>
+        setValue((prevValue) => {
+          const newValue = routerRef.current.searchParams.get(paramName);
+          return prevValue !== newValue ? newValue : prevValue;
+        });
 
-      if (cachedSearchParams) return cachedSearchParams;
+      return subscribe(handleRouterUpdate);
+    }, [paramName, routerRef, subscribe]);
 
-      const createdSearchParams = new URLSearchParams(search);
-      searchParamsMemo.set(search, createdSearchParams);
-      return createdSearchParams;
-    }, [search]);
-
-    if (currentPathPattern !== pathPattern) return null;
-
-    return searchParams?.get(paramName) ?? null;
+    return value;
   };
 
   return useSearchParam;

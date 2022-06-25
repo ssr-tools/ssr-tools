@@ -1,6 +1,5 @@
 import { RouterConfig, PathParams } from "./types";
 import { A as BaseA, AProps } from "./private/A";
-import { useContext } from "react";
 import { createRouterContext } from "./private/createRouterContext";
 import { createUseSearchParam } from "./private/createUseSearchParam";
 import { createUsePathParam } from "./private/createUsePathParam";
@@ -9,6 +8,7 @@ import { createProvider } from "./private/createProvider";
 import { createCurrentRoute } from "./private/createCurrentRoute";
 import { push as basePush } from "./private/push";
 import { replace as baseReplace } from "./private/replace";
+import { createUseCurrentPathPattern } from "./private/createUseCurrentPathPattern";
 
 export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const RouterContext = createRouterContext();
@@ -76,10 +76,8 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
   ) =>
     createUsePathParam(RouterContext)(String(pathPattern), String(paramName));
 
-  const useCurrentPathPattern = () => {
-    const { route } = useContext(RouterContext).value;
-    return (route?.pathPattern ?? null) as keyof Config | null;
-  };
+  const useCurrentPathPattern = () =>
+    createUseCurrentPathPattern(RouterContext)() as keyof Config;
 
   const push = <P extends keyof Config>(
     pathPattern: P,

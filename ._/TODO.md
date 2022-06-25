@@ -1,7 +1,9 @@
 <!-- TODO start -->
-- Make sure that update to one value does not cause rerenders in components that depend on other values in the RouterContext
-  - Avoid re-rendering the whole RouterProvider on all changes in the router. Put the state into ref, then allow some components to subscribe to the required state
+- Fix hash scroll
+- Add E2E tests for hash scroll
 - Add E2E tests for params
+- Add E2E tests for hashes
+- Add E2E for isolated re-renders
 - Add more integration/unit tests
 - Measure performance of searchParams and pathParams related hooks, and functions, and use snapshots to keep optimal performance
 - Bump eslint version
