@@ -1,6 +1,4 @@
 <!-- TODO start -->
-- Bump eslint version
-- Bump router version
 <!-- TODO end -->
 
 <!-- 
