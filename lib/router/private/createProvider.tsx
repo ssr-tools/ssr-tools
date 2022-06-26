@@ -12,9 +12,7 @@ export const createProvider = ({
   RouterContext: ReturnType<typeof createRouterContext>;
   routes: Array<RouteConfig>;
 }) => {
-  const routeUpdateEvent = new Event(
-    `@ssr-tools-router-update-${generateUuid()}`
-  );
+  const routeUpdateEvent = new Event(`@ssr-tools-router-update-${Date.now()}`);
 
   const RouterProvider = ({
     initialPathname,
@@ -106,8 +104,3 @@ const getRoute = (pathname: string, routes: RouteConfig[]) =>
       allowSuffix,
     })
   ) ?? null;
-
-const generateUuid = () =>
-  typeof crypto !== "undefined"
-    ? crypto.randomUUID()
-    : (require("crypto") as typeof import("crypto")).randomUUID();
