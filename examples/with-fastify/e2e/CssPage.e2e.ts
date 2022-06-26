@@ -10,13 +10,7 @@ test(
 
     await page.waitForNetworkIdle();
 
-    const heading = await page.evaluate(
-      () => document.querySelector("h1")?.textContent
-    );
-
-    expect(heading).toBe("CssPage");
-
-    expect(consoleLines).toContainEqual({ type: "log", text: "CssPage" });
+    expect(consoleLines).toContainEqual({ type: "log", text: "Css" });
 
     expect(
       await page.evaluate(
