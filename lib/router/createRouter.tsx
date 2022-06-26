@@ -9,6 +9,7 @@ import { createCurrentRoute } from "./private/createCurrentRoute";
 import { push as basePush } from "./private/push";
 import { replace as baseReplace } from "./private/replace";
 import { createUseCurrentPathPattern } from "./private/createUseCurrentPathPattern";
+import { useCallback, useContext } from "react";
 
 export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const RouterContext = createRouterContext();
@@ -29,18 +30,6 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const CurrentRoute = createCurrentRoute({
     RouterContext,
   });
-
-  type HrefConfig<P extends keyof Config> = PathParams<P> extends null
-    ? {
-        hash?: string;
-        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
-        pathParams?: undefined;
-      }
-    : {
-        hash?: string;
-        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
-        pathParams: PathParams<P>;
-      };
 
   const buildHref = <P extends keyof Config>(
     pathPattern: P,
@@ -79,15 +68,50 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const useCurrentPathPattern = () =>
     createUseCurrentPathPattern(RouterContext)() as keyof Config;
 
-  const push = <P extends keyof Config>(
-    pathPattern: P,
-    config: HrefConfig<P>
-  ) => basePush(buildHref(pathPattern, config));
+  const useRouteAction = (action: "push" | "replace") => {
+    const { routerRef } = useContext(RouterContext);
 
-  const replace = <P extends keyof Config>(
-    pathPattern: P,
-    config: HrefConfig<P>
-  ) => baseReplace(buildHref(pathPattern, config));
+    return useCallback(
+      <P extends keyof Config>(
+        pathPattern: P,
+        configOrConfigBuilder:
+          | HrefConfig<P>
+          | ((prevConfig: HrefConfig<P>) => HrefConfig<P>)
+      ) => {
+        const { searchParams, pathParams, hash } = routerRef.current;
+
+        const actionFn = action === "push" ? basePush : baseReplace;
+
+        const href = buildHref(
+          pathPattern,
+          typeof configOrConfigBuilder === "function"
+            ? configOrConfigBuilder({
+                searchParams: searchParams
+                  ? Object.fromEntries(searchParams.entries())
+                  : undefined,
+                pathParams,
+                hash,
+              } as HrefConfig<P>)
+            : configOrConfigBuilder
+        );
+
+        return actionFn(href);
+      },
+      [action, routerRef]
+    );
+  };
+
+  type HrefConfig<P extends keyof Config> = PathParams<P> extends null
+    ? {
+        hash?: string;
+        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
+        pathParams?: undefined;
+      }
+    : {
+        hash?: string;
+        searchParams?: Partial<Record<keyof Config[P]["searchParams"], string>>;
+        pathParams: PathParams<P>;
+      };
 
   return {
     RouterProvider,
@@ -97,7 +121,6 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
     useSearchParam,
     usePathParam,
     useCurrentPathPattern,
-    push,
-    replace,
+    useRouteAction,
   };
 };

@@ -1,11 +1,13 @@
 import { Form } from "@ssr-tools/css/stylable/Form";
 import { Print } from "../components/Print";
-import { A, buildHref, useSearchParam, push, replace } from "../config/router";
+import { A, buildHref, useRouteAction, useSearchParam } from "../config/router";
 
 export const SearchParamsPage = () => {
   const category = useSearchParam("/search-params", "category");
   const page = useSearchParam("/search-params", "page");
   const perPage = useSearchParam("/search-params", "perPage");
+  const push = useRouteAction("push");
+  const replace = useRouteAction("replace");
 
   return (
     <div>

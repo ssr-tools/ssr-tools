@@ -135,6 +135,27 @@ export const Navigation = () => {
               </A>
             </li>
             <li>
+              <A
+                className={
+                  currentPathPattern ===
+                  "/router-isolated-renders/:pathParam1/:pathParam2"
+                    ? activeClassName
+                    : ""
+                }
+                pathPattern="/router-isolated-renders/:pathParam1/:pathParam2"
+                pathParams={{
+                  pathParam1: "start",
+                  pathParam2: "start",
+                }}
+                searchParams={{
+                  searchParam1: "start",
+                  searchParam2: "start",
+                }}
+              >
+                Router Isolated Renders
+              </A>
+            </li>
+            <li>
               <a href="/404">404</a>
             </li>
           </Ul>

@@ -1,7 +1,5 @@
 <!-- TODO start -->
-- Add E2E for isolated re-renders
-- Add more integration/unit tests
-- Measure performance of searchParams and pathParams related hooks, and functions, and use snapshots to keep optimal performance
+- Add example of `allowSuffix === true` route
 - Bump eslint version
 <!-- TODO end -->
 

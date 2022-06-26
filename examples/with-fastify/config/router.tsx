@@ -87,6 +87,18 @@ const router = createRouter({
     ),
     allowSuffix: false,
   },
+  "/router-isolated-renders/:pathParam1/:pathParam2": {
+    component: lazy(() =>
+      import("../pages/RouterIsolatedRendersPage").then((i) => ({
+        default: i.RouterIsolatedRendersPage,
+      }))
+    ),
+    searchParams: {
+      searchParam1: true,
+      searchParam2: true,
+    },
+    allowSuffix: false,
+  },
 });
 
 export const {
@@ -97,6 +109,5 @@ export const {
   usePathParam,
   useSearchParam,
   useCurrentPathPattern,
-  push,
-  replace,
+  useRouteAction,
 } = router;

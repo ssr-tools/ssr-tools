@@ -111,3 +111,9 @@ export type RouteConfig = {
 export type CurrentRouteProps = {
   fallbackComponent: ComponentType<Record<string, never>>;
 };
+
+export type GenericHrefConfig = {
+  hash?: string;
+  searchParams?: Partial<Record<string, string>>;
+  pathParams?: Record<string, string> | null;
+};
