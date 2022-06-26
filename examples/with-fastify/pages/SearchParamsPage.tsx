@@ -11,7 +11,7 @@ export const SearchParamsPage = () => {
 
   return (
     <div>
-      <Print text="Search params page" />
+      <Print text="SearchParams" />
       <p>
         A page that demonstrates <code>useSearchParam</code> hook in action.
       </p>

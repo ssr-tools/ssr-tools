@@ -5,7 +5,7 @@ import { usePathParam, useRouteAction, useSearchParam } from "../config/router";
 export const RouterIsolatedRendersPage = () => {
   return (
     <div>
-      <Print text="Router Isolated Renders Page" />
+      <Print text="RouterIsolatedRendersPage" />
       <p>
         A page that shows how the updates in the route parameters are isolated.
         Changing the value of a parameter only re-renders a component that uses

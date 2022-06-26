@@ -165,7 +165,12 @@ export const Navigation = () => {
               </A>
             </li>
             <li>
-              <a href="/404">404</a>
+              <a
+                className={currentPathPattern === null ? activeClassName : ""}
+                href="/404"
+              >
+                404
+              </a>
             </li>
           </Ul>
         )}
