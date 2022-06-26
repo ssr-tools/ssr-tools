@@ -93,15 +93,6 @@ export type RouterRefValue = {
   searchParams: URLSearchParams;
 };
 
-export type Hash = {
-  value: string;
-  // We need to count updates to the hash, so that we can scroll to the same
-  // anchor again. That happens once the user scrolls away, but clicks on the
-  // same link again, so there no changes in the hash value, but the auto-scroll
-  // to anchor is still expected.
-  updatesCount: number;
-};
-
 export type RouteConfig = {
   pathPattern: string;
   component: ComponentType<Record<string, never>>;

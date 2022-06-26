@@ -3,6 +3,6 @@
  */
 export const replace = (href: string) => {
   window.history.replaceState({}, "", href);
-  // history.pushState does not trigger a popstate event
+  // history.replaceState does not trigger a popstate event
   window.dispatchEvent(new PopStateEvent("popstate", {}));
 };

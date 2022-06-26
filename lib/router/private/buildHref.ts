@@ -43,7 +43,7 @@ const createPathWithSearchParams = (
   searchParams: Partial<Record<string, string>>
 ) => {
   // Get rid of possible `undefined` values as they resolve to `"undefined"`,
-  // which is not wanted in the search parameters.
+  // which is unwanted in the search parameters.
   const searchParamsList = Object.entries(searchParams).filter(
     (entry): entry is [string, string] => typeof entry[1] === "string"
   );
