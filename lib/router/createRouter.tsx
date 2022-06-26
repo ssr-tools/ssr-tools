@@ -11,6 +11,12 @@ import { replace as baseReplace } from "./private/replace";
 import { createUseCurrentPathPattern } from "./private/createUseCurrentPathPattern";
 import { useCallback, useContext } from "react";
 
+/**
+ * Provide it with a configuration for the application's routes. It returns
+ * the functions to render routes on the client and the server.
+ * The returned functions derive the types from the given configuration, which
+ * allows TypeScript to identify possible routing errors.
+ */
 export const createRouter = <Config extends RouterConfig>(config: Config) => {
   const RouterContext = createRouterContext();
 
@@ -114,13 +120,46 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
       };
 
   return {
+    /**
+     * It's provides context necessary for the components that depend on
+     * the router. It should wrap the application's entry point component.
+     */
     RouterProvider,
+    /** It renders currently matched route. */
     CurrentRoute,
+    /**
+     * It should be used instead of the `<a />` to handle applications internal
+     * links. You should provide it with the path pattern and required
+     * parameters.
+     */
     A,
+    /**
+     * It creates a `href` basing on the parameters allowed for a given route.
+     */
     buildHref,
+    /**
+     * It allows for getting a value of the search parameter available for a
+     * given route. The parameters are isolated to avoid redundant re-renders.
+     * The component depends only on the part of the URL that it really needs,
+     * so it won't re-render when some other parts of the URL are changed.
+     */
     useSearchParam,
+    /**
+     * It allows for getting a value of the path parameter available for a
+     * given route. The parameters are isolated to avoid redundant re-renders.
+     * The component depends only on the part of the URL that it really needs,
+     * so it won't re-render when some other parts of the URL are changed.
+     */
     usePathParam,
+    /**
+     * It returns currently matched path pattern. If there's no match, it
+     * returns `null`.
+     */
     useCurrentPathPattern,
+    /**
+     * It allows using `push` or `replace` functions, which are useful in cases
+     * where `<A />` is not sufficient.
+     */
     useRouteAction,
   };
 };
