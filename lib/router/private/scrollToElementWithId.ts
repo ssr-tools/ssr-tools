@@ -8,7 +8,7 @@ export const scrollToElementWithId = (id: string) => {
   elementWithId?.focus();
 
   elementWithId?.scrollIntoView({
-    behavior: "smooth",
+    behavior: "auto",
     block: "start",
     inline: "start",
   });

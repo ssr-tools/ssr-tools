@@ -1,6 +1,4 @@
 <!-- TODO start -->
-- Fix hash scroll
-- Add E2E tests for hash scroll
 - Add E2E tests for params
 - Add E2E tests for hashes
 - Add E2E for isolated re-renders

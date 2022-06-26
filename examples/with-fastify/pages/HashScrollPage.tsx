@@ -15,17 +15,29 @@ export const HashScrollPage = () => {
       <p>This page demonstrates how the hash scroll works.</p>
       <ul>
         <li>
-          <A pathPattern="/hash-scroll" hash="section-one">
+          <A
+            pathPattern="/hash-scroll"
+            hash="section-one"
+            data-test-id="section-one-link"
+          >
             Section one
           </A>
         </li>
         <li>
-          <A pathPattern="/hash-scroll" hash="section-two">
+          <A
+            pathPattern="/hash-scroll"
+            hash="section-two"
+            data-test-id="section-two-link"
+          >
             Section two
           </A>
         </li>
         <li>
-          <A pathPattern="/hash-scroll" hash="section-three">
+          <A
+            pathPattern="/hash-scroll"
+            hash="section-three"
+            data-test-id="section-three-link"
+          >
             Section three
           </A>
         </li>
