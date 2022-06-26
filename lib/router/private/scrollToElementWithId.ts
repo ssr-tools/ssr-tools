@@ -1,4 +1,6 @@
 export const scrollToElementWithId = (id: string) => {
+  if (!id) return;
+
   const elementWithId = document.getElementById(id);
 
   // By default browser also focus the anchored element for better a11y.
