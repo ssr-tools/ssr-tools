@@ -1,6 +1,6 @@
 <!-- TODO start -->
-- Add example of `allowSuffix === true` route
 - Bump eslint version
+- Bump router version
 <!-- TODO end -->
 
 <!-- 
