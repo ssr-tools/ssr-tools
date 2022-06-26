@@ -1,6 +1,5 @@
 import { A, useCurrentPathPattern } from "../config/router";
 
-import "purecss/build/pure-min.css";
 import { Ul } from "@ssr-tools/css/stylable/Ul";
 import { StyleBuilder } from "@ssr-tools/css/components/StyleBuilder";
 
