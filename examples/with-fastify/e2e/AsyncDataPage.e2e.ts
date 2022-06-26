@@ -7,12 +7,6 @@ test("renders AsyncDataPage correctly", async () => {
     new URL("async-data", "http://localhost:3000")
   );
 
-  const heading = await page.evaluate(
-    () => document.querySelector("h1")?.textContent
-  );
-
-  expect(heading).toBe("AsyncDataPage");
-
   const textCount = await page.evaluate(
     () => document.querySelectorAll("[data-test-id='text']").length
   );
@@ -31,5 +25,5 @@ test("renders AsyncDataPage correctly", async () => {
 
   expect(bothTextsCount).toBe(1);
 
-  expect(consoleLines).toContainEqual({ type: "log", text: "AsyncDataPage" });
+  expect(consoleLines).toContainEqual({ type: "log", text: "AsyncData" });
 });

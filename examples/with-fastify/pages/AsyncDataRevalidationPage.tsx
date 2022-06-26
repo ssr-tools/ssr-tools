@@ -7,7 +7,7 @@ export const AsyncDataRevalidationPage = () => {
 
   return (
     <>
-      <Print text="AsyncDataPageRevalidation" />
+      <Print text="AsyncDataRevalidation" />
       <p>
         The data on this page is revalidated after 3 seconds (and some
         interaction with the app).

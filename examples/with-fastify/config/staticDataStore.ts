@@ -11,6 +11,7 @@ const { StaticDataStoreProvider, StaticDataStoreScriptTag, useStaticData } =
 const staticDataStruct = sup.object({
   initialPathname: sup.string(),
   initialHash: sup.string(),
+  initialSearch: sup.string(),
   texts: sup.array(sup.string()),
 });
 

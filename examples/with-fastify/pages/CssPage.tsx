@@ -9,7 +9,7 @@ export const CssPage = () => {
 
   return (
     <>
-      <Print text="CssPage" />
+      <Print text="Css" />
       <A
         css={{
           "&": {

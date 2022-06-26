@@ -6,7 +6,7 @@ import { AsyncData } from "../config/asyncDataStore";
 export const AsyncDataPage = () => {
   return (
     <>
-      <Print text="AsyncDataPage" />
+      <Print text="AsyncData" />
       <Suspense fallback={<>Wait for text...</>}>
         <AsyncData dataKey="text">
           {(text) => (

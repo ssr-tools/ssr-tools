@@ -6,7 +6,8 @@
     "prepare": "npx husky install",
     "prepublishOnly": "echo \"Do not publish the root folder.\" && exit 1",
     "test": "npx jest --config ./jest.config.js",
-    "test:e2e": "npx jest --config ./jest.e2e.config.js --runInBand"
+    "test:e2e": "npx jest --config ./jest.e2e.config.js --runInBand",
+    "tsc": "npx tsc"
   },
   "author": "Grzegorz Zadora",
   "license": "MIT",

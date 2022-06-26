@@ -21,15 +21,9 @@ test("invalidates cache correctly", async () => {
     new URL("async-data-revalidation", "http://localhost:3000")
   );
 
-  const heading = await page.evaluate(
-    () => document.querySelector("h1")?.textContent
-  );
-
-  expect(heading).toBe("AsyncDataPageRevalidation");
-
   expect(consoleLines).toContainEqual({
     type: "log",
-    text: "AsyncDataPageRevalidation",
+    text: "AsyncDataRevalidation",
   });
 
   // Initial text
