@@ -1,6 +1,4 @@
 <!-- TODO start -->
-- Add E2E tests for params
-- Add E2E tests for hashes
 - Add E2E for isolated re-renders
 - Add more integration/unit tests
 - Measure performance of searchParams and pathParams related hooks, and functions, and use snapshots to keep optimal performance

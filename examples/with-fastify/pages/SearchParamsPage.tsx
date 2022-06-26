@@ -30,15 +30,23 @@ export const SearchParamsPage = () => {
       />
       <h2>Example URLs with search params</h2>
       <ul>
-        {searchParamsList.map((searchParams, i) => (
-          <li key={i}>
-            <A pathPattern="/search-params" searchParams={searchParams}>
-              {buildHref("/search-params", {
-                searchParams,
-              })}
-            </A>
-          </li>
-        ))}
+        {searchParamsList.map((searchParams, i) => {
+          const { category, page, perPage } = searchParams;
+
+          return (
+            <li key={i}>
+              <A
+                data-test-id={`link-${category}-${page}-${perPage}`}
+                pathPattern="/search-params"
+                searchParams={searchParams}
+              >
+                {buildHref("/search-params", {
+                  searchParams,
+                })}
+              </A>
+            </li>
+          );
+        })}
       </ul>
       <h2>Push state</h2>
       <p>This form pushes the search params to the history</p>
@@ -71,17 +79,19 @@ export const SearchParamsPage = () => {
       >
         <label>
           category
-          <input name="category" />
+          <input name="category" data-test-id="push-category" />
         </label>
         <label>
           page
-          <input name="page" />
+          <input name="page" data-test-id="push-page" />
         </label>
         <label>
           perPage
-          <input name="perPage" />
+          <input name="perPage" data-test-id="push-perPage" />
         </label>
-        <button type="submit">push</button>
+        <button type="submit" data-test-id="push-submit">
+          push
+        </button>
       </Form>
       <h2>Replace state</h2>
       <p>This form replaces the search params in the history</p>
@@ -114,17 +124,19 @@ export const SearchParamsPage = () => {
       >
         <label>
           category
-          <input name="category" />
+          <input name="category" data-test-id="replace-category" />
         </label>
         <label>
           page
-          <input name="page" />
+          <input name="page" data-test-id="replace-page" />
         </label>
         <label>
           perPage
-          <input name="perPage" />
+          <input name="perPage" data-test-id="replace-perPage" />
         </label>
-        <button type="submit">replace</button>
+        <button type="submit" data-test-id="replace-submit">
+          replace
+        </button>
       </Form>
     </div>
   );

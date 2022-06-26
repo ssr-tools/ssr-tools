@@ -33,6 +33,7 @@ export const PathParamsPage = () => {
         {pathParamsList.map((pathParams, i) => (
           <li key={i}>
             <A
+              data-test-id={`link-${pathParams.category}-${pathParams.product}`}
               pathPattern="/path-params/:category/:product"
               pathParams={pathParams}
             >
@@ -72,13 +73,15 @@ export const PathParamsPage = () => {
       >
         <label>
           category
-          <input name="category" />
+          <input name="category" data-test-id="push-category" />
         </label>
         <label>
           product
-          <input name="product" />
+          <input name="product" data-test-id="push-product" />
         </label>
-        <button type="submit">push</button>
+        <button type="submit" data-test-id="push-submit">
+          push
+        </button>
       </Form>
       <h2>Replace state</h2>
       <p>This form replaces the path params in the history</p>
@@ -109,13 +112,15 @@ export const PathParamsPage = () => {
       >
         <label>
           category
-          <input name="category" />
+          <input name="category" data-test-id="replace-category" />
         </label>
         <label>
           product
-          <input name="product" />
+          <input name="product" data-test-id="replace-product" />
         </label>
-        <button type="submit">replace</button>
+        <button type="submit" data-test-id="replace-submit">
+          replace
+        </button>
       </Form>
     </div>
   );

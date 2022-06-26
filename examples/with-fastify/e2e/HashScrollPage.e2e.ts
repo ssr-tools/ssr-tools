@@ -1,7 +1,5 @@
 import { goToPage } from "../../../test-utils/goToPage";
 
-jest.setTimeout(300000);
-
 test("scrolls to sections on load", async () => {
   const { sectionOneTop, sectionTwoTop, sectionThreeTop } =
     await getSectionsTopPositions();

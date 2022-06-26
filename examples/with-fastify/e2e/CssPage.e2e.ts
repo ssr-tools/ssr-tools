@@ -1,7 +1,5 @@
 import { goToPage } from "../../../test-utils/goToPage";
 
-jest.setTimeout(300000);
-
 test(
   "applies CSS correctly after multiple re-renders and unmounting of an" +
     " element",
