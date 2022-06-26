@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { RouteConfig, ProviderProps, RouterRefValue } from "../types";
 import { createPathParams } from "./createPathParams";
 import { createRouterContext } from "./createRouterContext";
 import { matchPathPattern } from "./matchPathPattern";
+import { scrollToElementWithId } from "./scrollToElementWithId";
 
 export const createProvider = ({
   RouterContext,
@@ -11,19 +12,16 @@ export const createProvider = ({
   RouterContext: ReturnType<typeof createRouterContext>;
   routes: Array<RouteConfig>;
 }) => {
+  const routeUpdateEvent = new Event(
+    `@ssr-tools-router-update-${generateUuid()}`
+  );
+
   const RouterProvider = ({
     initialPathname,
     initialHash,
     initialSearch,
     children,
   }: ProviderProps) => {
-    const id = useId();
-
-    const routeUpdateEvent = useMemo(
-      () => new Event(`@ssr-tools-router-update-${id}`),
-      [id]
-    );
-
     const initialRefValue = createRouterRefValue({
       pathname: initialPathname,
       hash: initialHash,
@@ -42,21 +40,19 @@ export const createProvider = ({
           routes,
         });
 
+        scrollToElementWithId(window.location.hash.replace("#", ""));
+
         window.dispatchEvent(routeUpdateEvent);
       };
 
       window.addEventListener("popstate", handlePopstate);
       return () => window.removeEventListener("popstate", handlePopstate);
-    }, [routeUpdateEvent]);
+    }, []);
 
-    const subscribe = useCallback(
-      (callback: () => void) => {
-        window.addEventListener(routeUpdateEvent.type, callback);
-        return () =>
-          window.removeEventListener(routeUpdateEvent.type, callback);
-      },
-      [routeUpdateEvent.type]
-    );
+    const subscribe = useCallback((callback: () => void) => {
+      window.addEventListener(routeUpdateEvent.type, callback);
+      return () => window.removeEventListener(routeUpdateEvent.type, callback);
+    }, []);
 
     return (
       <RouterContext.Provider
@@ -110,3 +106,8 @@ const getRoute = (pathname: string, routes: RouteConfig[]) =>
       allowSuffix,
     })
   ) ?? null;
+
+const generateUuid = () =>
+  typeof crypto !== "undefined"
+    ? crypto.randomUUID()
+    : (require("crypto") as typeof import("crypto")).randomUUID();

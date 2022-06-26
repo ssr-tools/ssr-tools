@@ -79,6 +79,14 @@ const router = createRouter({
     ),
     allowSuffix: false,
   },
+  "/hash-scroll": {
+    component: lazy(() =>
+      import("../pages/HashScrollPage").then((i) => ({
+        default: i.HashScrollPage,
+      }))
+    ),
+    allowSuffix: false,
+  },
 });
 
 export const {

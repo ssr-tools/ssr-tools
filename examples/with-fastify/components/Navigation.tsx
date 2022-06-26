@@ -125,6 +125,16 @@ export const Navigation = () => {
               </A>
             </li>
             <li>
+              <A
+                className={
+                  currentPathPattern === "/hash-scroll" ? activeClassName : ""
+                }
+                pathPattern="/hash-scroll"
+              >
+                Hash scroll
+              </A>
+            </li>
+            <li>
               <a href="/404">404</a>
             </li>
           </Ul>
