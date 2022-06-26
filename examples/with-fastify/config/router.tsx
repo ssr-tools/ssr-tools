@@ -99,6 +99,14 @@ const router = createRouter({
     },
     allowSuffix: false,
   },
+  "/wild-card": {
+    component: lazy(() =>
+      import("../pages/WildCardPage").then((i) => ({
+        default: i.WildCardPage,
+      }))
+    ),
+    allowSuffix: true,
+  },
 });
 
 export const {

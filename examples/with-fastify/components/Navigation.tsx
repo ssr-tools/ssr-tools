@@ -155,6 +155,16 @@ export const Navigation = () => {
               </A>
             </li>
             <li>
+              <A
+                className={
+                  currentPathPattern === "/wild-card" ? activeClassName : ""
+                }
+                pathPattern="/wild-card"
+              >
+                Wild card
+              </A>
+            </li>
+            <li>
               <a href="/404">404</a>
             </li>
           </Ul>
