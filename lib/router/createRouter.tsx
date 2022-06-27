@@ -88,8 +88,7 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
 
         const actionFn = action === "push" ? basePush : baseReplace;
 
-        const href = buildHref(
-          pathPattern,
+        const config =
           typeof configOrConfigBuilder === "function"
             ? configOrConfigBuilder({
                 searchParams: searchParams
@@ -98,8 +97,9 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
                 pathParams,
                 hash,
               } as HrefConfig<P>)
-            : configOrConfigBuilder
-        );
+            : configOrConfigBuilder;
+
+        const href = buildHref(pathPattern, config);
 
         return actionFn(href);
       },
