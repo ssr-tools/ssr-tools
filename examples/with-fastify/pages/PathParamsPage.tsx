@@ -1,12 +1,18 @@
 import { Form } from "@ssr-tools/css/stylable/Form";
 import { Print } from "../components/Print";
-import { A, buildHref, usePathParam, useRouteAction } from "../config/router";
+import {
+  A,
+  buildHref,
+  usePathParam,
+  usePush,
+  useReplace,
+} from "../config/router";
 
 export const PathParamsPage = () => {
   const category = usePathParam("/path-params/:category/:product", "category");
   const product = usePathParam("/path-params/:category/:product", "product");
-  const push = useRouteAction("push");
-  const replace = useRouteAction("replace");
+  const push = usePush();
+  const replace = useReplace();
 
   return (
     <div>

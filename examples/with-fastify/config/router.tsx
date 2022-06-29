@@ -117,5 +117,6 @@ export const {
   usePathParam,
   useSearchParam,
   useCurrentPathPattern,
-  useRouteAction,
+  usePush,
+  useReplace,
 } = router;
