@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import { Print } from "../components/Print";
-import { usePathParam, useRouteAction, useSearchParam } from "../config/router";
+import { usePathParam, usePush, useSearchParam } from "../config/router";
 
 export const RouterIsolatedRendersPage = () => {
   return (
@@ -119,7 +119,7 @@ const ChangeParamsButtons = () => {
 };
 
 const useUpdateParam = () => {
-  const push = useRouteAction("push");
+  const push = usePush();
 
   const updateParam = (paramName: ParamName) => {
     push("/router-isolated-renders/:pathParam1/:pathParam2", (prevConfig) => {

@@ -107,6 +107,10 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
     );
   };
 
+  const usePush = () => useRouteAction("push");
+
+  const useReplace = () => useRouteAction("replace");
+
   type HrefConfig<P extends keyof Config> = PathParams<P> extends null
     ? {
         hash?: string;
@@ -121,7 +125,7 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
 
   return {
     /**
-     * It's provides context necessary for the components that depend on
+     * It provides context necessary for the components that depend on
      * the router. It should wrap the application's entry point component.
      */
     RouterProvider,
@@ -157,9 +161,14 @@ export const createRouter = <Config extends RouterConfig>(config: Config) => {
      */
     useCurrentPathPattern,
     /**
-     * It allows using `push` or `replace` functions, which are useful in cases
-     * where `<A />` is not sufficient.
+     * It allows pushing to the history state. It does add a new entry in the
+     * browser's history.
      */
-    useRouteAction,
+    usePush,
+    /**
+     * It allows replacing the history state. It does not add a new entry
+     * in the browser's history.
+     */
+    useReplace,
   };
 };
