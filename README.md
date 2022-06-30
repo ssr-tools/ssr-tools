@@ -58,9 +58,56 @@ It consists of the directories that maps to the example project. You may use the
 
 It consists of the shell scripts that automate repeating tasks such as building the project or publishing it to the npm registry. You can find more info about the particular script by reading comments in its code.
 
+## Never modify history on the remote branches
+
+Once the branch goes to the remote, we should avoid modifying its commit history. We should not rebase the branch, nor amend its commits. Aesthetics are important in the commit messages, but safe and easy merges take the priority. Git encourages having a non-linear history. If that’s your concern, you might be better off using a version control system that only handles a linear history.
+
+If it happens that you’d like to amend your last commit and the commit is already on remote, you should add a new commit with the exact message.
+
 ## Commit convention
 
-We loosely follow the [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+Most of the commits will have a one line description, and it should not be longer than 80 characters. 
+
+The structure of the commit should be the following:
+
+```
+<type>(<scope>): <subject>
+```
+
+Where:
+
+- `type` is one of the following:
+    - **`build`** — changes related to the new version's release. Typically, bumped version of the `@ssr-tools` package
+    - **`chore`** — ****changes to the configuration files and scripts, upgrading the vendor packages etc…
+    - **`docs`** — documentation only changes
+    - **`feat`** — a new feature
+    - **`fix`** — a bug fix or performance improvement
+    - **`refactor`** — a code change that neither fixes a bug nor adds a feature
+    - **`style`** — changes that do not impact the meaning of the code (white-space, formatting, missing semicolons, etc.)
+    - **`test`** — adding missing tests or correcting existing tests
+- `**scope**` — can be omitted if a given change is related to all packages. Otherwise, it should be the name of the related package, e.g., `router`
+- `**topic**` — a brief description of the change. It should give the grasp on what the change is about. We should use the imperative mood here, as we would give an order to the codebase e.g., `Add a hook for handling search parameters`.
+
+Combining it all together, the example commit message would look like this:
+
+```
+feat(router): Add a hook for handling search parameters
+```
+
+The only exceptions, from the above convention, are merging commits. They are created when one branch is being merged into another branch. The merging commits are typically created via a repository tool such as GitHub and have an automatically generated header, e.g., `Merge pull request #5 from ssr-tools/refactor/router/router-actions`. We treat these commits individually and add a detailed description regarding the changes that a merged branch introduces.
+
+## Branch name & pull request convention
+
+The convention for the branches name is similar to the [commit convention](#commit-convention). However, to make the branch name valid for Git, we have to use a bit different structure for the branch names:
+
+```
+<type>/<scope>/<subject>
+```
+
+Where type, scope and subject follows the same convention as we have for the commit messages.
+
+A pull request's title on Github should be the same as its branch name.
+
 
 ## Publishing a new version
 
