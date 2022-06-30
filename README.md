@@ -76,17 +76,17 @@ The structure of the commit should be the following:
 
 Where:
 
-- `type` is one of the following:
-    - **`build`** — changes related to the new version's release. Typically, bumped version of the `@ssr-tools` package
-    - **`chore`** — ****changes to the configuration files and scripts, upgrading the vendor packages etc…
-    - **`docs`** — documentation only changes
-    - **`feat`** — a new feature
-    - **`fix`** — a bug fix or performance improvement
-    - **`refactor`** — a code change that neither fixes a bug nor adds a feature
-    - **`style`** — changes that do not impact the meaning of the code (white-space, formatting, missing semicolons, etc.)
-    - **`test`** — adding missing tests or correcting existing tests
-- `**scope**` — can be omitted if a given change is related to all packages. Otherwise, it should be the name of the related package, e.g., `router`
-- `**subject**` — a brief description of the change. It should give the grasp on what the change is about. We should use the imperative mood here, as we would give an order to the codebase e.g., `Add a hook for handling search parameters`.
+- **`type`** is one of the following:
+    - `build` — changes related to the new version's release. Typically, bumped version of the `@ssr-tools` package
+    - `chore` — changes to the configuration files and scripts, upgrading the vendor packages etc…
+    - `docs` — documentation only changes
+    - `feat` — a new feature
+    - `fix` — a bug fix or performance improvement
+    - `refactor` — a code change that neither fixes a bug nor adds a feature
+    - `style` — changes that do not impact the meaning of the code (white-space, formatting, missing semicolons, etc.)
+    - `test` — adding missing tests or correcting existing tests
+- **`scope`** — can be omitted if a given change is related to all packages. Otherwise, it should be the name of the related package, e.g., `router`
+- **`subject`** — a brief description of the change. It should give the grasp on what the change is about. We should use the imperative mood here, as we would give an order to the codebase e.g., `Add a hook for handling search parameters`.
 
 Combining it all together, the example commit message would look like this:
 
