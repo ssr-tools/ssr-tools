@@ -26,14 +26,6 @@ const router = createRouter({
     ),
     allowSuffix: false,
   },
-  "/pure-css": {
-    component: lazy(() =>
-      import("../pages/PureCssPage").then((i) => ({
-        default: i.PureCssPage,
-      }))
-    ),
-    allowSuffix: false,
-  },
   "/static-data": {
     component: lazy(() =>
       import("../pages/StaticDataPage").then((i) => ({

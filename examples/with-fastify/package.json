@@ -16,7 +16,6 @@
     "fastify": "^3.28.0",
     "fastify-static": "^4.6.1",
     "long": "^5.2.0",
-    "purecss": "^2.1.0",
     "superstruct": "^0.15.4"
   },
   "browserslist": {

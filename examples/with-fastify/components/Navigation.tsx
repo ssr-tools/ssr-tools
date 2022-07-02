@@ -58,16 +58,6 @@ export const Navigation = () => {
             <li>
               <A
                 className={
-                  currentPathPattern === "/pure-css" ? activeClassName : ""
-                }
-                pathPattern="/pure-css"
-              >
-                PureCss
-              </A>
-            </li>
-            <li>
-              <A
-                className={
                   currentPathPattern === "/static-data" ? activeClassName : ""
                 }
                 pathPattern="/static-data"

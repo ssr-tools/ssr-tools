@@ -1,7 +1,6 @@
 import { hydrateStream } from "@ssr-tools/core/hydrateStream";
 import { App } from "./components/App";
-import { AsyncProvider } from "./components/AsyncProvider.client";
-import { AsyncRevalidationProvider } from "./components/AsyncRevalidationProvider.client";
+import { Providers } from "./components/Providers.client";
 
 const root = document.getElementById("root");
 
@@ -11,9 +10,7 @@ if (!root) {
 
 hydrateStream(
   root,
-  <AsyncRevalidationProvider>
-    <AsyncProvider>
-      <App />
-    </AsyncProvider>
-  </AsyncRevalidationProvider>
+  <Providers>
+    <App />
+  </Providers>
 );

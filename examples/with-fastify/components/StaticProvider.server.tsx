@@ -1,19 +1,12 @@
 import { FC, ReactNode } from "react";
-import { URL } from "url";
 import {
   StaticDataStoreProvider,
   StaticDataStoreScriptTag,
 } from "../config/staticDataStore";
 
-export const StaticProvider: FC<{ children: ReactNode; url: URL }> = ({
-  url,
-  children,
-}) => (
+export const StaticProvider: FC<{ children: ReactNode }> = ({ children }) => (
   <StaticDataStoreProvider
     staticData={{
-      initialPathname: url.pathname,
-      initialHash: url.hash,
-      initialSearch: url.search,
       texts: [
         "This text comes from the server-side.",
         "It's rendered on the server and also injected to the <script /> tag.",
