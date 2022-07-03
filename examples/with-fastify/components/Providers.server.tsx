@@ -9,17 +9,17 @@ export const Providers: FC<{ children: ReactNode; url: URL }> = ({
   children,
   url,
 }) => (
-  <RouterProvider
-    initialHash={url.hash}
-    initialPathname={url.pathname}
-    initialSearch={url.search}
-  >
-    <StaticProvider>
-      <AsyncProvider>
-        <AsyncRevalidationProvider>
-          <StyleCacheProvider>{children}</StyleCacheProvider>
-        </AsyncRevalidationProvider>
-      </AsyncProvider>
-    </StaticProvider>
-  </RouterProvider>
+  <StaticProvider>
+    <StyleCacheProvider>
+      <RouterProvider
+        initialHash={url.hash}
+        initialPathname={url.pathname}
+        initialSearch={url.search}
+      >
+        <AsyncProvider>
+          <AsyncRevalidationProvider>{children}</AsyncRevalidationProvider>
+        </AsyncProvider>
+      </RouterProvider>
+    </StyleCacheProvider>
+  </StaticProvider>
 );

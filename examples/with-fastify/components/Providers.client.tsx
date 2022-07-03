@@ -5,15 +5,15 @@ import { AsyncRevalidationProvider } from "./AsyncRevalidationProvider.client";
 import { RouterProvider } from "../config/router";
 
 export const Providers: FC<{ children: ReactNode }> = ({ children }) => (
-  <RouterProvider
-    initialHash={window.location.hash}
-    initialPathname={window.location.pathname}
-    initialSearch={window.location.search}
-  >
-    <AsyncProvider>
-      <AsyncRevalidationProvider>
-        <StyleCacheProvider>{children}</StyleCacheProvider>
-      </AsyncRevalidationProvider>
-    </AsyncProvider>
-  </RouterProvider>
+  <StyleCacheProvider>
+    <RouterProvider
+      initialHash={window.location.hash}
+      initialPathname={window.location.pathname}
+      initialSearch={window.location.search}
+    >
+      <AsyncProvider>
+        <AsyncRevalidationProvider>{children}</AsyncRevalidationProvider>
+      </AsyncProvider>
+    </RouterProvider>
+  </StyleCacheProvider>
 );

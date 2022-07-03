@@ -1,14 +1,14 @@
 import { lazy, Suspense } from "react";
 import { CurrentRoute } from "../config/router";
 
-import { StyledSpan } from "./StyleSpan";
 import { Navigation } from "./Navigation";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export const App = () => {
   return (
     <>
       <Navigation />
-      <Suspense fallback={<StyledSpan>Wait...</StyledSpan>}>
+      <Suspense fallback={<LoadingSpinner />}>
         <CurrentRoute
           fallbackComponent={lazy(() =>
             import("../pages/NotFoundPage").then((i) => ({
