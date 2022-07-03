@@ -10,14 +10,6 @@ const router = createRouter({
     ),
     allowSuffix: false,
   },
-  "/hello-world": {
-    component: lazy(() =>
-      import("../pages/HelloWorldPage").then((i) => ({
-        default: i.HelloWorldPage,
-      }))
-    ),
-    allowSuffix: false,
-  },
   "/css": {
     component: lazy(() =>
       import("../pages/CssPage").then((i) => ({

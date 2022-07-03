@@ -16,7 +16,7 @@ export const PathParamsPage = () => {
 
   return (
     <div>
-      <Print text="PathParams" />
+      <Print text="Path params" />
       <p>
         A page that demonstrates <code>usePathParam</code> hook in action.
       </p>

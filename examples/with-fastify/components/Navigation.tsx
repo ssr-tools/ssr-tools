@@ -33,24 +33,16 @@ export const Navigation = () => {
           <A
             className={currentPathPattern === "/" ? activeClassName : ""}
             pathPattern="/"
+            data-test-id="index-link"
           >
             Index
           </A>
         </li>
         <li>
           <A
-            className={
-              currentPathPattern === "/hello-world" ? activeClassName : ""
-            }
-            pathPattern="/hello-world"
-          >
-            Hello world
-          </A>
-        </li>
-        <li>
-          <A
             className={currentPathPattern === "/css" ? activeClassName : ""}
             pathPattern="/css"
+            data-test-id="css-link"
           >
             Css
           </A>
@@ -61,6 +53,7 @@ export const Navigation = () => {
               currentPathPattern === "/static-data" ? activeClassName : ""
             }
             pathPattern="/static-data"
+            data-test-id="static-data-link"
           >
             Static data
           </A>
@@ -93,6 +86,12 @@ export const Navigation = () => {
               currentPathPattern === "/search-params" ? activeClassName : ""
             }
             pathPattern="/search-params"
+            data-test-id="search-params-link"
+            searchParams={{
+              category: "cars",
+              page: "1",
+              perPage: "12",
+            }}
           >
             Search params
           </A>
@@ -109,6 +108,7 @@ export const Navigation = () => {
               category: "cars",
               product: "ferrari",
             }}
+            data-test-id="path-params-link"
           >
             Path params
           </A>
@@ -158,6 +158,7 @@ export const Navigation = () => {
           <a
             className={currentPathPattern === null ? activeClassName : ""}
             href="/404"
+            data-test-id="404-link"
           >
             404
           </a>
