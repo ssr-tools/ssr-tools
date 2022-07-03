@@ -21,16 +21,11 @@ export const Navigation = () => {
             textDecoration: "none",
             transition: "all ease-in-out 300ms",
           },
-          "& > li > a:hover": {
-            borderLeft: "10px solid black",
-            paddingLeft: 5,
-          },
           "& > li > a:before": {
             content: '"🔗 "',
           },
           [activeSelector]: {
-            borderLeft: "10px solid black",
-            paddingLeft: 5,
+            fontWeight: "bold",
           },
         }}
       >

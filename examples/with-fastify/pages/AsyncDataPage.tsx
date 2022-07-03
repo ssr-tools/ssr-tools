@@ -1,7 +1,7 @@
-import { Suspense } from "react";
+import { Span } from "@ssr-tools/css/stylable/Span";
+import { FC, ReactNode, Suspense } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { Print } from "../components/Print";
-import { StyledSpan } from "../components/StyleSpan";
 import { AsyncData } from "../config/asyncDataStore";
 
 export const AsyncDataPage = () => {
@@ -19,7 +19,7 @@ export const AsyncDataPage = () => {
               <AsyncData dataKey="longWaitText">
                 {(longWaitText) => (
                   <div data-test-id="both-texts">
-                    {longWaitText} <StyledSpan>{text}</StyledSpan>
+                    {longWaitText} <BoldUnderline>{text}</BoldUnderline>
                   </div>
                 )}
               </AsyncData>
@@ -58,3 +58,18 @@ export const AsyncDataPage = () => {
     </>
   );
 };
+
+const BoldUnderline: FC<{
+  children: ReactNode;
+}> = ({ children }) => (
+  <Span
+    css={{
+      "&": {
+        fontWeight: "bold",
+        textDecoration: "underline",
+      },
+    }}
+  >
+    {children}
+  </Span>
+);

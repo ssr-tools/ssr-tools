@@ -3,13 +3,14 @@ import { FC, ReactNode } from "react";
 
 export const LoadingSpinner: FC<{
   children?: ReactNode;
-}> = ({ children }) => (
+  size?: 40 | 30 | 20 | 10;
+}> = ({ children, size = 40 }) => (
   <Span
     css={{
       "&": {
         display: "block",
-        width: 40,
-        height: 40,
+        width: size,
+        height: size,
         borderRadius: "100%",
         borderTopColor: "black",
         borderBottomColor: "transparent",
