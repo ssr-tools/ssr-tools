@@ -141,7 +141,7 @@ export const Navigation = () => {
               searchParam2: "start",
             }}
           >
-            Router Isolated Renders
+            Router isolated renders
           </A>
         </li>
         <li>

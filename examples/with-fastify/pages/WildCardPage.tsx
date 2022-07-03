@@ -1,3 +1,3 @@
 import { Print } from "../components/Print";
 
-export const WildCardPage = () => <Print text="WildCard" />;
+export const WildCardPage = () => <Print text="Wild card" />;

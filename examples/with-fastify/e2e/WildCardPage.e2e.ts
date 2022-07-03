@@ -5,7 +5,7 @@ test("renders page for exactly matching url", async () => {
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining("WildCard"));
+  ).toEqual(expect.stringContaining("Wild card"));
 });
 
 test("renders page for url with suffix", async () => {
@@ -13,13 +13,13 @@ test("renders page for url with suffix", async () => {
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining("WildCard"));
+  ).toEqual(expect.stringContaining("Wild card"));
 
   await goToPage(new URL("/wild-card/something", "http://localhost:3000"));
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining("WildCard"));
+  ).toEqual(expect.stringContaining("Wild card"));
 
   await goToPage(
     new URL("/wild-card/something/something/something", "http://localhost:3000")
@@ -27,5 +27,5 @@ test("renders page for url with suffix", async () => {
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining("WildCard"));
+  ).toEqual(expect.stringContaining("Wild card"));
 });
