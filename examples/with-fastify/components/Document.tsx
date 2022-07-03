@@ -1,8 +1,6 @@
-import { FC, ReactNode } from "react";
+import { App } from "./App";
 
-export const Document: FC<{
-  children: ReactNode;
-}> = ({ children }) => (
+export const Document = () => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -10,6 +8,10 @@ export const Document: FC<{
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Example with Fastify</title>
     </head>
-    <body>{children}</body>
+    <body>
+      <div id="root">
+        <App />
+      </div>
+    </body>
   </html>
 );

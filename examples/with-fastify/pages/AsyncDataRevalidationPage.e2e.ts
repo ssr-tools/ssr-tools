@@ -23,7 +23,7 @@ test("invalidates cache correctly", async () => {
 
   expect(consoleLines).toContainEqual({
     type: "log",
-    text: "AsyncDataRevalidation",
+    text: "Async data revalidation",
   });
 
   // Initial text

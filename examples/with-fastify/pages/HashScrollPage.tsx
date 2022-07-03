@@ -11,7 +11,7 @@ export const HashScrollPage = () => {
         },
       }}
     >
-      <Print text="HashScroll" />
+      <Print text="Hash scroll" />
       <p>This page demonstrates how the hash scroll works.</p>
       <ul>
         <li>

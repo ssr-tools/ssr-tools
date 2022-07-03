@@ -25,5 +25,5 @@ test("renders AsyncDataPage correctly", async () => {
 
   expect(bothTextsCount).toBe(1);
 
-  expect(consoleLines).toContainEqual({ type: "log", text: "AsyncData" });
+  expect(consoleLines).toContainEqual({ type: "log", text: "Async data" });
 });

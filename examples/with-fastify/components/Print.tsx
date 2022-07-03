@@ -10,7 +10,7 @@ export const Print = ({ text }: { text: string }) => {
     <StyleBuilder
       css={{
         "&": {
-          color: "green",
+          textTransform: "uppercase",
         },
       }}
     >

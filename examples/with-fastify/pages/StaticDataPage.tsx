@@ -5,7 +5,7 @@ export const StaticDataPage = () => {
   const staticData = useStaticData();
   return (
     <>
-      <Print text="StaticData" />
+      <Print text="Static data" />
       {staticData.texts.map((t) => (
         <p key={t}>{t}</p>
       ))}
