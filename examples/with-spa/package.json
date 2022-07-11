@@ -1,0 +1,32 @@
+{
+  "name": "with-spa",
+  "version": "0.0.0",
+  "description": "Example with SPA",
+  "scripts": {
+    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only .",
+    "build": "NODE_ENV=production ts-node --transpile-only . && node ./dist/server"
+  },
+  "author": "Grzegorz Zadora",
+  "license": "MIT",
+  "dependencies": {
+    "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
+    "@ssr-tools/core": "file:../../lib/core",
+    "@ssr-tools/css": "file:../../lib/css",
+    "@ssr-tools/router": "file:../../lib/router",
+    "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
+    "i": "^0.3.7",
+    "mrmime": "^1.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

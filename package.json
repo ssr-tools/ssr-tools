@@ -51,7 +51,8 @@
     "./lib/static-data-store",
     "./lib/eslint-config-ssr-tools",
     "./lib/css",
-    "./examples/with-fastify"
+    "./examples/with-fastify",
+    "./examples/with-spa"
   ],
   "engines": {
     "node": ">=16 <=18",
