@@ -10,10 +10,8 @@ export function StyleBuilder({
 }: {
   // TODO: add docs to explain how `css` prop works here
   css: CssObject;
-  // TODO: handle identifier for easier debugging. It should be included in the
-  // resultant `className`
   identifier?: string;
-  children: (className: string) => ReactNode;
+  children?: (className: string) => ReactNode;
 }) {
   const { stylesCache } = useContext(StyleCacheContext);
 
@@ -46,7 +44,7 @@ export function StyleBuilder({
   // Don't render the <style /> if we have it in cache. That means it's a
   // second render, so we have a given style in the <head /> already.
   if (stylesCache.current.has(hash)) {
-    return <>{children(className)}</>;
+    return <>{children ? children(className) : null}</>;
   }
 
   // Cache the given hash, so on the second and subsequent renders
@@ -63,7 +61,7 @@ export function StyleBuilder({
           __html: cssStringified,
         }}
       />
-      {children(className)}
+      {children ? children(className) : null}
     </>
   );
 }
