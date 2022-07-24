@@ -6,8 +6,8 @@ import type { CreateWebpackConfigCallback } from "./types";
  */
 export const createWebpackConfig = (callback: CreateWebpackConfigCallback) =>
   callback({
-    resolveEntryPath,
+    resolvePath,
   });
 
-export const resolveEntryPath = (...pathParts: string[]) =>
+export const resolvePath = (pathParts: string[]) =>
   path.resolve(process.cwd(), ...pathParts);

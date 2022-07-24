@@ -1,7 +1,14 @@
-import webpack, { IgnorePlugin } from "webpack";
-import { extensions, basePlugins, baseRuleset } from "./commonWebpackParts";
+import webpack, {
+  IgnorePlugin,
+  HotModuleReplacementPlugin,
+  Configuration,
+} from "webpack";
+import { extensions, createBabelLoaderRule } from "./commonWebpackParts";
 import { serverModuleRegExp } from "./serverModuleRegExp";
-import type { InternalWebpackConfig } from "../types";
+import type { ClientInternalWebpackConfig } from "../types";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import WebpackDevServer from "webpack-dev-server";
+import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 
 export const runClientWebpack = ({
   entryPath,
@@ -11,17 +18,44 @@ export const runClientWebpack = ({
   devtool,
   extendRuleset,
   override,
-}: InternalWebpackConfig) => {
-  const base = {
+  extendsResolve,
+  devServerPort,
+}: ClientInternalWebpackConfig) => {
+  const baseRuleset = [
+    createBabelLoaderRule({
+      reactRefreshIsEnabled: mode === "development",
+    }),
+  ];
+
+  const clientDevPlugins = [
+    new HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
+  ];
+
+  const clientPlugins = [
+    ...(mode === "development" ? clientDevPlugins : []),
+    new IgnorePlugin({
+      resourceRegExp: serverModuleRegExp, // ignore server-side modules
+    }),
+    new WebpackManifestPlugin({
+      basePath: "",
+      publicPath: "",
+      useEntryKeys: true,
+    }),
+  ];
+
+  const base: Configuration = {
     mode,
     devtool,
     entry: entryPath,
     module: {
       rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
     },
-    resolve: {
-      extensions,
-    },
+    resolve: extendsResolve
+      ? extendsResolve({ extensions })
+      : {
+          extensions,
+        },
     output: {
       path: outputPath,
       filename: "index.js",
@@ -32,13 +66,28 @@ export const runClientWebpack = ({
       : [...clientPlugins],
   };
 
-  return webpack(override ? override(base) : base);
-};
+  const createCompiler = () => webpack(override ? override(base) : base);
 
-const clientPlugins = [
-  ...basePlugins,
-  // ignore server-side modules
-  new IgnorePlugin({
-    resourceRegExp: serverModuleRegExp,
-  }),
-];
+  const clientWebpackDevServer =
+    base.mode === "development"
+      ? new WebpackDevServer(
+          {
+            liveReload: false,
+            static: {
+              directory: outputPath,
+            },
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+            host: "0.0.0.0",
+            port: devServerPort,
+            client: {
+              webSocketURL: `ws://0.0.0.0:${devServerPort}/ws`,
+            },
+          },
+          createCompiler()
+        )
+      : null;
+
+  return { clientWebpack: createCompiler(), clientWebpackDevServer };
+};
