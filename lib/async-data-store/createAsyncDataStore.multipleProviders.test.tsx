@@ -4,58 +4,65 @@ import { createAsyncDataStore } from "./createAsyncDataStore";
 import { mountRoot } from "../../test-utils/mountRoot";
 import { Suspense } from "react";
 
-test("the same key in different providers does not cause namespace conflict", async () => {
-  const { root, cleanUp } = mountRoot();
+test(
+  "the same key in different providers does" + " not cause namespace conflict",
+  async () => {
+    const { root, cleanUp } = mountRoot();
 
-  const store1 = Promise.resolve("store1");
+    const store1 = Promise.resolve("store1");
 
-  const store2 = Promise.resolve("store2");
+    const store2 = Promise.resolve("store2");
 
-  const jsx = (
-    <Store1.AsyncDataStoreProvider
-      readers={{
-        text: () => store1,
-      }}
-    >
-      <Store2.AsyncDataStoreProvider
+    const jsx = (
+      <Store1.AsyncDataStoreProvider
         readers={{
-          text: () => store2,
+          text: () => store1,
         }}
       >
-        <TestTexts />
-      </Store2.AsyncDataStoreProvider>
-    </Store1.AsyncDataStoreProvider>
-  );
+        <Store2.AsyncDataStoreProvider
+          readers={{
+            text: () => store2,
+          }}
+        >
+          <TestTexts />
+        </Store2.AsyncDataStoreProvider>
+      </Store1.AsyncDataStoreProvider>
+    );
 
-  act(() => root.render(jsx));
+    act(() => root.render(jsx));
 
-  expect(document.querySelector("#store1-fallback")?.textContent).toBe(
-    "Wait for store1..."
-  );
-  expect(document.querySelector("#store1-text")).toBeNull();
+    expect(document.querySelector("#store1-fallback")?.textContent).toBe(
+      "Wait for store1..."
+    );
+    expect(document.querySelector("#store1-text")).toBeNull();
 
-  expect(document.querySelector("#store2-fallback")?.textContent).toBe(
-    "Wait for store2..."
-  );
-  expect(document.querySelector("#store2-text")).toBeNull();
+    expect(document.querySelector("#store2-fallback")?.textContent).toBe(
+      "Wait for store2..."
+    );
+    expect(document.querySelector("#store2-text")).toBeNull();
 
-  await act(async () => {
-    await store1;
-    await store2;
-    root.render(jsx);
-  });
+    await act(async () => {
+      await store1;
+      await store2;
+      root.render(jsx);
+    });
 
-  expect(document.querySelector("#store1-text")?.textContent).toBe("store1");
-  expect(document.querySelector("#store2-text")?.textContent).toBe("store2");
+    expect(document.querySelector("#store1-text")?.textContent).toBe("store1");
+    expect(document.querySelector("#store2-text")?.textContent).toBe("store2");
 
-  expect(
-    document.querySelectorAll("script")[0].getAttribute("data-async-store-key")
-  ).not.toBe(
-    document.querySelectorAll("script")[1].getAttribute("data-async-store-key")
-  );
+    expect(
+      document
+        .querySelectorAll("script")[0]
+        .getAttribute("data-async-store-key")
+    ).not.toBe(
+      document
+        .querySelectorAll("script")[1]
+        .getAttribute("data-async-store-key")
+    );
 
-  cleanUp();
-});
+    cleanUp();
+  }
+);
 
 const Store1 = createAsyncDataStore<{
   text: string;
