@@ -75,7 +75,8 @@ const cases: Array<[[string, CssObject], string]> = [
         ],
       },
     ],
-    ".baz{color:blue}@keyframes my-animation{0%{color:blue}50%{color:yellow}100%{color:green}}",
+    ".baz{color:blue}@keyframes my-animation{0%{color:blue}50%{color:yellow}" +
+      "100%{color:green}}",
   ],
 ];
 
