@@ -9,7 +9,8 @@ export const AsyncProvider: FC<{ children: ReactNode }> = ({ children }) => (
           setTimeout(
             () =>
               resolve(
-                "You had been waiting for this text a one second. It was resolved on the server-side."
+                "You had been waiting for this text a one second." +
+                  " It was resolved on the server-side."
               ),
             1000
           )
@@ -19,7 +20,8 @@ export const AsyncProvider: FC<{ children: ReactNode }> = ({ children }) => (
           setTimeout(
             () =>
               resolve(
-                "You had been waiting for this text for 2 seconds. It was resolved on the server-side."
+                "You had been waiting for this text for 2 seconds." +
+                  " It was resolved on the server-side."
               ),
             2000
           )
