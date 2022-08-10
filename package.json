@@ -7,7 +7,8 @@
     "prepublishOnly": "echo \"Do not publish the root folder.\" && exit 1",
     "test": "npx jest --config ./jest.config.js",
     "test:e2e": "npx jest --config ./jest.e2e.config.js --runInBand",
-    "tsc": "npx tsc"
+    "tsc": "npx tsc",
+    "lint": "eslint ."
   },
   "author": "Grzegorz Zadora",
   "license": "MIT",
