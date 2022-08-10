@@ -1,25 +1,28 @@
 import type { ReactElement } from "react";
 import type {
   Configuration,
+  ResolveOptions,
   RuleSetRule,
   WebpackPluginInstance,
 } from "webpack";
-import type { baseRuleset } from "./private/commonWebpackParts";
-import type { resolveEntryPath } from "./createWebpackConfig";
 import type { renderToPipeableStream } from "react-dom/server";
 
 export type CreateWebpackConfigCallback = (deps: {
-  resolveEntryPath: typeof resolveEntryPath;
+  /**
+   * It joins and resolves the path parts. It ensures that the given path
+   * is within the current working directory. Example:
+   *
+   * ```
+   * // working dir: /app/example
+   *
+   * resolvePath(["client.tsx"]); // returns: /app/example/client.tsx
+   * resolvePath(["dist", "js"]); // returns: /app/example/dist/js
+   * ```
+   */
+  resolvePath: (pathParts: string[]) => string;
 }) => WebpackConfig;
 
 export type WebpackConfig = {
-  /**
-   * The path where your server-side entry is. The file is responsible for
-   * starting your app server.
-   */
-  serverEntryPath: string;
-  /** The path where your server-side built goes. */
-  serverOutputPath: string;
   /**
    * The path where your your client-side entry is. The file is
    * responsible for hydrating the app in the browser.
@@ -28,64 +31,100 @@ export type WebpackConfig = {
   /** The path where your client-side built goes. */
   clientOutputPath: string;
   /**
-   * Enables webpack automatic re-run when something changes in server or client
-   * code. It also starts the script at `serverOutputPath` as a child process.
-   * */
-  watchIsEnabled: boolean;
+   * The path where your server-side entry is. The file is responsible for
+   * starting your app server.
+   */
+  serverEntryPath: string;
+  /** The path where your server-side built goes. */
+  serverOutputPath: string;
   /** https://webpack.js.org/configuration/mode/ */
   mode: Configuration["mode"];
-  /** https://webpack.js.org/configuration/devtool/#devtool */
+  /**
+   * Source maps configuration.
+   *
+   * https://webpack.js.org/configuration/devtool/#devtool
+   */
   devtool?: WebpackDevtool;
   /**
    * It allows to extend plugins for client-side webpack
    * build.
+   *
+   * https://webpack.js.org/configuration/plugins/
    */
   extendClientPlugins?: InternalWebpackConfig["extendPlugins"];
   /**
    * It allows to extend plugins for server-side webpack
    * build.
+   *
+   * https://webpack.js.org/configuration/plugins/
    */
   extendServerPlugins?: InternalWebpackConfig["extendPlugins"];
   /**
    * It allows to extend `module.rules` for client-side webpack
    * build.
+   *
+   * https://webpack.js.org/configuration/module/#modulerules
    */
   extendClientRuleset?: InternalWebpackConfig["extendRuleset"];
   /**
    * It allows to extend `module.rules` for server-side webpack
    * build.
+   *
+   * https://webpack.js.org/configuration/module/#modulerules
    */
   extendServerRuleset?: InternalWebpackConfig["extendRuleset"];
   /**
+   * It allows to extend `resolve` for the client-side webpack
+   * build.
+   *
+   * https://webpack.js.org/configuration/resolve/
+   */
+  extendClientResolve?: (
+    resolve: Readonly<ResolveOptions>
+  ) => Readonly<ResolveOptions>;
+  /**
+   * It allows to extend `resolve` for the server-side webpack
+   * build.
+   *
+   * https://webpack.js.org/configuration/resolve/
+   */
+  extendServerResolve?: (
+    resolve: Readonly<ResolveOptions>
+  ) => Readonly<ResolveOptions>;
+  /**
    * Gives you access to the low-level Webpack config. However, make sure you
-   * return the necessary configuration from `base` param from this callback.
-   * Otherwise, you may cause the Webpack to crash.
+   * return the necessary configuration from `base` param of this callback.
+   * Otherwise, you may cause the Webpack to crash or make it unable to load
+   * the assets for your app.
    */
   override?: (base: Configuration) => Configuration;
+  /**
+   * Webpack in `development` mode uses this port to run the dev server with
+   * hot reload. The client assets will be exposed on:
+   * `http://localhost:{devServerPort}` and websocket endpoint for the fast
+   * refresh will be on `ws://localhost:{devServerPort}`.
+   *
+   * https://webpack.js.org/configuration/dev-server/
+   */
+  devServerPort: number;
 };
 
 export type RenderToStreamConfig = {
   jsx: ReactElement;
-  /** A path to a directory where you serve a static assets e.g `/public`. */
-  staticAssetsPrefix: string;
   pipeableStreamOptions?: PipeableStreamOptions;
-  /**
-   * Webpack manifest for client-side bundle
-   *
-   * https://webpack.js.org/concepts/manifest/#manifest
-   */
-  manifestClient: Record<string, string>;
 };
 
 export type PipeableStreamOptions = Parameters<
   typeof renderToPipeableStream
 >["1"];
 
-export type InternalWebpackConfig = BaseInternalWebpackConfig & {
-  override?: (base: Configuration) => Configuration;
+export type ClientInternalWebpackConfig = InternalWebpackConfig & {
+  devServerPort: number;
 };
 
-export type BaseInternalWebpackConfig = {
+export type ServerInternalWebpackConfig = InternalWebpackConfig;
+
+type InternalWebpackConfig = {
   entryPath: string;
   outputPath: string;
   mode: Configuration["mode"];
@@ -93,7 +132,11 @@ export type BaseInternalWebpackConfig = {
   extendPlugins?: (
     plugins: Readonly<WebpackPluginInstance[]>
   ) => Readonly<WebpackPluginInstance[]>;
-  extendRuleset?: (ruleset: typeof baseRuleset) => Readonly<RuleSetRule[]>;
+  extendRuleset?: (ruleset: Readonly<RuleSetRule[]>) => Readonly<RuleSetRule[]>;
+  extendResolve?: (
+    resolve: Readonly<ResolveOptions>
+  ) => Readonly<ResolveOptions>;
+  override?: (base: Configuration) => Configuration;
 };
 
 /** https://webpack.js.org/configuration/devtool/#devtool */

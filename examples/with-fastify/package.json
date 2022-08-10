@@ -3,18 +3,20 @@
   "version": "0.0.0",
   "description": "Example with Fastify",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ."
+    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only .",
+    "build": "NODE_ENV=production ts-node --transpile-only .",
+    "start": "NODE_ENV=production node dist/server"
   },
   "author": "Grzegorz Zadora",
   "license": "MIT",
   "dependencies": {
+    "@fastify/static": "^6.5.0",
     "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
     "@ssr-tools/core": "file:../../lib/core",
     "@ssr-tools/css": "file:../../lib/css",
     "@ssr-tools/router": "file:../../lib/router",
     "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
-    "fastify": "^3.28.0",
-    "fastify-static": "^4.6.1",
+    "fastify": "^4.4.0",
     "long": "^5.2.0",
     "superstruct": "^0.15.4"
   },

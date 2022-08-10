@@ -1,4 +1,3 @@
-import path from "path";
 import ReactDomServer from "react-dom/server";
 
 import { Transform } from "stream";
@@ -9,13 +8,7 @@ import { RenderToStreamConfig } from "./types";
  */
 export const renderToStream = ({
   jsx,
-  staticAssetsPrefix,
-  manifestClient,
-  pipeableStreamOptions: {
-    bootstrapScripts,
-    onShellReady,
-    ...pipeableStreamOptions
-  } = {},
+  pipeableStreamOptions: { onShellReady, ...pipeableStreamOptions } = {},
 }: RenderToStreamConfig) => {
   const stream = new Transform({
     transform(chunk: Buffer, encoding, callback) {
@@ -25,9 +18,6 @@ export const renderToStream = ({
   });
 
   const { pipe, abort } = ReactDomServer.renderToPipeableStream(jsx, {
-    // Here we need only `main` file. Then the `main` file loads other files
-    // depending on route we have currently.
-    bootstrapScripts: [path.join(staticAssetsPrefix, manifestClient["main"])],
     onShellReady: () => {
       onShellReady?.();
       pipe(stream);

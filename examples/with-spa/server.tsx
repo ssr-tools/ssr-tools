@@ -1,33 +1,53 @@
-import { readManifests } from "@ssr-tools/core/readManifests";
 import { renderToFile } from "@ssr-tools/core/renderToFile";
 import fs from "fs";
 import http from "http";
 import path from "path";
 import { Document } from "./components/Document";
-import { webpackConfig } from "./config/webpackConfig";
 import { lookup } from "mrmime";
+import { promisify } from "util";
+import { fetchManifest } from "@ssr-tools/core/fetchManifest";
+import { webpackConfig } from "./config/webpackConfig";
+
+const appServerPort = 3001;
 
 const run = async () => {
-  await createIndexHtml();
+  const staticAssetsUrl =
+    process.env.NODE_ENV === "development"
+      ? `http://localhost:${webpackConfig.devServerPort}`
+      : `http://localhost:${appServerPort}`;
+
+  await createIndexHtmlWithRetry(staticAssetsUrl);
 
   if (process.env.NODE_ENV !== "development") return process.exit(0);
 
-  // run dev server on http://localhost:3001
-  http.createServer(devServer).listen(3001);
+  http.createServer(devServer).listen(appServerPort);
 };
 
-const createIndexHtml = async () => {
-  const manifests = await readManifests(webpackConfig);
+let retriesLeft = 5;
+
+const createIndexHtmlWithRetry = async (staticAssetsUrl: string) => {
+  try {
+    await createIndexHtml(staticAssetsUrl);
+  } catch (err) {
+    if (retriesLeft === 0) throw err;
+    retriesLeft -= 1;
+
+    await promisify(setTimeout)(1000);
+    await createIndexHtmlWithRetry(staticAssetsUrl);
+  }
+};
+
+const createIndexHtml = async (staticAssetsUrl: string) => {
+  const manifest = await fetchManifest(`${staticAssetsUrl}/manifest.json`);
   const indexHtmlPath = path.join(process.cwd(), "dist", "index.html");
 
-  const bootstrapScriptPath = path.join(
-    "client",
-    manifests.manifestClient["main"]
-  );
+  if (!manifest) throw new Error("Cannot load the manifest");
+
+  const bootstrapScript = new URL(manifest.main, staticAssetsUrl).toString();
 
   return renderToFile(
     indexHtmlPath,
-    <Document bootstrapScript={bootstrapScriptPath} />
+    <Document bootstrapScript={bootstrapScript} />
   );
 };
 

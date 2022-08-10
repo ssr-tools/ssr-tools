@@ -74,7 +74,9 @@ export function createStaticDataStore<T extends Record<string, unknown>>({
       try {
         return validate(parsedData);
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error("Cannot parse SSR data");
+        // eslint-disable-next-line no-console
         console.error(err);
         return null;
       }

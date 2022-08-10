@@ -19,11 +19,19 @@
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "^7.16.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@types/node-fetch": "^2.6.2",
+    "@types/webpack-node-externals": "^2.5.3",
     "babel-loader": "^8.2.3",
+    "node-fetch": "^3.2.10",
     "path-to-regexp": "^6.2.0",
     "pino-pretty": "^7.3.0",
-    "webpack": "^5.65.0",
-    "webpack-manifest-plugin": "^4.1.1"
+    "react-refresh": "^0.14.0",
+    "type-fest": "^2.16.0",
+    "webpack-dev-server": "^4.9.3",
+    "webpack-manifest-plugin": "^4.1.1",
+    "webpack-node-externals": "^3.0.0",
+    "webpack": "^5.74.0"
   },
   "peerDependencies": {
     "react": "18.x",

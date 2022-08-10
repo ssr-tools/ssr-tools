@@ -11,19 +11,21 @@ import { ChildProcess, execFile } from "child_process";
  * The compiled code is then accessible in the `clientOutputPath` and
  * `serverOutputPath`. You can run the server using `node {serverOutputPath}`.
  */
-export const runWebpack = ({
+export const runWebpack = async ({
   serverEntryPath,
   serverOutputPath,
   clientEntryPath,
   clientOutputPath,
-  watchIsEnabled,
   mode,
   devtool,
   extendClientPlugins,
   extendServerPlugins,
   extendClientRuleset,
   extendServerRuleset,
+  extendClientResolve,
+  extendServerResolve,
   override,
+  devServerPort,
 }: WebpackConfig) => {
   const serverWebpack = runServerWebpack({
     mode,
@@ -32,50 +34,48 @@ export const runWebpack = ({
     outputPath: serverOutputPath,
     extendPlugins: extendServerPlugins,
     extendRuleset: extendServerRuleset,
+    extendResolve: extendServerResolve,
     override,
   });
 
-  const clientWebpack = runClientWebpack({
+  const { clientWebpack, clientWebpackDevServer } = runClientWebpack({
     mode,
     devtool,
     entryPath: clientEntryPath,
     outputPath: clientOutputPath,
     extendPlugins: extendClientPlugins,
     extendRuleset: extendClientRuleset,
+    extendResolve: extendClientResolve,
     override,
+    devServerPort,
   });
 
   let serverProcess: ChildProcess | undefined;
 
-  if (watchIsEnabled) {
-    return [
-      serverWebpack.watch({}, (err, stats) => {
-        // eslint-disable-next-line no-console
-        if (err) return console.log("[server webpack]", JSON.stringify(err));
+  if (mode === "development" && clientWebpackDevServer) {
+    await clientWebpackDevServer.start();
 
-        if (serverProcess) {
-          serverProcess.kill(1);
-        }
+    serverWebpack.watch({}, (err, stats) => {
+      // eslint-disable-next-line no-console
+      if (err) return console.log("[server webpack]", JSON.stringify(err));
 
-        serverProcess = execFile("node", [serverOutputPath]);
+      if (serverProcess) {
+        serverProcess.kill(1);
+      }
 
-        process.on("exit", () => serverProcess?.kill(1));
+      serverProcess = execFile("node", [serverOutputPath]);
 
-        serverProcess.stdout?.pipe(process.stdout);
-        serverProcess.stdin?.pipe(process.stdin);
-        serverProcess.stderr?.pipe(process.stderr);
+      process.on("exit", () => serverProcess?.kill(1));
 
-        // eslint-disable-next-line no-console
-        return console.log("[server webpack]", stats?.toString());
-      }),
-      clientWebpack.watch({}, (err, stats) => {
-        // eslint-disable-next-line no-console
-        if (err) return console.log("[client webpack]", JSON.stringify(err));
+      serverProcess.stdout?.pipe(process.stdout);
+      serverProcess.stdin?.pipe(process.stdin);
+      serverProcess.stderr?.pipe(process.stderr);
 
-        // eslint-disable-next-line no-console
-        return console.log("[client webpack]", stats?.toString());
-      }),
-    ];
+      // eslint-disable-next-line no-console
+      console.log("[server webpack]", stats?.toString());
+    });
+
+    return;
   }
 
   const bundlePromises = Promise.all([
@@ -99,10 +99,12 @@ export const runWebpack = ({
     ),
   ]);
 
-  return bundlePromises.catch((err) => {
+  await bundlePromises.catch((err) => {
     Promise.reject(err);
     // eslint-disable-next-line no-console
     console.log(err);
     process.exit(1);
   });
+
+  return;
 };

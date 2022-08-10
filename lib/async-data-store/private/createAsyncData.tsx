@@ -53,6 +53,8 @@ export function createAsyncData<T extends Record<string, unknown>>({
     }
   );
 
+  ScriptTag.displayName = "ScriptTag";
+
   const AsyncData = <Key extends keyof T>({
     dataKey,
     children: renderChildrenWithData,

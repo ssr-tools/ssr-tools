@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useRef } from "react";
+import React, { FC, ReactNode, SuspenseProps, useRef } from "react";
 import { StyleCacheContext } from "../private/StyleCacheContext";
 
 export const StyleCacheProvider: FC<{ children: ReactNode }> = ({
@@ -41,13 +41,15 @@ if (!suspenseWasPatched) {
 
   const OriginalSuspense = React.Suspense;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  React.Suspense = ({ children, fallback }) => (
+  const PatchedSuspense = ({ children, fallback }: SuspenseProps) => (
     <OriginalSuspense
       fallback={<StyleCacheProvider>{fallback}</StyleCacheProvider>}
     >
       {children}
     </OriginalSuspense>
   );
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  React.Suspense = PatchedSuspense;
 }

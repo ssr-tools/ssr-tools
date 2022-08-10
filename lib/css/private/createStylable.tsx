@@ -9,11 +9,13 @@ import {
 import { StyleBuilder } from "../components/StyleBuilder";
 import { CssObject } from "./stringifyCss";
 
-export function createStylable<
+export const createStylable = <
   T extends keyof ReactHTML,
   E extends ReactHTML[T]
->(htmlElement: T) {
-  return forwardRef(
+>(
+  htmlElement: T
+) => {
+  const Stylable = forwardRef(
     (
       {
         css,
@@ -41,7 +43,11 @@ export function createStylable<
       </StyleBuilder>
     )
   );
-}
+
+  Stylable.displayName = "Stylable";
+
+  return Stylable;
+};
 
 type PropsFromHtml<
   T extends keyof ReactHTML,

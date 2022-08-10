@@ -34,9 +34,8 @@ export const createReadFn = <T extends Record<string, unknown>>({
 
     const restoredReader = cachedReader
       ? null
-      : restoreSsrReader({
+      : restoreSsrReader<T>({
           key,
-          cache,
           providerId,
         });
 
@@ -59,10 +58,10 @@ export const createReadFn = <T extends Record<string, unknown>>({
         : false;
 
     if (cachedReader?.status === "resolved" && !cachedReaderIsStale) {
-      // When more than one of the suspended elements is replaced in the same time
-      // during the hydration process of the stream, we may have some
-      // inconsistent renders between the client and the server. To avoid that, we
-      // need to lock the reader for some time between each read.
+      // When more than one of the suspended elements is replaced in the same
+      // time during the hydration process of the stream, we may have some
+      // inconsistent renders between the client and the server. To avoid that,
+      // we need to lock the reader for some time between each read.
       locked = true;
 
       lock.then(() => {

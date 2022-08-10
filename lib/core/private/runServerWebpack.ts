@@ -1,7 +1,8 @@
-import webpack, { IgnorePlugin } from "webpack";
-import { extensions, basePlugins, baseRuleset } from "./commonWebpackParts";
+import Webpack, { Configuration, IgnorePlugin } from "webpack";
+import webpackNodeExternals from "webpack-node-externals";
+import { extensions, createBabelLoaderRule } from "./commonWebpackParts";
 import { clientModuleRegExp } from "./clientModuleRegExp";
-import type { InternalWebpackConfig } from "../types";
+import type { ServerInternalWebpackConfig } from "../types";
 
 export const runServerWebpack = ({
   entryPath,
@@ -11,19 +12,29 @@ export const runServerWebpack = ({
   extendPlugins,
   extendRuleset,
   override,
-}: InternalWebpackConfig) => {
-  const base = {
+  extendResolve,
+}: ServerInternalWebpackConfig) => {
+  const baseRuleset = [
+    createBabelLoaderRule({
+      reactRefreshIsEnabled: false,
+    }),
+  ];
+
+  const base: Configuration = {
     mode,
     devtool,
-    // by default, webpack is targeting a browser, so server-side modules won't work
+    // by default, webpack is targeting a browser,
+    // so server-side modules won't work
     target: "node",
     entry: entryPath,
     module: {
       rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
     },
-    resolve: {
-      extensions,
-    },
+    resolve: extendResolve
+      ? extendResolve({ extensions })
+      : {
+          extensions,
+        },
     output: {
       filename: "index.js",
       path: outputPath,
@@ -31,13 +42,14 @@ export const runServerWebpack = ({
     plugins: extendPlugins
       ? [...extendPlugins(serverPlugins)]
       : [...serverPlugins],
+    externals: [webpackNodeExternals()],
+    externalsPresets: { node: true },
   };
 
-  return webpack(override ? override(base) : base);
+  return Webpack(override ? override(base) : base);
 };
 
 const serverPlugins = [
-  ...basePlugins,
   // ignore client-side modules
   new IgnorePlugin({
     resourceRegExp: clientModuleRegExp,

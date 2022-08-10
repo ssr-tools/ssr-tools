@@ -1,12 +1,10 @@
-import { Cache, CacheEntry } from "../types";
+import { CacheEntry } from "../types";
 
 export const restoreSsrReader = <T extends Record<string, unknown>>({
   key,
-  cache,
   providerId,
 }: {
   key: string;
-  cache: Cache<T>;
   providerId: string;
 }): CacheEntry<T> | null => {
   if (typeof document === "undefined") return null;

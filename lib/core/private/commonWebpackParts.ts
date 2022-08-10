@@ -1,6 +1,3 @@
-import { WebpackPluginInstance } from "webpack";
-import { WebpackManifestPlugin } from "webpack-manifest-plugin";
-
 export const extensions = [
   ".tsx",
   ".ts",
@@ -11,7 +8,11 @@ export const extensions = [
   ".css",
 ];
 
-const babelLoaderRule = {
+export const createBabelLoaderRule = ({
+  reactRefreshIsEnabled,
+}: {
+  reactRefreshIsEnabled: boolean;
+}) => ({
   test: /\.tsx?$/,
   use: {
     loader: "babel-loader",
@@ -21,18 +22,10 @@ const babelLoaderRule = {
         "@babel/preset-typescript",
         ["@babel/preset-react", { runtime: "automatic" }],
       ],
-      plugins: ["@babel/transform-runtime"],
+      plugins: reactRefreshIsEnabled
+        ? ["@babel/transform-runtime", "react-refresh/babel"]
+        : ["@babel/transform-runtime"],
     },
   },
   exclude: /node_modules/,
-};
-
-export const basePlugins: WebpackPluginInstance[] = [
-  new WebpackManifestPlugin({
-    basePath: "",
-    publicPath: "",
-    useEntryKeys: true,
-  }),
-];
-
-export const baseRuleset = [babelLoaderRule] as const;
+});
