@@ -24,19 +24,19 @@ export type CreateWebpackConfigCallback = (deps: {
 
 export type WebpackConfig = {
   /**
-   * The path where your server-side entry is. The file is responsible for
-   * starting your app server.
-   */
-  serverEntryPath: string;
-  /** The path where your server-side built goes. */
-  serverOutputPath: string;
-  /**
    * The path where your your client-side entry is. The file is
    * responsible for hydrating the app in the browser.
    */
   clientEntryPath: string;
   /** The path where your client-side built goes. */
   clientOutputPath: string;
+  /**
+   * The path where your server-side entry is. The file is responsible for
+   * starting your app server.
+   */
+  serverEntryPath: string;
+  /** The path where your server-side built goes. */
+  serverOutputPath: string;
   /** https://webpack.js.org/configuration/mode/ */
   mode: Configuration["mode"];
   /**
@@ -74,21 +74,21 @@ export type WebpackConfig = {
    */
   extendServerRuleset?: InternalWebpackConfig["extendRuleset"];
   /**
-   * It allows to extend `resolve` for server-side webpack
-   * build.
-   *
-   * https://webpack.js.org/configuration/resolve/
-   */
-  extendsServerResolve?: (
-    resolve: Readonly<ResolveOptions>
-  ) => Readonly<ResolveOptions>;
-  /**
-   * It allows to extend `resolve` for server-side webpack
+   * It allows to extend `resolve` for the client-side webpack
    * build.
    *
    * https://webpack.js.org/configuration/resolve/
    */
   extendsClientResolve?: (
+    resolve: Readonly<ResolveOptions>
+  ) => Readonly<ResolveOptions>;
+  /**
+   * It allows to extend `resolve` for the server-side webpack
+   * build.
+   *
+   * https://webpack.js.org/configuration/resolve/
+   */
+  extendsServerResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   /**
