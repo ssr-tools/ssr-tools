@@ -52,8 +52,8 @@ export const runWebpack = async ({
 
   let serverProcess: ChildProcess | undefined;
 
-  if (mode === "development") {
-    await clientWebpackDevServer?.start();
+  if (mode === "development" && clientWebpackDevServer) {
+    await clientWebpackDevServer.start();
 
     serverWebpack.watch({}, (err, stats) => {
       // eslint-disable-next-line no-console
