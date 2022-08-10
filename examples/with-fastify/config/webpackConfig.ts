@@ -9,7 +9,7 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
   watchIsEnabled: process.env.NODE_ENV === "development",
   extendClientRuleset: (ruleset) => [...ruleset, ...customRules],
   extendServerRuleset: (ruleset) => [...ruleset, ...customRules],
-  extendsServerResolve: (resolve) => ({
+  extendServerResolve: (resolve) => ({
     ...resolve,
     alias: {
       ...resolve.alias,

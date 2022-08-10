@@ -79,7 +79,7 @@ export type WebpackConfig = {
    *
    * https://webpack.js.org/configuration/resolve/
    */
-  extendsClientResolve?: (
+  extendClientResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   /**
@@ -88,7 +88,7 @@ export type WebpackConfig = {
    *
    * https://webpack.js.org/configuration/resolve/
    */
-  extendsServerResolve?: (
+  extendServerResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   /**
@@ -133,7 +133,7 @@ type InternalWebpackConfig = {
     plugins: Readonly<WebpackPluginInstance[]>
   ) => Readonly<WebpackPluginInstance[]>;
   extendRuleset?: (ruleset: Readonly<RuleSetRule[]>) => Readonly<RuleSetRule[]>;
-  extendsResolve?: (
+  extendResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   override?: (base: Configuration) => Configuration;

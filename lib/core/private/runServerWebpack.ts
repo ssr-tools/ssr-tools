@@ -12,7 +12,7 @@ export const runServerWebpack = ({
   extendPlugins,
   extendRuleset,
   override,
-  extendsResolve,
+  extendResolve,
 }: ServerInternalWebpackConfig) => {
   const baseRuleset = [
     createBabelLoaderRule({
@@ -30,8 +30,8 @@ export const runServerWebpack = ({
     module: {
       rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
     },
-    resolve: extendsResolve
-      ? extendsResolve({ extensions })
+    resolve: extendResolve
+      ? extendResolve({ extensions })
       : {
           extensions,
         },

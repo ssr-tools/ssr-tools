@@ -18,7 +18,7 @@ export const runClientWebpack = ({
   devtool,
   extendRuleset,
   override,
-  extendsResolve,
+  extendResolve,
   devServerPort,
 }: ClientInternalWebpackConfig) => {
   const baseRuleset = [
@@ -51,8 +51,8 @@ export const runClientWebpack = ({
     module: {
       rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
     },
-    resolve: extendsResolve
-      ? extendsResolve({ extensions })
+    resolve: extendResolve
+      ? extendResolve({ extensions })
       : {
           extensions,
         },

@@ -22,8 +22,8 @@ export const runWebpack = async ({
   extendServerPlugins,
   extendClientRuleset,
   extendServerRuleset,
-  extendsClientResolve,
-  extendsServerResolve,
+  extendClientResolve,
+  extendServerResolve,
   override,
   devServerPort,
 }: WebpackConfig) => {
@@ -34,7 +34,7 @@ export const runWebpack = async ({
     outputPath: serverOutputPath,
     extendPlugins: extendServerPlugins,
     extendRuleset: extendServerRuleset,
-    extendsResolve: extendsServerResolve,
+    extendResolve: extendServerResolve,
     override,
   });
 
@@ -45,7 +45,7 @@ export const runWebpack = async ({
     outputPath: clientOutputPath,
     extendPlugins: extendClientPlugins,
     extendRuleset: extendClientRuleset,
-    extendsResolve: extendsClientResolve,
+    extendResolve: extendClientResolve,
     override,
     devServerPort,
   });
