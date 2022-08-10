@@ -20,7 +20,6 @@
     "@types/jest-environment-puppeteer": "^5.0.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
-    "css-loader": "^6.7.1",
     "eslint": "^8.13.0",
     "eslint-config-ssr-tools": "file:lib/eslint-config-ssr-tools",
     "husky": "^7.0.4",
