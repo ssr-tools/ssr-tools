@@ -1,7 +1,7 @@
 // @ts-check
 // https://github.com/smooth-code/jest-puppeteer#configure-puppeteer
 
-/** @type {{ launch: import("puppeteer").LaunchOptions & import("puppeteer").BrowserLaunchArgumentOptions, browserContext: "default" | "incognito" }} */
+/** @type {import("./types/jest-puppeter").Config} */
 module.exports = {
   launch: {
     dumpio: false,

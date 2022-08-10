@@ -23,7 +23,8 @@ declare module "react-dom/server" {
        */
       nonce?: string;
       /**
-       * `bootstrapScriptContent` injects `<script>{bootstrapScriptContent}</script>` to the document,
+       * `bootstrapScriptContent` injects
+       * `<script>{bootstrapScriptContent}</script>` to the document,
        * before the stream starts to drain.
        * It's especially useful when you need a script that starts the React.
        */
@@ -52,20 +53,24 @@ declare module "react-dom/server" {
        */
       progressiveChunkSize?: number;
       /**
-       * `onShellReady` is called when there is at least a root fallback ready to show.
+       * `onShellReady` is called when there is at least a root fallback ready
+       * to show.
        */
       onShellReady?: () => void;
       /**
-       * `onShellError` is called when the shell didn't complete. That means you probably want to
-       * emit a different response to the stream instead.
+       * `onShellError` is called when the shell didn't complete. That means
+       * you probably want to emit a different response to the stream instead.
        */
       onShellError?: () => void;
       /**
-       * `onAllReady` is called when all pending tasks are done but it may not have flushed yet.
+       * `onAllReady` is called when all pending tasks are done but it may not
+       * have flushed yet.
        */
       onAllReady?: () => void;
       /**
-       * `onError` is called when an error happens anywhere in the tree. It might recover.  */
+       * `onError` is called when an error happens anywhere in the tree. It
+       * might recover.
+       */
       onError?: (error: mixed) => void;
     }
   ): {
