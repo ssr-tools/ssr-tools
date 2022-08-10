@@ -1,4 +1,4 @@
-import webpack, {
+import Webpack, {
   IgnorePlugin,
   HotModuleReplacementPlugin,
   Configuration,
@@ -66,7 +66,7 @@ export const runClientWebpack = ({
       : [...clientPlugins],
   };
 
-  const createCompiler = () => webpack(override ? override(base) : base);
+  const clientWebpack = Webpack(override ? override(base) : base);
 
   const clientWebpackDevServer =
     base.mode === "development"
@@ -85,9 +85,9 @@ export const runClientWebpack = ({
               webSocketURL: `ws://0.0.0.0:${devServerPort}/ws`,
             },
           },
-          createCompiler()
+          clientWebpack
         )
       : null;
 
-  return { clientWebpack: createCompiler(), clientWebpackDevServer };
+  return { clientWebpack, clientWebpackDevServer };
 };

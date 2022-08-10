@@ -1,4 +1,4 @@
-import webpack, { Configuration, IgnorePlugin } from "webpack";
+import Webpack, { Configuration, IgnorePlugin } from "webpack";
 import webpackNodeExternals from "webpack-node-externals";
 import { extensions, createBabelLoaderRule } from "./commonWebpackParts";
 import { clientModuleRegExp } from "./clientModuleRegExp";
@@ -46,7 +46,7 @@ export const runServerWebpack = ({
     externalsPresets: { node: true },
   };
 
-  return webpack(override ? override(base) : base);
+  return Webpack(override ? override(base) : base);
 };
 
 const serverPlugins = [
