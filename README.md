@@ -108,7 +108,6 @@ Where type, scope and subject follows the same convention as we have for the com
 
 A pull request's title on Github should be the same as its branch name.
 
-
 ## Publishing a new version
 
 1. Test your changes and make sure everything works as expected
