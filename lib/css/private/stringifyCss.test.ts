@@ -1,4 +1,6 @@
-import { CssObject, stringifyCss } from "./stringifyCss";
+import { Nested } from "../Nested";
+import { stringifyCss } from "./stringifyCss";
+import { CssObject } from "./types";
 
 const cases: Array<[[string, CssObject], string]> = [
   [
@@ -34,14 +36,11 @@ const cases: Array<[[string, CssObject], string]> = [
         "&": {
           color: "blue",
         },
-        "@media (min-width: 640px)": [
-          [
-            "&",
-            {
-              color: "yellow",
-            },
-          ],
-        ],
+        "@media (min-width: 640px)": new Nested({
+          "&": {
+            color: "yellow",
+          },
+        }),
       },
     ],
     ".baz{color:blue}@media (min-width: 640px){.baz{color:yellow}}",
@@ -53,26 +52,17 @@ const cases: Array<[[string, CssObject], string]> = [
         "&": {
           color: "blue",
         },
-        "@keyframes my-animation": [
-          [
-            "0%",
-            {
-              color: "blue",
-            },
-          ],
-          [
-            "50%",
-            {
-              color: "yellow",
-            },
-          ],
-          [
-            "100%",
-            {
-              color: "green",
-            },
-          ],
-        ],
+        "@keyframes my-animation": new Nested({
+          "0%": {
+            color: "blue",
+          },
+          "50%": {
+            color: "yellow",
+          },
+          "100%": {
+            color: "green",
+          },
+        }),
       },
     ],
     ".baz{color:blue}@keyframes my-animation{0%{color:blue}50%{color:yellow}" +

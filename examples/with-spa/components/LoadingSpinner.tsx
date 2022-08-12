@@ -1,3 +1,4 @@
+import { Nested } from "@ssr-tools/css/Nested";
 import { Span } from "@ssr-tools/css/stylable/Span";
 import { FC, ReactNode } from "react";
 
@@ -28,20 +29,14 @@ export const LoadingSpinner: FC<{
       "& > span": {
         visibility: "hidden",
       },
-      "@keyframes LoadingSpinner": [
-        [
-          "0%",
-          {
-            transform: "rotate(0deg)",
-          },
-        ],
-        [
-          "100%",
-          {
-            transform: "rotate(720deg)",
-          },
-        ],
-      ],
+      "@keyframes LoadingSpinner": new Nested({
+        "0%": {
+          transform: "rotate(0deg)",
+        },
+        "100%": {
+          transform: "rotate(720deg)",
+        },
+      }),
     }}
   >
     <span>{children}</span>

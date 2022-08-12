@@ -1,12 +1,14 @@
 import { CSSProperties } from "react";
+import { Nested } from "../Nested";
 import { stringifyCssProperties } from "./stringifyCssProperties";
+import { CssObject } from "./types";
 
 export const stringifyCss = (className: string, css: CssObject) => {
   return Object.entries(css).reduce((acc, [key, value]) => {
-    if (Array.isArray(value)) {
-      const contextChunk = createCssContextChunk({
+    if (value instanceof Nested) {
+      const contextChunk = createNestedCssChunk({
         key,
-        context: value,
+        nested: value,
         className,
       });
 
@@ -23,16 +25,16 @@ export const stringifyCss = (className: string, css: CssObject) => {
   }, "");
 };
 
-const createCssContextChunk = ({
+const createNestedCssChunk = ({
   className,
-  context,
+  nested,
   key,
 }: {
   className: string;
-  context: Array<[string, CSSProperties]>;
+  nested: Nested;
   key: string;
 }) => {
-  const chunks = context
+  const chunks = Object.entries(nested.css)
     .map(([nestedKey, cssProperties]) => {
       return createSimpleCssChunk({
         className,
@@ -58,10 +60,3 @@ const createSimpleCssChunk = ({
   const selector = key.replace(/[&]/g, `.${className}`);
   return `${selector}{${stringifiedProperties}}`;
 };
-
-export type CssObject = Record<
-  string,
-  CSSProperties | Array<[string, CSSProperties]>
->;
-
-export type SimpleCssObject = Record<string, CSSProperties>;

@@ -11,6 +11,7 @@ module.exports = {
   globals: {
     "ts-jest": {
       isolatedModules: true,
+      jsx: "react-jsx",
     },
   },
   maxWorkers: 2,

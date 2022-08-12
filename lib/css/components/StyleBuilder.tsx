@@ -1,7 +1,8 @@
 import { ReactNode, useContext, useInsertionEffect } from "react";
 import hashSum from "hash-sum";
 import { StyleCacheContext } from "../private/StyleCacheContext";
-import { CssObject, stringifyCss } from "../private/stringifyCss";
+import { stringifyCss } from "../private/stringifyCss";
+import { CssObject } from "../private/types";
 
 export function StyleBuilder({
   css,

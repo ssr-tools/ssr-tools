@@ -7,7 +7,7 @@ import {
   ReactNode,
 } from "react";
 import { StyleBuilder } from "../components/StyleBuilder";
-import { CssObject } from "./stringifyCss";
+import { CssObject } from "./types";
 
 export const createStylable = <
   T extends keyof ReactHTML,
