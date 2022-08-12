@@ -18,6 +18,7 @@
     "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
     "fastify": "^4.4.0",
     "long": "^5.2.0",
+    "react-error-boundary": "^3.1.4",
     "superstruct": "^0.15.4"
   },
   "browserslist": {

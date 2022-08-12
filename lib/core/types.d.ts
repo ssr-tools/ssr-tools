@@ -111,6 +111,12 @@ export type WebpackConfig = {
 
 export type RenderToStreamConfig = {
   jsx: ReactElement;
+  /**
+   * The amount of time needed to auto-abort the stream.
+   * It is useful to avoid getting stuck with an unresolved stream.
+   * If you don't want the stream to auto-abort, put "never" as a value here.
+   */
+  timeoutMs?: number | "never";
   pipeableStreamOptions?: PipeableStreamOptions;
 };
 

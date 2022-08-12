@@ -61,7 +61,7 @@ declare module "react-dom/server" {
        * `onShellError` is called when the shell didn't complete. That means
        * you probably want to emit a different response to the stream instead.
        */
-      onShellError?: () => void;
+      onShellError?: (error: unknown) => void;
       /**
        * `onAllReady` is called when all pending tasks are done but it may not
        * have flushed yet.
@@ -71,7 +71,7 @@ declare module "react-dom/server" {
        * `onError` is called when an error happens anywhere in the tree. It
        * might recover.
        */
-      onError?: (error: mixed) => void;
+      onError?: (error: unknown) => void;
     }
   ): {
     /**

@@ -10,7 +10,17 @@ import { ConsoleMessageType } from "puppeteer";
  * the page and browser. That's necessary to avoid silent errors raised by
  * puppeteer.
  */
-export const goToPage = async (url: URL) => {
+export const goToPage = async (
+  url: URL,
+  options?: {
+    shouldCloseOnError?: boolean;
+  }
+) => {
+  const appliedOptions = {
+    shouldCloseOnError: true,
+    ...options,
+  };
+
   try {
     const consoleLines: Array<{
       text: string;
@@ -18,10 +28,13 @@ export const goToPage = async (url: URL) => {
     }> = [];
 
     page.on("pageerror", (e) => {
+      if (!appliedOptions.shouldCloseOnError) return;
+
       // eslint-disable-next-line no-console
       console.error("Page error", e);
       // eslint-disable-next-line no-console
       console.error("Browser is going to be closed...");
+
       page.close();
       browser.close();
     });

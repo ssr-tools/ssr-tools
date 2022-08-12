@@ -8,4 +8,5 @@ module.exports = {
     product: "chrome",
   },
   browserContext: "incognito",
+  exitOnPageError: false,
 };

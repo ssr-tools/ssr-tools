@@ -5,6 +5,10 @@ import { Ul } from "@ssr-tools/css/stylable/Ul";
 export const Navigation = () => {
   const currentPathPattern = useCurrentPathPattern();
 
+  if (currentPathPattern === "/error-page") {
+    throw new Error("Navigated to the error page");
+  }
+
   return (
     <nav>
       <Ul
@@ -152,6 +156,11 @@ export const Navigation = () => {
             pathPattern="/wild-card"
           >
             Wild card
+          </A>
+        </li>
+        <li>
+          <A pathPattern="/error-page" data-test-id="error-link">
+            Error page
           </A>
         </li>
         <li>
