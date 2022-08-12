@@ -7,6 +7,9 @@ import { Document } from "./components/Document";
 
 import { Providers } from "./components/Providers.server";
 import { fetchManifest } from "@ssr-tools/core/fetchManifest";
+import { App } from "./components/App";
+import { renderToStaticMarkup } from "react-dom/server";
+import { ErrorMessage } from "./components/ErrorMessage";
 
 const fastify = Fastify({
   logger: true,
@@ -35,14 +38,30 @@ fastify.get("*", async (request, reply) => {
 
   const mainScriptUrl = `${assetsUrl}/${manifest.main}`;
 
-  const { stream } = renderToStream({
+  const { stream, abort } = renderToStream({
     jsx: (
       <Providers url={appUrl}>
-        <Document />
+        <Document>
+          <App />
+        </Document>
       </Providers>
     ),
     pipeableStreamOptions: {
       bootstrapScripts: [mainScriptUrl.toString()],
+      onShellError: (error) => {
+        abort();
+        reply
+          .type("text/html; charset=UTF-8")
+          .status(500)
+          .send(
+            "<!DOCTYPE html>" +
+              renderToStaticMarkup(
+                <Document>
+                  <ErrorMessage error={error} />
+                </Document>
+              )
+          );
+      },
     },
   });
 

@@ -1,6 +1,8 @@
-import { App } from "./App";
+import { FC, ReactNode } from "react";
 
-export const Document = () => (
+export const Document: FC<{
+  children: ReactNode;
+}> = ({ children }) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -9,9 +11,7 @@ export const Document = () => (
       <title>Example with Fastify</title>
     </head>
     <body>
-      <div id="root">
-        <App />
-      </div>
+      <div id="root">{children}</div>
     </body>
   </html>
 );

@@ -91,6 +91,14 @@ const router = createRouter({
     ),
     allowSuffix: true,
   },
+  "/error-page": {
+    component: lazy(() =>
+      import("../pages/ErrorPage").then((i) => ({
+        default: i.ErrorPage,
+      }))
+    ),
+    allowSuffix: false,
+  },
 });
 
 export const {
