@@ -1,7 +1,6 @@
 import { renderToStream } from "./renderToStream";
 import { renderToPipeableStream } from "react-dom/server";
 import assert from "assert";
-import React from "react";
 
 jest.mock("react-dom/server", () => ({
   renderToPipeableStream: jest.fn<
