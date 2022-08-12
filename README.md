@@ -110,13 +110,14 @@ A pull request's title on Github should be the same as its branch name.
 
 ## Publishing a new version
 
-1. Test your changes and make sure everything works as expected
-2. Review the code and refactor it
-3. Merge the changes to the `main` branch
-4. If package is past `1.0.0`, update its changelog.
-5. Bump the version. If package is past `1.0.0` use [SemVer](https://semver.org/). Otherwise, you can just increment the last part e.g. `0.0.1` -> `0.0.2`.
-6. Run `publishPackage` script in the package’s scope, e.g.: `npm run publishPackage -w lib/css`
-7. After the new version has been published, commit the new version, e.g.: `git add . && git commit -m "build(css): 0.0.13" && git push`. **Make sure this commit goes to the `main` branch.**
+1. Make sure the changes related to the new version are already merged to the `main` branch
+1. Create a new branch from `main` and name it as `build/{name of the lib}/{next version}`
+1. If package is past `1.0.0`, update its changelog.
+1. Bump the version. If package is past `1.0.0` use [SemVer](https://semver.org/). Otherwise, you can just increment the last part e.g. `0.0.1` -> `0.0.2`.
+1. Run `publishPackage` script in the package’s scope, e.g.: `npm run publishPackage -w lib/css`
+1. After the new version has been published, commit the new version, e.g.: `git add . && git commit -m "build(css): 0.0.13"
+1. Push the branch and merge it via GitHub
+    - the name of the PR and the description of the merge commit both should be equal to the branch's name.
 
 ## Tests
 
