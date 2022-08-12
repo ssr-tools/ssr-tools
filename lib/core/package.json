@@ -20,8 +20,6 @@
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "^7.16.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
-    "@types/node-fetch": "^2.6.2",
-    "@types/webpack-node-externals": "^2.5.3",
     "babel-loader": "^8.2.3",
     "node-fetch": "^3.2.10",
     "path-to-regexp": "^6.2.0",
@@ -32,6 +30,10 @@
     "webpack-manifest-plugin": "^4.1.1",
     "webpack-node-externals": "^3.0.0",
     "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.2",
+    "@types/webpack-node-externals": "^2.5.3"
   },
   "peerDependencies": {
     "react": "18.x",
