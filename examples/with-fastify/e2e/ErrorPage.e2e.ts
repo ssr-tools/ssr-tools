@@ -7,7 +7,9 @@ test("renders a page with error message", async () => {
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining('Error 500: "Navigated to an error page"'));
+  ).toEqual(
+    expect.stringContaining('Error 500: "Navigated to the error page"')
+  );
 });
 
 test("navigates a page with error message", async () => {
@@ -19,5 +21,7 @@ test("navigates a page with error message", async () => {
 
   expect(
     await page.evaluate(() => document.querySelector("h1")?.textContent)
-  ).toEqual(expect.stringContaining('Error 500: "Navigated to an error page"'));
+  ).toEqual(
+    expect.stringContaining('Error 500: "Navigated to the error page"')
+  );
 });

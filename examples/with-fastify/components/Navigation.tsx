@@ -6,7 +6,7 @@ export const Navigation = () => {
   const currentPathPattern = useCurrentPathPattern();
 
   if (currentPathPattern === "/error-page") {
-    throw new Error("Navigated to an error page");
+    throw new Error("Navigated to the error page");
   }
 
   return (
