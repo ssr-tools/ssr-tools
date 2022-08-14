@@ -13,23 +13,16 @@
     "type": "git"
   },
   "dependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.5",
-    "@babel/plugin-transform-runtime": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-react": "^7.16.5",
-    "@babel/preset-typescript": "^7.16.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
-    "babel-loader": "^8.2.3",
+    "@swc/core": "^1.2.230",
     "node-fetch": "2.6.7",
-    "path-to-regexp": "^6.2.0",
-    "pino-pretty": "^7.3.0",
     "react-refresh": "^0.14.0",
-    "type-fest": "^2.16.0",
-    "webpack-dev-server": "^4.9.3",
-    "webpack-manifest-plugin": "^4.1.1",
-    "webpack-node-externals": "^3.0.0",
-    "webpack": "^5.74.0"
+    "swc-loader": "^0.2.3",
+    "type-fest": "^2.18.0",
+    "webpack": "^5.74.0",
+    "webpack-dev-server": "^4.10.0",
+    "webpack-manifest-plugin": "^5.0.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.2",

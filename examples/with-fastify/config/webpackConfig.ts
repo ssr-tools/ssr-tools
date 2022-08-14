@@ -7,8 +7,8 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
   serverEntryPath: resolvePath(["server.tsx"]),
   serverOutputPath: resolvePath(["dist", "server"]),
   watchIsEnabled: process.env.NODE_ENV === "development",
-  extendClientRuleset: (ruleset) => [...ruleset, ...customRules],
-  extendServerRuleset: (ruleset) => [...ruleset, ...customRules],
+  extendClientRuleSet: (ruleSet) => [...ruleSet, ...customRules],
+  extendServerRuleSet: (ruleSet) => [...ruleSet, ...customRules],
   extendServerResolve: (resolve) => ({
     ...resolve,
     alias: {

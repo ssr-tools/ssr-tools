@@ -1,6 +1,6 @@
 import Webpack, { Configuration, IgnorePlugin } from "webpack";
 import webpackNodeExternals from "webpack-node-externals";
-import { extensions, createBabelLoaderRule } from "./commonWebpackParts";
+import { extensions, createSwcLoaderRule } from "./commonWebpackParts";
 import { clientModuleRegExp } from "./clientModuleRegExp";
 import type { ServerInternalWebpackConfig } from "../types";
 
@@ -10,13 +10,14 @@ export const runServerWebpack = ({
   mode,
   devtool,
   extendPlugins,
-  extendRuleset,
+  extendRuleSet,
   override,
   extendResolve,
 }: ServerInternalWebpackConfig) => {
-  const baseRuleset = [
-    createBabelLoaderRule({
+  const baseRuleSet = [
+    createSwcLoaderRule({
       reactRefreshIsEnabled: false,
+      minifyIsEnabled: false,
     }),
   ];
 
@@ -28,7 +29,7 @@ export const runServerWebpack = ({
     target: "node",
     entry: entryPath,
     module: {
-      rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
+      rules: extendRuleSet ? [...extendRuleSet(baseRuleSet)] : [...baseRuleSet],
     },
     resolve: extendResolve
       ? extendResolve({ extensions })

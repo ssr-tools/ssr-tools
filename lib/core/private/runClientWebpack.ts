@@ -1,9 +1,5 @@
-import Webpack, {
-  IgnorePlugin,
-  HotModuleReplacementPlugin,
-  Configuration,
-} from "webpack";
-import { extensions, createBabelLoaderRule } from "./commonWebpackParts";
+import Webpack, { IgnorePlugin, Configuration } from "webpack";
+import { extensions, createSwcLoaderRule } from "./commonWebpackParts";
 import { serverModuleRegExp } from "./serverModuleRegExp";
 import type { ClientInternalWebpackConfig } from "../types";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
@@ -16,21 +12,19 @@ export const runClientWebpack = ({
   mode,
   extendPlugins,
   devtool,
-  extendRuleset,
+  extendRuleSet,
   override,
   extendResolve,
   devServerPort,
 }: ClientInternalWebpackConfig) => {
-  const baseRuleset = [
-    createBabelLoaderRule({
+  const baseRuleSet = [
+    createSwcLoaderRule({
       reactRefreshIsEnabled: mode === "development",
+      minifyIsEnabled: mode === "production",
     }),
   ];
 
-  const clientDevPlugins = [
-    new HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-  ];
+  const clientDevPlugins = [new ReactRefreshWebpackPlugin()];
 
   const clientPlugins = [
     ...(mode === "development" ? clientDevPlugins : []),
@@ -49,7 +43,7 @@ export const runClientWebpack = ({
     devtool,
     entry: entryPath,
     module: {
-      rules: extendRuleset ? [...extendRuleset(baseRuleset)] : [...baseRuleset],
+      rules: extendRuleSet ? [...extendRuleSet(baseRuleSet)] : [...baseRuleSet],
     },
     resolve: extendResolve
       ? extendResolve({ extensions })

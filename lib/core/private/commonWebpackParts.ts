@@ -1,3 +1,6 @@
+import { Config } from "@swc/core/types";
+import { RuleSetRule } from "webpack";
+
 export const extensions = [
   ".tsx",
   ".ts",
@@ -8,24 +11,39 @@ export const extensions = [
   ".css",
 ];
 
-export const createBabelLoaderRule = ({
+export const createSwcLoaderRule = ({
   reactRefreshIsEnabled,
+  minifyIsEnabled,
 }: {
   reactRefreshIsEnabled: boolean;
-}) => ({
-  test: /\.tsx?$/,
-  use: {
-    loader: "babel-loader",
-    options: {
-      presets: [
-        "@babel/preset-env",
-        "@babel/preset-typescript",
-        ["@babel/preset-react", { runtime: "automatic" }],
-      ],
-      plugins: reactRefreshIsEnabled
-        ? ["@babel/transform-runtime", "react-refresh/babel"]
-        : ["@babel/transform-runtime"],
+  minifyIsEnabled: boolean;
+}) => {
+  const swcConfig: Config = {
+    jsc: {
+      target: "es2015",
+      transform: {
+        react: {
+          refresh: reactRefreshIsEnabled,
+          runtime: "automatic",
+        },
+      },
+      parser: {
+        syntax: "typescript",
+        tsx: true,
+        dynamicImport: true,
+      },
     },
-  },
-  exclude: /node_modules/,
-});
+    minify: minifyIsEnabled,
+  };
+
+  const rule: RuleSetRule = {
+    test: /\.tsx?$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "swc-loader",
+      options: swcConfig,
+    },
+  };
+
+  return rule;
+};
