@@ -65,14 +65,14 @@ export type WebpackConfig = {
    *
    * https://webpack.js.org/configuration/module/#modulerules
    */
-  extendClientRuleset?: InternalWebpackConfig["extendRuleset"];
+  extendClientRuleSet?: InternalWebpackConfig["extendRuleSet"];
   /**
    * It allows to extend `module.rules` for server-side webpack
    * build.
    *
    * https://webpack.js.org/configuration/module/#modulerules
    */
-  extendServerRuleset?: InternalWebpackConfig["extendRuleset"];
+  extendServerRuleSet?: InternalWebpackConfig["extendRuleSet"];
   /**
    * It allows to extend `resolve` for the client-side webpack
    * build.
@@ -138,7 +138,7 @@ type InternalWebpackConfig = {
   extendPlugins?: (
     plugins: Readonly<WebpackPluginInstance[]>
   ) => Readonly<WebpackPluginInstance[]>;
-  extendRuleset?: (ruleset: Readonly<RuleSetRule[]>) => Readonly<RuleSetRule[]>;
+  extendRuleSet?: (ruleSet: Readonly<RuleSetRule[]>) => Readonly<RuleSetRule[]>;
   extendResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
