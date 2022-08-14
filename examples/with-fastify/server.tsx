@@ -23,7 +23,10 @@ fastify.register(fastifyStatic, {
 });
 
 fastify.get("*", async (request, reply) => {
-  const appUrl = new URL(request.url, `http://${request.headers.host}`);
+  const appUrl = new URL(
+    request.url,
+    `${request.protocol}://${request.headers.host}`
+  );
 
   const assetsUrl =
     process.env.NODE_ENV === "production"
