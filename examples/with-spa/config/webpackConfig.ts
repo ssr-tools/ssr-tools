@@ -6,6 +6,6 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
   clientOutputPath: resolvePath(["dist", "client"]),
   serverEntryPath: resolvePath(["server.tsx"]),
   serverOutputPath: resolvePath(["dist", "server"]),
-  watchIsEnabled: process.env.NODE_ENV === "development",
   devServerPort: 8081,
+  assetsPublicUrl: "http://localhost:3001/public/",
 }));

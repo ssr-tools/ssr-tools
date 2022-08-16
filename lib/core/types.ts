@@ -107,6 +107,21 @@ export type WebpackConfig = {
    * https://webpack.js.org/configuration/dev-server/
    */
   devServerPort: number;
+  /**
+   * Threshold size for the image to be inlined via data URL. The images that
+   * weights more than this value will not be inlined. We use data URLs for
+   * very lightweight images, to avoid redundant HTTP requests.
+   *
+   * Defaults to: `10000`
+   */
+  imageInlineSizeLimitBytes?: number;
+  /**
+   * It should be an URL of the directory from where you serve the assets for
+   * the production build. For instance: `https://mywebsite.com/public`.
+   *
+   * In development it's always overridden with the dev server's URL.
+   */
+  assetsPublicUrl: string;
 };
 
 export type RenderToStreamConfig = {
@@ -143,6 +158,8 @@ type InternalWebpackConfig = {
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   override?: (base: Configuration) => Configuration;
+  imageInlineSizeLimitBytes?: number;
+  assetsPublicUrl: string;
 };
 
 /** https://webpack.js.org/configuration/devtool/#devtool */

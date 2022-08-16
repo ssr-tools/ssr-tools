@@ -99,6 +99,14 @@ const router = createRouter({
     ),
     allowSuffix: false,
   },
+  "/images": {
+    component: lazy(() =>
+      import("../pages/ImagesPage").then((i) => ({
+        default: i.ImagesPage,
+      }))
+    ),
+    allowSuffix: false,
+  },
 });
 
 export const {

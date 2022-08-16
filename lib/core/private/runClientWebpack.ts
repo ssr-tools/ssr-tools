@@ -1,10 +1,12 @@
 import Webpack, { IgnorePlugin, Configuration } from "webpack";
-import { extensions, createSwcLoaderRule } from "./commonWebpackParts";
 import { serverModuleRegExp } from "./serverModuleRegExp";
 import type { ClientInternalWebpackConfig } from "../types";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import WebpackDevServer from "webpack-dev-server";
 import { WebpackManifestPlugin } from "webpack-manifest-plugin";
+import { createSwcLoaderRule } from "./createSwcLoaderRule";
+import { createAssetsLoaderRule } from "./createAssetsLoaderRule";
+import { extensions } from "./extensions";
 
 export const runClientWebpack = ({
   entryPath,
@@ -16,11 +18,17 @@ export const runClientWebpack = ({
   override,
   extendResolve,
   devServerPort,
+  imageInlineSizeLimitBytes,
+  assetsPublicUrl,
 }: ClientInternalWebpackConfig) => {
-  const baseRuleSet = [
+  const baseRuleSet: Webpack.RuleSetRule[] = [
     createSwcLoaderRule({
       reactRefreshIsEnabled: mode === "development",
       minifyIsEnabled: mode === "production",
+    }),
+    createAssetsLoaderRule({
+      imageInlineSizeLimitBytes,
+      assetsAreEmitted: true,
     }),
   ];
 
@@ -51,9 +59,11 @@ export const runClientWebpack = ({
           extensions,
         },
     output: {
+      publicPath: assetsPublicUrl,
       path: outputPath,
       filename: "index.js",
       clean: true,
+      pathinfo: false,
     },
     plugins: extendPlugins
       ? [...extendPlugins(clientPlugins)]

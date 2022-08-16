@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@svgr/webpack": "^6.3.1",
     "@swc/core": "^1.2.230",
+    "file-loader": "^6.2.0",
     "node-fetch": "2.6.7",
     "react-refresh": "^0.14.0",
     "swc-loader": "^0.2.3",

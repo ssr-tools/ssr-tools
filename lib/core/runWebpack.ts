@@ -26,7 +26,15 @@ export const runWebpack = async ({
   extendServerResolve,
   override,
   devServerPort,
+  imageInlineSizeLimitBytes,
+  assetsPublicUrl: providedAssetsPublicUrl,
 }: WebpackConfig) => {
+  const parsedAssetsPublicUrl = new URL(providedAssetsPublicUrl);
+  const assetsPublicUrl =
+    mode === "production"
+      ? `//${parsedAssetsPublicUrl.host}` + `${parsedAssetsPublicUrl.pathname}`
+      : `http://localhost:${devServerPort}/`;
+
   const serverWebpack = runServerWebpack({
     mode,
     devtool,
@@ -36,6 +44,8 @@ export const runWebpack = async ({
     extendRuleSet: extendServerRuleSet,
     extendResolve: extendServerResolve,
     override,
+    imageInlineSizeLimitBytes,
+    assetsPublicUrl,
   });
 
   const { clientWebpack, clientWebpackDevServer } = runClientWebpack({
@@ -48,6 +58,8 @@ export const runWebpack = async ({
     extendResolve: extendClientResolve,
     override,
     devServerPort,
+    imageInlineSizeLimitBytes,
+    assetsPublicUrl,
   });
 
   let serverProcess: ChildProcess | undefined;
@@ -81,20 +93,42 @@ export const runWebpack = async ({
   const bundlePromises = Promise.all([
     new Promise<Stats>((resolve, reject) =>
       serverWebpack.run((err, stats) => {
-        if (stats) {
-          return resolve(stats);
+        if (!stats) {
+          // eslint-disable-next-line no-console
+          console.error("[server webpack]", err);
+          return reject(err);
         }
 
-        return reject(err);
+        if (stats.compilation.errors.length) {
+          // eslint-disable-next-line no-console
+          console.error("[server webpack]", stats.compilation.errors);
+          return reject(err);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log("[server webpack]", "assets", stats.compilation.assets);
+
+        return resolve(stats);
       })
     ),
     new Promise<Stats>((resolve, reject) =>
       clientWebpack.run((err, stats) => {
-        if (stats) {
-          return resolve(stats);
+        if (!stats) {
+          // eslint-disable-next-line no-console
+          console.error("[client webpack]", err);
+          return reject(err);
         }
 
-        return reject(err);
+        if (stats.compilation.errors.length) {
+          // eslint-disable-next-line no-console
+          console.error("[client webpack]", stats.compilation.errors);
+          return reject(stats.compilation.errors);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log("[client webpack]", "assets", stats.compilation.assets);
+
+        return resolve(stats);
       })
     ),
   ]);
