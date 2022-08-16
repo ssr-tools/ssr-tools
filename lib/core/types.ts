@@ -116,12 +116,13 @@ export type WebpackConfig = {
    */
   imageInlineSizeLimitBytes?: number;
   /**
-   * It should be an URL of the directory from where you serve the assets for
-   * the production build. For instance: `https://mywebsite.com/public`.
-   *
-   * In development it's always overridden with the dev server's URL.
+   * TODO: docs
    */
-  assetsPublicUrl: string;
+  publicHost: string;
+  /**
+   * TODO: docs
+   */
+  assetsPrefix: string;
 };
 
 export type RenderToStreamConfig = {
@@ -141,6 +142,7 @@ export type PipeableStreamOptions = Parameters<
 
 export type ClientInternalWebpackConfig = InternalWebpackConfig & {
   devServerPort: number;
+  publicPath: string;
 };
 
 export type ServerInternalWebpackConfig = InternalWebpackConfig;

@@ -16,5 +16,6 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
     },
   }),
   devServerPort: 8080,
-  assetsPublicUrl: "http://localhost:3000/public/",
+  publicHost: "http://localhost:3000",
+  assetsPrefix: "public",
 }));

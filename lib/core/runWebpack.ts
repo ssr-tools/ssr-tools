@@ -27,13 +27,23 @@ export const runWebpack = async ({
   override,
   devServerPort,
   imageInlineSizeLimitBytes,
-  assetsPublicUrl: providedAssetsPublicUrl,
+  publicHost: providedPublicHost,
+  assetsPrefix: providedAssetsPrefix,
 }: WebpackConfig) => {
-  const parsedAssetsPublicUrl = new URL(providedAssetsPublicUrl);
+  const publicHost =
+    providedPublicHost.slice(-1) === "/"
+      ? providedPublicHost.slice(0, -1)
+      : providedPublicHost;
+
+  const sanitizedAssetsPrefix = providedAssetsPrefix.replace(/\//g, "");
+  const assetsPrefix = `/${sanitizedAssetsPrefix}/`;
+
+  const parsedAssetsPublicUrl = new URL(publicHost + assetsPrefix);
+
   const assetsPublicUrl =
     mode === "production"
       ? `//${parsedAssetsPublicUrl.host}` + `${parsedAssetsPublicUrl.pathname}`
-      : `http://localhost:${devServerPort}/`;
+      : `http://localhost:${devServerPort}/${sanitizedAssetsPrefix}/`;
 
   const serverWebpack = runServerWebpack({
     mode,
@@ -60,6 +70,7 @@ export const runWebpack = async ({
     devServerPort,
     imageInlineSizeLimitBytes,
     assetsPublicUrl,
+    publicPath: assetsPrefix,
   });
 
   let serverProcess: ChildProcess | undefined;

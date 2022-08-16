@@ -15,11 +15,9 @@ const fastify = Fastify({
   logger: true,
 });
 
-const staticAssetsPrefix = "/public";
-
 fastify.register(fastifyStatic, {
   root: webpackConfig.clientOutputPath,
-  prefix: staticAssetsPrefix,
+  prefix: `/${webpackConfig.assetsPrefix}`,
 });
 
 fastify.get("*", async (request, reply) => {
@@ -28,10 +26,7 @@ fastify.get("*", async (request, reply) => {
     `${request.protocol}://${request.headers.host}`
   );
 
-  const assetsUrl =
-    process.env.NODE_ENV === "production"
-      ? new URL(staticAssetsPrefix, appUrl)
-      : `http://localhost:${webpackConfig.devServerPort}`;
+  const assetsUrl = new URL(webpackConfig.assetsPrefix, appUrl);
 
   const manifestUrl = `${assetsUrl}/manifest.json`;
 
