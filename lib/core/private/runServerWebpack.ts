@@ -45,7 +45,7 @@ export const runServerWebpack = ({
           extensions,
         },
     output: {
-      publicPath: assetsPublicUrl,
+      publicPath: assetsPublicUrl.url ?? assetsPublicUrl.publicPath,
       filename: "index.js",
       path: outputPath,
       clean: true,

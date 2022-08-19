@@ -1,4 +1,4 @@
-import hammer from "../images/hammer.jpg";
+import hammer from "../images/hammer/hammer.jpg";
 import { Print } from "../components/Print";
 
 export const ImagesPage = () => {

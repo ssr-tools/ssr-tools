@@ -15,7 +15,8 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
       "tiny-lru": "tiny-lru/lib/tiny-lru.js",
     },
   }),
+  assetsPrefix: "/public",
+  appHost: "0.0.0.0",
+  appPort: 3000,
   devServerPort: 8080,
-  publicHost: "http://localhost:3000",
-  assetsPrefix: "public",
 }));

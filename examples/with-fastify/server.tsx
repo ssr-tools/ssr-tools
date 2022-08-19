@@ -11,13 +11,18 @@ import { App } from "./components/App";
 import { renderToStaticMarkup } from "react-dom/server";
 import { ErrorMessage } from "./components/ErrorMessage";
 
+const assetsPrefix =
+  webpackConfig.assetsPrefix instanceof URL
+    ? webpackConfig.assetsPrefix.pathname
+    : webpackConfig.assetsPrefix;
+
 const fastify = Fastify({
   logger: true,
 });
 
 fastify.register(fastifyStatic, {
   root: webpackConfig.clientOutputPath,
-  prefix: `/${webpackConfig.assetsPrefix}`,
+  prefix: assetsPrefix,
 });
 
 fastify.get("*", async (request, reply) => {
@@ -26,7 +31,7 @@ fastify.get("*", async (request, reply) => {
     `${request.protocol}://${request.headers.host}`
   );
 
-  const assetsUrl = new URL(webpackConfig.assetsPrefix, appUrl);
+  const assetsUrl = new URL(assetsPrefix, appUrl);
 
   const manifestUrl = `${assetsUrl}/manifest.json`;
 
@@ -68,7 +73,10 @@ fastify.get("*", async (request, reply) => {
 
 (async () => {
   try {
-    await fastify.listen({ port: 3000 });
+    await fastify.listen({
+      port: webpackConfig.appPort,
+      host: webpackConfig.appHost,
+    });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

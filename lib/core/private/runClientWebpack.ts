@@ -20,7 +20,8 @@ export const runClientWebpack = ({
   devServerPort,
   imageInlineSizeLimitBytes,
   assetsPublicUrl,
-  publicPath,
+  appHost,
+  appPort,
 }: ClientInternalWebpackConfig) => {
   const baseRuleSet: Webpack.RuleSetRule[] = [
     createSwcLoaderRule({
@@ -60,7 +61,7 @@ export const runClientWebpack = ({
           extensions,
         },
     output: {
-      publicPath: assetsPublicUrl,
+      publicPath: assetsPublicUrl.url ?? assetsPublicUrl.publicPath,
       path: outputPath,
       filename: "index.js",
       clean: true,
@@ -80,7 +81,7 @@ export const runClientWebpack = ({
             liveReload: false,
             static: {
               directory: outputPath,
-              publicPath,
+              publicPath: assetsPublicUrl.publicPath,
             },
             headers: {
               "Access-Control-Allow-Origin": "*",
@@ -92,13 +93,19 @@ export const runClientWebpack = ({
             },
             proxy: [
               {
-                target: "http://localhost:3000",
-                path: "*",
+                target: `http://${appHost}:${appPort}`,
+                path: "**", // double asterisk to support recursive directories
                 bypass: (req) => {
-                  if (req.path.startsWith(publicPath)) {
+                  if (
+                    req.path.startsWith(
+                      assetsPublicUrl.publicPath.replace(/\/$/, "")
+                    )
+                  ) {
                     // skip proxy for requests on publicPath to serve asset
                     return req.path;
                   }
+
+                  return null;
                 },
               },
             ],

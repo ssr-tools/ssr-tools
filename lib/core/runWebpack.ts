@@ -26,24 +26,16 @@ export const runWebpack = async ({
   extendServerResolve,
   override,
   devServerPort,
-  imageInlineSizeLimitBytes,
-  publicHost: providedPublicHost,
   assetsPrefix: providedAssetsPrefix,
+  imageInlineSizeLimitBytes,
+  appHost,
+  appPort,
 }: WebpackConfig) => {
-  const publicHost =
-    providedPublicHost.slice(-1) === "/"
-      ? providedPublicHost.slice(0, -1)
-      : providedPublicHost;
-
-  const sanitizedAssetsPrefix = providedAssetsPrefix.replace(/\//g, "");
-  const assetsPrefix = `/${sanitizedAssetsPrefix}/`;
-
-  const parsedAssetsPublicUrl = new URL(publicHost + assetsPrefix);
-
-  const assetsPublicUrl =
-    mode === "production"
-      ? `//${parsedAssetsPublicUrl.host}` + `${parsedAssetsPublicUrl.pathname}`
-      : `http://localhost:${devServerPort}/${sanitizedAssetsPrefix}/`;
+  const assetsPublicUrl = createAssetsPublicUrl({
+    providedAssetsPrefix,
+    devServerPort,
+    mode,
+  });
 
   const serverWebpack = runServerWebpack({
     mode,
@@ -70,7 +62,8 @@ export const runWebpack = async ({
     devServerPort,
     imageInlineSizeLimitBytes,
     assetsPublicUrl,
-    publicPath: assetsPrefix,
+    appHost,
+    appPort,
   });
 
   let serverProcess: ChildProcess | undefined;
@@ -153,3 +146,42 @@ export const runWebpack = async ({
 
   return;
 };
+
+const createAssetsPublicUrl = ({
+  providedAssetsPrefix,
+  devServerPort,
+  mode,
+}: {
+  providedAssetsPrefix: string | URL;
+  devServerPort: number;
+  mode: WebpackConfig["mode"];
+}) => {
+  if (typeof providedAssetsPrefix !== "string") {
+    const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix.pathname)}/`;
+    return {
+      url: `//${providedAssetsPrefix.host}${publicPath}`,
+      publicPath: publicPath,
+    };
+  }
+
+  const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix)}/`;
+
+  if (mode === "production") {
+    return {
+      // Since the provided assets prefix is a relative path, we don't need to
+      // use URL in production.
+      url: null,
+      publicPath,
+    };
+  }
+
+  return {
+    // In the development mode we use complete URL to serve assets from the
+    // webpack dev server.
+    url: `//localhost:${devServerPort}${publicPath}`,
+    publicPath,
+  };
+};
+
+/** It removes initial and trailing slash from the path.  */
+const removeEdgeSlashes = (path: string) => path.replace(/(^\/|\/$)/g, "");
