@@ -145,11 +145,15 @@ export type WebpackConfig = {
    */
   assetsPrefix: string | URL;
   /**
-   * TODO:
+   * The app host. For local environments use `localhost`.
+   *
+   * Use it in the server config as well.
    */
   appHost: string;
   /**
-   * TODO:
+   * The app port.
+   *
+   * Use it in the server config as well.
    */
   appPort: number;
 };
