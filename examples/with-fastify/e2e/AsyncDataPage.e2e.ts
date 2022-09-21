@@ -4,7 +4,7 @@ jest.setTimeout(300000);
 
 test("renders AsyncDataPage correctly", async () => {
   const { consoleLines } = await goToPage(
-    new URL("async-data", "http://localhost:3000")
+    new URL("async-data", "http://localhost:8080")
   );
 
   const textCount = await page.evaluate(

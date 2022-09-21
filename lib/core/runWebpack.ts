@@ -26,7 +26,17 @@ export const runWebpack = async ({
   extendServerResolve,
   override,
   devServerPort,
+  assetsPrefix: providedAssetsPrefix,
+  imageInlineSizeLimitBytes,
+  appHost,
+  appPort,
 }: WebpackConfig) => {
+  const assetsPublicUrl = createAssetsPublicUrl({
+    providedAssetsPrefix,
+    devServerPort,
+    mode,
+  });
+
   const serverWebpack = runServerWebpack({
     mode,
     devtool,
@@ -36,6 +46,8 @@ export const runWebpack = async ({
     extendRuleSet: extendServerRuleSet,
     extendResolve: extendServerResolve,
     override,
+    imageInlineSizeLimitBytes,
+    assetsPublicUrl,
   });
 
   const { clientWebpack, clientWebpackDevServer } = runClientWebpack({
@@ -48,6 +60,10 @@ export const runWebpack = async ({
     extendResolve: extendClientResolve,
     override,
     devServerPort,
+    imageInlineSizeLimitBytes,
+    assetsPublicUrl,
+    appHost,
+    appPort,
   });
 
   let serverProcess: ChildProcess | undefined;
@@ -81,20 +97,42 @@ export const runWebpack = async ({
   const bundlePromises = Promise.all([
     new Promise<Stats>((resolve, reject) =>
       serverWebpack.run((err, stats) => {
-        if (stats) {
-          return resolve(stats);
+        if (!stats) {
+          // eslint-disable-next-line no-console
+          console.error("[server webpack]", err);
+          return reject(err);
         }
 
-        return reject(err);
+        if (stats.compilation.errors.length) {
+          // eslint-disable-next-line no-console
+          console.error("[server webpack]", stats.compilation.errors);
+          return reject(err);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log("[server webpack]", "assets", stats.compilation.assets);
+
+        return resolve(stats);
       })
     ),
     new Promise<Stats>((resolve, reject) =>
       clientWebpack.run((err, stats) => {
-        if (stats) {
-          return resolve(stats);
+        if (!stats) {
+          // eslint-disable-next-line no-console
+          console.error("[client webpack]", err);
+          return reject(err);
         }
 
-        return reject(err);
+        if (stats.compilation.errors.length) {
+          // eslint-disable-next-line no-console
+          console.error("[client webpack]", stats.compilation.errors);
+          return reject(stats.compilation.errors);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log("[client webpack]", "assets", stats.compilation.assets);
+
+        return resolve(stats);
       })
     ),
   ]);
@@ -108,3 +146,42 @@ export const runWebpack = async ({
 
   return;
 };
+
+const createAssetsPublicUrl = ({
+  providedAssetsPrefix,
+  devServerPort,
+  mode,
+}: {
+  providedAssetsPrefix: string | URL;
+  devServerPort: number;
+  mode: WebpackConfig["mode"];
+}) => {
+  if (typeof providedAssetsPrefix !== "string") {
+    const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix.pathname)}/`;
+    return {
+      url: `//${providedAssetsPrefix.host}${publicPath}`,
+      publicPath: publicPath,
+    };
+  }
+
+  const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix)}/`;
+
+  if (mode === "production") {
+    return {
+      // Since the provided assets prefix is a relative path, we don't need to
+      // use URL in production.
+      url: null,
+      publicPath,
+    };
+  }
+
+  return {
+    // In the development mode we use complete URL to serve assets from the
+    // webpack dev server.
+    url: `//localhost:${devServerPort}${publicPath}`,
+    publicPath,
+  };
+};
+
+/** It removes initial and trailing slash from the path.  */
+const removeEdgeSlashes = (path: string) => path.replace(/(^\/|\/$)/g, "");

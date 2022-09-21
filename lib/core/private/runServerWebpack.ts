@@ -1,8 +1,10 @@
 import Webpack, { Configuration, IgnorePlugin } from "webpack";
 import webpackNodeExternals from "webpack-node-externals";
-import { extensions, createSwcLoaderRule } from "./commonWebpackParts";
 import { clientModuleRegExp } from "./clientModuleRegExp";
 import type { ServerInternalWebpackConfig } from "../types";
+import { createSwcLoaderRule } from "./createSwcLoaderRule";
+import { createAssetsLoaderRule } from "./createAssetsLoaderRule";
+import { extensions } from "./extensions";
 
 export const runServerWebpack = ({
   entryPath,
@@ -13,11 +15,17 @@ export const runServerWebpack = ({
   extendRuleSet,
   override,
   extendResolve,
+  imageInlineSizeLimitBytes,
+  assetsPublicUrl,
 }: ServerInternalWebpackConfig) => {
   const baseRuleSet = [
     createSwcLoaderRule({
       reactRefreshIsEnabled: false,
       minifyIsEnabled: false,
+    }),
+    createAssetsLoaderRule({
+      imageInlineSizeLimitBytes,
+      assetsAreEmitted: false,
     }),
   ];
 
@@ -37,8 +45,11 @@ export const runServerWebpack = ({
           extensions,
         },
     output: {
+      publicPath: assetsPublicUrl.url ?? assetsPublicUrl.publicPath,
       filename: "index.js",
       path: outputPath,
+      clean: true,
+      pathinfo: false,
     },
     plugins: extendPlugins
       ? [...extendPlugins(serverPlugins)]

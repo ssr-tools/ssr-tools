@@ -4,7 +4,7 @@ test("retrieves correct params on load", async () => {
   await goToPage(
     new URL(
       "/search-params?category=cars&page=100&perPage=10",
-      "http://localhost:3000"
+      "http://localhost:8080"
     )
   );
 
@@ -24,7 +24,7 @@ test("retrieves correct params on load", async () => {
 });
 
 test("retrieves correct params on clicking links", async () => {
-  await goToPage(new URL("/search-params", "http://localhost:3000"));
+  await goToPage(new URL("/search-params", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)
@@ -80,7 +80,7 @@ test("retrieves correct params on clicking links", async () => {
 });
 
 test("retrieves correct params on push", async () => {
-  await goToPage(new URL("/search-params", "http://localhost:3000"));
+  await goToPage(new URL("/search-params", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)
@@ -133,7 +133,7 @@ test("retrieves correct params on push", async () => {
 });
 
 test("retrieves correct params on replace", async () => {
-  await goToPage(new URL("/search-params", "http://localhost:3000"));
+  await goToPage(new URL("/search-params", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)

@@ -1,10 +1,12 @@
 import Webpack, { IgnorePlugin, Configuration } from "webpack";
-import { extensions, createSwcLoaderRule } from "./commonWebpackParts";
 import { serverModuleRegExp } from "./serverModuleRegExp";
 import type { ClientInternalWebpackConfig } from "../types";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import WebpackDevServer from "webpack-dev-server";
 import { WebpackManifestPlugin } from "webpack-manifest-plugin";
+import { createSwcLoaderRule } from "./createSwcLoaderRule";
+import { createAssetsLoaderRule } from "./createAssetsLoaderRule";
+import { extensions } from "./extensions";
 
 export const runClientWebpack = ({
   entryPath,
@@ -16,11 +18,19 @@ export const runClientWebpack = ({
   override,
   extendResolve,
   devServerPort,
+  imageInlineSizeLimitBytes,
+  assetsPublicUrl,
+  appHost,
+  appPort,
 }: ClientInternalWebpackConfig) => {
-  const baseRuleSet = [
+  const baseRuleSet: Webpack.RuleSetRule[] = [
     createSwcLoaderRule({
       reactRefreshIsEnabled: mode === "development",
       minifyIsEnabled: mode === "production",
+    }),
+    createAssetsLoaderRule({
+      imageInlineSizeLimitBytes,
+      assetsAreEmitted: true,
     }),
   ];
 
@@ -51,9 +61,11 @@ export const runClientWebpack = ({
           extensions,
         },
     output: {
+      publicPath: assetsPublicUrl.url ?? assetsPublicUrl.publicPath,
       path: outputPath,
       filename: "index.js",
       clean: true,
+      pathinfo: false,
     },
     plugins: extendPlugins
       ? [...extendPlugins(clientPlugins)]
@@ -69,6 +81,7 @@ export const runClientWebpack = ({
             liveReload: false,
             static: {
               directory: outputPath,
+              publicPath: assetsPublicUrl.publicPath,
             },
             headers: {
               "Access-Control-Allow-Origin": "*",
@@ -78,6 +91,24 @@ export const runClientWebpack = ({
             client: {
               webSocketURL: `ws://0.0.0.0:${devServerPort}/ws`,
             },
+            proxy: [
+              {
+                target: `http://${appHost}:${appPort}`,
+                path: "**", // double asterisk to support recursive directories
+                bypass: (req) => {
+                  if (
+                    req.path.startsWith(
+                      assetsPublicUrl.publicPath.replace(/\/$/, "")
+                    )
+                  ) {
+                    // skip proxy for requests on publicPath to serve asset
+                    return req.path;
+                  }
+
+                  return null;
+                },
+              },
+            ],
           },
           clientWebpack
         )

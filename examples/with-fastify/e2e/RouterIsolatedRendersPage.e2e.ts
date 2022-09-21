@@ -5,7 +5,7 @@ test("re-renders components only if necessary", async () => {
     new URL(
       "/router-isolated-renders/start/start?searchParam1=start&searchParam2=" +
         "start",
-      "http://localhost:3000"
+      "http://localhost:8080"
     )
   );
 

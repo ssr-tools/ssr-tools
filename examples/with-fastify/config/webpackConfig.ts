@@ -6,9 +6,6 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
   clientOutputPath: resolvePath(["dist", "client"]),
   serverEntryPath: resolvePath(["server.tsx"]),
   serverOutputPath: resolvePath(["dist", "server"]),
-  watchIsEnabled: process.env.NODE_ENV === "development",
-  extendClientRuleSet: (ruleSet) => [...ruleSet, ...customRules],
-  extendServerRuleSet: (ruleSet) => [...ruleSet, ...customRules],
   extendServerResolve: (resolve) => ({
     ...resolve,
     alias: {
@@ -18,16 +15,8 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
       "tiny-lru": "tiny-lru/lib/tiny-lru.js",
     },
   }),
+  assetsPrefix: "/public",
+  appHost: "0.0.0.0",
+  appPort: 3000,
   devServerPort: 8080,
 }));
-
-const customRules = [
-  {
-    test: /\.css$/i,
-    type: "asset/resource",
-    generator: {
-      // https://webpack.js.org/configuration/output/#template-strings
-      filename: "[name].[hash].[ext]",
-    },
-  },
-];

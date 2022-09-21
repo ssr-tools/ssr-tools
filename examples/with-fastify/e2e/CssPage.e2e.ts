@@ -5,7 +5,7 @@ test(
     " element",
   async () => {
     const { consoleLines } = await goToPage(
-      new URL("css", "http://localhost:3000")
+      new URL("css", "http://localhost:8080")
     );
 
     await page.waitForNetworkIdle();

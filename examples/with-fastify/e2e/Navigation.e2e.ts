@@ -1,7 +1,7 @@
 import { goToPage } from "../../../test-utils/goToPage";
 
 test("activates route when clicking on the navigation links", async () => {
-  await goToPage(new URL("/", "http://localhost:3000"));
+  await goToPage(new URL("/", "http://localhost:8080"));
 
   await page.click("[data-test-id='css-link']");
   await page.waitForSelector("h1");

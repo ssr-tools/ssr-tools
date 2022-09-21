@@ -49,12 +49,18 @@ export type WebpackConfig = {
    * It allows to extend plugins for client-side webpack
    * build.
    *
+   * Make sure you include plugins from the callback's param to the result
+   * as well.
+   *
    * https://webpack.js.org/configuration/plugins/
    */
   extendClientPlugins?: InternalWebpackConfig["extendPlugins"];
   /**
    * It allows to extend plugins for server-side webpack
    * build.
+   *
+   * Make sure you include plugins from the callback's param to the result
+   * as well.
    *
    * https://webpack.js.org/configuration/plugins/
    */
@@ -63,12 +69,18 @@ export type WebpackConfig = {
    * It allows to extend `module.rules` for client-side webpack
    * build.
    *
+   * Make sure you include rules from the callback's param to the result
+   * as well.
+   *
    * https://webpack.js.org/configuration/module/#modulerules
    */
   extendClientRuleSet?: InternalWebpackConfig["extendRuleSet"];
   /**
    * It allows to extend `module.rules` for server-side webpack
    * build.
+   *
+   * Make sure you include rules from the callback's param to the result
+   * as well.
    *
    * https://webpack.js.org/configuration/module/#modulerules
    */
@@ -77,7 +89,10 @@ export type WebpackConfig = {
    * It allows to extend `resolve` for the client-side webpack
    * build.
    *
-   * https://webpack.js.org/configuration/resolve/
+   * Make sure you include rules from the callback's param to the result
+   * as well.
+   *
+   * Webpack docs: https://webpack.js.org/configuration/resolve/
    */
   extendClientResolve?: (
     resolve: Readonly<ResolveOptions>
@@ -86,27 +101,61 @@ export type WebpackConfig = {
    * It allows to extend `resolve` for the server-side webpack
    * build.
    *
-   * https://webpack.js.org/configuration/resolve/
+   * Webpack docs: https://webpack.js.org/configuration/resolve/
    */
   extendServerResolve?: (
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   /**
-   * Gives you access to the low-level Webpack config. However, make sure you
-   * return the necessary configuration from `base` param of this callback.
-   * Otherwise, you may cause the Webpack to crash or make it unable to load
-   * the assets for your app.
+   * This prop gives you access to the low-level Webpack config. You must be
+   * careful, though. You still need to to return the necessary configuration
+   * from the `base` param of this callback. Otherwise, you may break the config
+   * and the app won't work properly.
+   *
+   * Webpack docs: https://webpack.js.org/configuration/#options
    */
   override?: (base: Configuration) => Configuration;
   /**
    * Webpack in `development` mode uses this port to run the dev server with
-   * hot reload. The client assets will be exposed on:
-   * `http://localhost:{devServerPort}` and websocket endpoint for the fast
-   * refresh will be on `ws://localhost:{devServerPort}`.
+   * fast refresh/hot reload.
    *
-   * https://webpack.js.org/configuration/dev-server/
+   * It MUST be different than the `appPort`.
+   *
+   * Webpack docs: https://webpack.js.org/configuration/dev-server/
    */
   devServerPort: number;
+  /**
+   * Threshold size for the image to be inlined using data URL. The images that
+   * weight more than that that won't be inlined.
+   *
+   * We inline images to avoid multiple HTTP requests for lightweight images.
+   *
+   * Defaults to: `10000`
+   */
+  imageInlineSizeLimitBytes?: number;
+  /**
+   * To differentiate between app routes and assets URLs you need to specify
+   * the prefix for the assets. Make sure you won't use the assets prefix
+   * as an app route. Otherwise you may run into conflicting URLs.
+   *
+   * Usually, it should be `public`.
+   *
+   * You may also provide URL instance here, if you decide you'd like to serve
+   * the assets from a different domain for instance.
+   */
+  assetsPrefix: string | URL;
+  /**
+   * The app host. For local environments use `localhost`.
+   *
+   * Use it in the server config as well.
+   */
+  appHost: string;
+  /**
+   * The app port.
+   *
+   * Use it in the server config as well.
+   */
+  appPort: number;
 };
 
 export type RenderToStreamConfig = {
@@ -126,6 +175,8 @@ export type PipeableStreamOptions = Parameters<
 
 export type ClientInternalWebpackConfig = InternalWebpackConfig & {
   devServerPort: number;
+  appHost: string;
+  appPort: number;
 };
 
 export type ServerInternalWebpackConfig = InternalWebpackConfig;
@@ -143,6 +194,11 @@ type InternalWebpackConfig = {
     resolve: Readonly<ResolveOptions>
   ) => Readonly<ResolveOptions>;
   override?: (base: Configuration) => Configuration;
+  imageInlineSizeLimitBytes?: number;
+  assetsPublicUrl: {
+    url: string | null;
+    publicPath: string;
+  };
 };
 
 /** https://webpack.js.org/configuration/devtool/#devtool */
