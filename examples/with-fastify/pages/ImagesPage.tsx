@@ -5,7 +5,7 @@ export const ImagesPage = () => {
   return (
     <>
       <Print text="Images Page" />
-      <img src={hammer} alt="A hammer" />
+      <img width={640} height={427} src={hammer} alt="a hammer" />
     </>
   );
 };
