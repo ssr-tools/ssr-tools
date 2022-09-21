@@ -40,8 +40,16 @@ export const goToPage = async (
     });
 
     page.on("console", (e) => {
+      const text = e.text();
+
+      if (
+        text.match(/(\[(webpack-dev-server|HMR)\]|Download the React DevTools)/)
+      ) {
+        return;
+      }
+
       consoleLines.push({
-        text: e.text(),
+        text,
         type: e.type(),
       });
     });
