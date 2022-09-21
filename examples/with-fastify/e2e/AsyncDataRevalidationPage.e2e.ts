@@ -21,6 +21,8 @@ test("invalidates cache correctly", async () => {
     new URL("async-data-revalidation", "http://localhost:8080")
   );
 
+  await promisify(setTimeout)(300);
+
   expect(consoleLines).toContainEqual({
     type: "log",
     text: "Async data revalidation",

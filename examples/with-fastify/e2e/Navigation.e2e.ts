@@ -13,7 +13,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/css"
+    "http://localhost:8080/css"
   );
 
   expect(
@@ -31,7 +31,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/static-data"
+    "http://localhost:8080/static-data"
   );
 
   expect(
@@ -49,7 +49,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/search-params?category=cars&page=1&perPage=12"
+    "http://localhost:8080/search-params?category=cars&page=1&perPage=12"
   );
 
   expect(
@@ -67,7 +67,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/path-params/cars/ferrari"
+    "http://localhost:8080/path-params/cars/ferrari"
   );
 
   expect(
@@ -84,7 +84,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/404"
+    "http://localhost:8080/404"
   );
 
   expect(
@@ -101,7 +101,7 @@ test("activates route when clicking on the navigation links", async () => {
   ).toBe("active-navigation-link");
 
   expect(await page.evaluate(() => window.location.toString())).toBe(
-    "http://localhost:3000/"
+    "http://localhost:8080/"
   );
 
   expect(
