@@ -4,21 +4,21 @@ test("scrolls to sections on load", async () => {
   const { sectionOneTop, sectionTwoTop, sectionThreeTop } =
     await getSectionsTopPositions();
 
-  await goToPage(new URL("hash-scroll#section-one", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll#section-one", "http://localhost:8080"));
 
   expect(await page.evaluate(() => window.scrollY)).toBeCloseTo(
     sectionOneTop,
     -2
   );
 
-  await goToPage(new URL("hash-scroll#section-two", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll#section-two", "http://localhost:8080"));
 
   expect(await page.evaluate(() => window.scrollY)).toBeCloseTo(
     sectionTwoTop,
     -2
   );
 
-  await goToPage(new URL("hash-scroll#section-three", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll#section-three", "http://localhost:8080"));
 
   expect(await page.evaluate(() => window.scrollY)).toBeCloseTo(
     sectionThreeTop,
@@ -30,7 +30,7 @@ test("scrolls to sections when clicking on links", async () => {
   const { sectionOneTop, sectionTwoTop, sectionThreeTop } =
     await getSectionsTopPositions();
 
-  await goToPage(new URL("hash-scroll", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll", "http://localhost:8080"));
 
   await page.click("[data-test-id='section-one-link']");
 
@@ -39,7 +39,7 @@ test("scrolls to sections when clicking on links", async () => {
     -2
   );
 
-  await goToPage(new URL("hash-scroll", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll", "http://localhost:8080"));
 
   await page.click("[data-test-id='section-two-link']");
 
@@ -48,7 +48,7 @@ test("scrolls to sections when clicking on links", async () => {
     -2
   );
 
-  await goToPage(new URL("hash-scroll", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll", "http://localhost:8080"));
 
   await page.click("[data-test-id='section-three-link']");
 
@@ -59,7 +59,7 @@ test("scrolls to sections when clicking on links", async () => {
 });
 
 const getSectionsTopPositions = async () => {
-  await goToPage(new URL("hash-scroll", "http://localhost:3000"));
+  await goToPage(new URL("hash-scroll", "http://localhost:8080"));
 
   await page.waitForNetworkIdle();
 

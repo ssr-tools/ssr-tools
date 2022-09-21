@@ -18,7 +18,7 @@ jest.setTimeout(300000);
 //  - it also loads on the client-side now
 test("invalidates cache correctly", async () => {
   const { consoleLines } = await goToPage(
-    new URL("async-data-revalidation", "http://localhost:3000")
+    new URL("async-data-revalidation", "http://localhost:8080")
   );
 
   expect(consoleLines).toContainEqual({

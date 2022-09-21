@@ -2,7 +2,7 @@ import { goToPage } from "../../../test-utils/goToPage";
 
 test("retrieves correct params on load", async () => {
   await goToPage(
-    new URL("/path-params/furniture/wardrobe", "http://localhost:3000")
+    new URL("/path-params/furniture/wardrobe", "http://localhost:8080")
   );
 
   expect(
@@ -20,7 +20,7 @@ test("retrieves correct params on load", async () => {
 });
 
 test("retrieves correct params on clicking links", async () => {
-  await goToPage(new URL("/path-params/foo/bar", "http://localhost:3000"));
+  await goToPage(new URL("/path-params/foo/bar", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)
@@ -75,7 +75,7 @@ test("retrieves correct params on clicking links", async () => {
 });
 
 test("does not match incomplete params", async () => {
-  await goToPage(new URL("/path-params", "http://localhost:3000"));
+  await goToPage(new URL("/path-params", "http://localhost:8080"));
 
   expect(
     await page.evaluate(
@@ -84,7 +84,7 @@ test("does not match incomplete params", async () => {
     )
   ).toBe("Page not found");
 
-  await goToPage(new URL("/path-params/foo", "http://localhost:3000"));
+  await goToPage(new URL("/path-params/foo", "http://localhost:8080"));
 
   expect(
     await page.evaluate(
@@ -95,7 +95,7 @@ test("does not match incomplete params", async () => {
 });
 
 test("retrieves correct params on push", async () => {
-  await goToPage(new URL("/path-params/foo/bar", "http://localhost:3000"));
+  await goToPage(new URL("/path-params/foo/bar", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)
@@ -143,7 +143,7 @@ test("retrieves correct params on push", async () => {
 });
 
 test("retrieves correct params on replace", async () => {
-  await goToPage(new URL("/path-params/foo/bar", "http://localhost:3000"));
+  await goToPage(new URL("/path-params/foo/bar", "http://localhost:8080"));
 
   expect(
     await page.evaluate(() => document.querySelector("textarea")?.textContent)
