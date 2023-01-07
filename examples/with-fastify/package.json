@@ -10,16 +10,16 @@
   "author": "Grzegorz Zadora",
   "license": "MIT",
   "dependencies": {
-    "@fastify/static": "^6.5.0",
+    "@fastify/static": "^6.6.0",
     "@ssr-tools/async-data-store": "file:../../lib/async-data-store",
     "@ssr-tools/core": "file:../../lib/core",
     "@ssr-tools/css": "file:../../lib/css",
     "@ssr-tools/router": "file:../../lib/router",
     "@ssr-tools/static-data-store": "file:../../lib/static-data-store",
-    "fastify": "^4.6.0",
-    "long": "^5.2.0",
+    "fastify": "^4.11.0",
+    "long": "^5.2.1",
     "react-error-boundary": "^3.1.4",
-    "superstruct": "^0.16.4"
+    "superstruct": "^1.0.3"
   },
   "browserslist": {
     "production": [
