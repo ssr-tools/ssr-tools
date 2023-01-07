@@ -3,6 +3,7 @@ import { runClientWebpack } from "./private/runClientWebpack";
 import { runServerWebpack } from "./private/runServerWebpack";
 import { WebpackConfig } from "./types";
 import { ChildProcess, execFile } from "child_process";
+import { createAssetsPublicUrl } from "./private/createAssetsPublicUrl";
 
 /**
  * Process the client and the server code using webpack, so that it can compile
@@ -146,42 +147,3 @@ export const runWebpack = async ({
 
   return;
 };
-
-const createAssetsPublicUrl = ({
-  providedAssetsPrefix,
-  devServerPort,
-  mode,
-}: {
-  providedAssetsPrefix: string | URL;
-  devServerPort: number;
-  mode: WebpackConfig["mode"];
-}) => {
-  if (typeof providedAssetsPrefix !== "string") {
-    const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix.pathname)}/`;
-    return {
-      url: `//${providedAssetsPrefix.host}${publicPath}`,
-      publicPath: publicPath,
-    };
-  }
-
-  const publicPath = `/${removeEdgeSlashes(providedAssetsPrefix)}/`;
-
-  if (mode === "production") {
-    return {
-      // Since the provided assets prefix is a relative path, we don't need to
-      // use URL in production.
-      url: null,
-      publicPath,
-    };
-  }
-
-  return {
-    // In the development mode we use complete URL to serve assets from the
-    // webpack dev server.
-    url: `//localhost:${devServerPort}${publicPath}`,
-    publicPath,
-  };
-};
-
-/** It removes initial and trailing slash from the path.  */
-const removeEdgeSlashes = (path: string) => path.replace(/(^\/|\/$)/g, "");
