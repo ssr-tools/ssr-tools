@@ -4,9 +4,10 @@ import fastifyStatic from "@fastify/static";
 import { webpackConfig } from "./config/webpackConfig";
 import { URL } from "url";
 import { Document } from "./components/Document";
+import path from "path";
 
 import { Providers } from "./components/Providers.server";
-import { fetchManifest } from "@ssr-tools/core/fetchManifest";
+import { loadManifest } from "@ssr-tools/core/loadManifest";
 import { App } from "./components/App";
 import { renderToStaticMarkup } from "react-dom/server";
 import { ErrorMessage } from "./components/ErrorMessage";
@@ -33,11 +34,12 @@ fastify.get("*", async (request, reply) => {
 
   const assetsUrl = new URL(assetsPrefix, appUrl);
 
-  const manifestUrl = `${assetsUrl}/manifest.json`;
+  const manifestPath = path.join(
+    webpackConfig.clientOutputPath,
+    "manifest.json"
+  );
 
-  const manifest = await fetchManifest(manifestUrl);
-
-  if (!manifest) throw new Error(`Cannot load manifest from "${manifestUrl}"`);
+  const manifest = await loadManifest(manifestPath);
 
   const mainScriptUrl = `${assetsUrl}/${manifest.main}`;
 
