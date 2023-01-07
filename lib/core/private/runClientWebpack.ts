@@ -109,6 +109,9 @@ export const runClientWebpack = ({
                 },
               },
             ],
+            devMiddleware: {
+              writeToDisk: true,
+            },
           },
           clientWebpack
         )
