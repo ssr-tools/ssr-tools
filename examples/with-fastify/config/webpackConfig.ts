@@ -6,15 +6,6 @@ export const webpackConfig = createWebpackConfig(({ resolvePath }) => ({
   clientOutputPath: resolvePath(["dist", "client"]),
   serverEntryPath: resolvePath(["server.tsx"]),
   serverOutputPath: resolvePath(["dist", "server"]),
-  extendServerResolve: (resolve) => ({
-    ...resolve,
-    alias: {
-      ...resolve.alias,
-      // Fixes module resolution problem in fastify:
-      // https://github.com/fastify/help/issues/272
-      "tiny-lru": "tiny-lru/lib/tiny-lru.js",
-    },
-  }),
   assetsPrefix: "/public",
   appHost: "0.0.0.0",
   appPort: 3000,
